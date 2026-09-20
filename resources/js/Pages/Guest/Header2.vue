@@ -226,7 +226,7 @@ const submitRemove = (id,model) => {
     <head>
         <link :href="$page.props.ziggy.url+'/assets/css/plugins/animate.min.css'" rel="stylesheet" type="text/css"/>
         <link :href="$page.props.ziggy.url+'/assets/css/main.css'" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" :href="$page.props.ziggy.url+'/css/mohi.css'">
+        <link rel="stylesheet" :href="$page.props.ziggy.url+'/assets/css/mohi.css'">
     </head>
     <!-- Modal -->
      <!-- <div class="modal fade custom-modal" id="onloadModal" tabindex="-1" aria-labelledby="onloadModalLabel" aria-hidden="true">
