@@ -1,0 +1,7 @@
+[30-Jul-2025 17:34:31 Asia/Tehran] PHP Fatal error:  Cannot use Shetabit\Payment\Facade\Payment as Payment because the name is already in use in /home/mediast1/media-spa-12/app/Http/Controllers/OrderController.php on line 40
+[30-Jul-2025 17:59:28 Asia/Tehran] PHP Fatal error:  Cannot use Shetabit\Payment\Facade\Payment as Payment because the name is already in use in /home/mediast1/media-spa-12/app/Http/Controllers/OrderController.php on line 40
+[12-Aug-2025 17:58:15 Asia/Tehran] PHP Fatal error:  Cannot use Illuminate\Contracts\Queue\ShouldQueue as ShouldQueue because the name is already in use in /home/mediast1/media-spa-12/app/Jobs/ProfileAdminJob.php on line 14
+[23-Dec-2025 00:11:46 Asia/Tehran] PHP Fatal error:  Cannot use empty array elements in arrays in /home/mediast1/media-spa-12/app/Http/Controllers/BlogController.php on line 48
+[31-Jan-2026 14:07:55 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\WebsiteDesignController, because the name is already in use in /home/mediast1/media-spa-12/app/Http/Controllers/CafeController.php on line 28
+[31-Jan-2026 14:07:58 Asia/Tehran] PHP Fatal error:  Cannot declare class App\Http\Controllers\WebsiteDesignController, because the name is already in use in /home/mediast1/media-spa-12/app/Http/Controllers/CafeController.php on line 28
+[31-Jan-2026 22:34:59 Asia/Tehran] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/mediast1/media-spa-12/app/Http/Controllers/WebDesignAdminController.php on line 24

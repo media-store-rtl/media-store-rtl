@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://web2022.ir/sitemap.xml

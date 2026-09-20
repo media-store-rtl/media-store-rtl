@@ -1,0 +1,147 @@
+<script setup>
+
+import { computed,ref } from 'vue';
+import Header from '@/Pages/Users/Buyer/header.vue';
+import Footer from '@/Pages/Users/Buyer/footer.vue';
+import { Link, useForm , usePage} from '@inertiajs/vue3';
+import moment from "moment-jalaali";
+import fa from "moment/src/locale/fa";
+
+const errors = computed(() => usePage().props.errors);
+const props = defineProps({
+    users:Object,transactions:Object,ids:Object,statuses:Object,transaction:Object,
+    prices:Object,notifications:Object,companies:Object,descriptions:Object,wallet:Number,
+    cart:Object
+});
+
+const form = useForm({
+    transaction: null,
+    status:null,
+    id:null,
+    price:null,
+});
+
+const getPageUrl = (baseUrl, page) => {
+    if (typeof window !== 'undefined') {
+        let queryString = window.location.search;
+
+        // حذف پارامتر page از URL قبلی
+        queryString = queryString.replace(/(\?|&)page=\d+/, '');
+
+        // ساخت URL جدید با پارامتر page جدید
+        let newUrl = `${baseUrl}?page=${page}${queryString ? '&' + queryString.substring(1) : ''}`;
+        return newUrl;
+    }
+    return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
+};
+const pagination = ref(props.transactions);
+</script>
+<template>
+    <Header :cart="props.cart" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount" :wallet="props.wallet"
+            :cartCoupon="props.cartCoupon" :cartTotal="props.cartTotal" :alert="props.alert" :users="props.users"
+            :orders="props.orders" :notifications="props.notifications" :dark="props.dark" :companies="props.companies" />
+        <main class="main-wrap rtl">
+            <section class="content-main">
+                <div class="row content-header">
+                    <div class="d-flex col-sm-12">
+                        <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
+                        <table>
+                            <thead >
+                                <td class="me-auto">
+                                    <Link :href="route('depositAdmin.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
+                                </td>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-sm-12">
+                        <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
+                    </div>
+                </div>
+                <div class="card mb-4" v-if="props.transactions && props.transactions.total > 0">
+                    <div class="card-body" >
+                        <div class="table-responsive">
+                            <div class="table table-hover">
+                                <thead >
+                                    <tr>
+                                        <th scope="col">شناسه</th>
+                                        <th scope="col">نوع تراکنش</th>
+                                        <th scope="col">کاربر</th>
+                                        <th scope="col">مبلغ</th>
+                                        <th scope="col">تاریخ</th>
+                                        <th scope="col">وضعیت</th>
+                                        <th scope="col">عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr v-for="(transaction,index) in props.transactions.data" :key="index">
+                                        <td>{{Number(transaction.id).toLocaleString("fa-IR")}}</td>
+                                        <td>{{transaction.transaction}}</td>
+                                        <td>{{transaction.user.user_name}}</td>
+                                        <td>{{Number(transaction.price).toLocaleString("fa-IR")}}</td>
+                                        <td>
+                                            {{ moment(transaction.created_at).locale("fa", fa).format('jYYYY/jM/jD HH:mm') }}
+                                        </td>
+                                        <td>
+                                            <span v-if="transaction.status == 0" class="badge badge-pill badge-soft-info">ثبت</span>
+                                            <span v-if="transaction.status == 1" class="badge badge-pill badge-soft-warning">انتظار</span>
+                                            <span v-if="transaction.status == 2"  class="badge badge-pill badge-soft-secondary">بررسی</span>
+                                            <span v-if="transaction.status == 3" class="badge badge-pill badge-soft-danger"> منقضی</span>
+                                            <span v-if="transaction.status == 4" class="badge badge-pill badge-soft-success">انجام</span>
+                                        </td>
+                                        <td>
+                                            <Link class="btn btn-sm btn-primary" :href="route('depositAdmin.edit',[transaction.id])">نمایش</Link>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </div>
+                            <div class="pagination-area mb-20 mt-20" v-if="pagination && pagination.total > 9">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-start">
+                                        <li class="page-item" :class="{ disabled: !pagination.prev_page_url || pagination.current_page === 1 }" >
+                                            <Link class="page-link" :href=" pagination.prev_page_url && pagination.current_page > 1 ? pagination.prev_page_url : ''" preserve-scroll preserve-state :aria-disabled="pagination.current_page === 1">
+                                                <i class="material-icons md-chevron_right"></i>
+                                            </Link>
+                                        </li>
+                                        <li class="page-item" :class="{ active: pagination.current_page === 1 }">
+                                            <Link class="page-link" :href="getPageUrl(pagination.first_page_url, 1)" preserve-scroll preserve-state >1</Link>
+                                        </li>
+                                        <li class="page-item" v-if="pagination.current_page > 4">
+                                            <span class="page-link dot">...</span>
+                                        </li>
+                                        <template v-for="i in 5" :key="i">
+                                            <li class="page-item" v-if=" pagination.current_page - 3 + i > 1 && pagination.current_page - 3 + i < pagination.last_page" :class="{ active: pagination.current_page === pagination.current_page - 3 + i }">
+                                                <Link class="page-link" :href="getPageUrl(pagination.path, pagination.current_page - 3 + i)" preserve-scroll preserve-state >
+                                                    {{ pagination.current_page - 3 + i }}
+                                                </Link>
+                                            </li>
+                                        </template>
+
+                                        <li class="page-item" v-if="pagination.current_page < pagination.last_page - 3">
+                                            <span class="page-link dot">...</span>
+                                        </li>
+                                        <li class="page-item" v-if="pagination.last_page !== 1" :class="{ active: pagination.current_page === pagination.last_page }">
+                                            <Link class="page-link" :href="getPageUrl(pagination.path, pagination.last_page)" preserve-scroll preserve-state>
+                                                {{ pagination.last_page }}
+                                            </Link>
+                                        </li>
+                                        <li class="page-item" :class="{ disabled:!pagination.next_page_url || pagination.current_page === pagination.last_page,}">
+                                            <Link class="page-link" :href="pagination.next_page_url && pagination.current_page < pagination.last_page
+                                                        ? pagination.next_page_url: ''"preserve-scroll preserve-state :aria-disabled="pagination.current_page === pagination.last_page">
+                                                <i class="material-icons md-chevron_left"></i>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <p>گزینه ای یافت نشد.</p>
+                </div>
+            </section>
+
+        <Footer :companies="props.companies" />
+</main>
+</template>
+

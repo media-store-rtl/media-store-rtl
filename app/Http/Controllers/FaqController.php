@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Carbon\Carbon;
+use App\Models\Cart;
+use App\Models\Menu;
+use App\Models\Page;
+use App\Models\User;
+use Inertia\Inertia;
+use App\Models\Route;
+use App\Models\Social;
+use App\Models\Namad;
+use Illuminate\Http\Request;
+
+class FaqController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request,Page $page,User $user,Route $route,Social $social,Namad $namad)
+    {
+        $oldCart = $request->session()->has('cart') ? $request->session()->get('cart'):null;
+        $cart = new Cart($oldCart);
+        $time = Carbon::now();
+        $menus = $route->where('name',$request->path())->first() && $route->where('name',$request->path())->first()?
+            $route->where('name',$request->path())->first()->menus:null;
+        $menu = Menu::where('parent_id',null)->where('status',4)->with('children','sections','routes')->get();
+
+        $pages = $page->where('route','faq')->with('user')->first();
+        $companies = $user->with('image')->with('profile')->first();
+        $socials = $social->with(['link' => fn ($q) => $q->where(['user_id' => 1,'status' => 4]),'menu'])->where('status',4)->get();
+        $namads = $namad->with('menu')->orderBy('created_at','desc')->get();
+        // dd($menu );
+        return  $pages ? Inertia::render('Guest/Faq',
+            ['pages'=>$pages,'companies'=>$companies,'cart'=>[ 'products' => $cart->products,'count' => $cart->count,'price' => $cart->price,
+                'discount'=> $cart->discount,'coupon' => $cart->coupon,'total' => $cart->total,'tax'=> $cart->tax,'col'=>$cart->col,
+                'payment'=>$cart->payment,'balance'=>$cart->balance],'menus' => $menus, 'menu' => $menu,'socials'=> $socials,'path' => $request->path(),
+                'namads'=> $namads,'time' => $time,
+                ]) : abort(404);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return abort(404);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        return abort(404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return abort(404);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return abort(404);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        return abort(404);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        return abort(404);
+    }
+}
