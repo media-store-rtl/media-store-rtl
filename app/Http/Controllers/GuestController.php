@@ -54,29 +54,43 @@ class GuestController extends Controller
         $alert = $request->session()->get('alert');
         $path = $request->path();
 
-        $menus = Cache::remember('home.route_menus.' . $path, now()->addMinutes(10), function () use ($route, $path) {
+        $menus = Cache::store('file')->flexible('home.route_menus.' . $path, [600, 1800], function () use ($route, $path) {
             $currentRoute = $route->where('name', $path)->first();
-            return $currentRoute?->menus;
+            if (!$currentRoute) {
+                return collect();
+            }
+            return Menu::whereNull('parent_id')
+                ->whereHas('routes', fn ($query) => $query->where('routes.id', $currentRoute->id))
+                ->with('sections', 'routes')
+                ->get();
         });
 
-        $menu = Cache::remember('home.menus', now()->addMinutes(10), function () {
-            return Menu::whereNull('parent_id')
+        $menu = Cache::store('file')->flexible('home.menus', [600, 1800], function () {
+            $parents = Menu::whereNull('parent_id')
                 ->where('status', 4)
-                ->with('children', 'sections', 'routes')
-                ->get();
+                ->get(['id', 'name', 'status']);
+
+            $children = Menu::whereIn('parent_id', $parents->pluck('id'))
+                ->where('status', 4)
+                ->get(['id', 'parent_id', 'name', 'status'])
+                ->groupBy('parent_id');
+
+            return $parents->each(function ($menu) use ($children) {
+                $menu->setRelation('children', $children->get($menu->id, collect())->values());
+            });
         });
 
         Session::updateCurrent();
 
-        $coupon_count = Cache::remember('home.coupon_count', now()->addMinutes(1), function () use ($coupon) {
+        $coupon_count = Cache::store('file')->flexible('home.coupon_count', [60, 300], function () use ($coupon) {
             return $coupon->whereNull('user_id')->count();
         });
 
-        $companies = Cache::remember('home.company', now()->addMinutes(10), function () use ($user) {
+        $companies = Cache::store('file')->flexible('home.company', [600, 1800], function () use ($user) {
             return $user->with('image', 'profile')->first();
         });
 
-        $socials = Cache::remember('home.socials', now()->addMinutes(10), function () use ($social) {
+        $socials = Cache::store('file')->flexible('home.socials', [600, 1800], function () use ($social) {
             return $social->with([
                 'link' => fn ($q) => $q->where(['user_id' => 1, 'status' => 4]),
                 'menu',
@@ -85,7 +99,7 @@ class GuestController extends Controller
 
         $users = auth()->user();
 
-        $results = Cache::remember('home.products.templates', now()->addMinutes(2), function () use ($product) {
+        $results = Cache::store('file')->flexible('home.products.templates', [120, 600], function () use ($product) {
             return $product->with(['discount', 'image', 'user', 'menus'])
                 ->whereIn('status', [4, 5])
                 ->whereHas('group', fn ($query) => $query->where('name', 'قالب'))
@@ -96,7 +110,7 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $forms = Cache::remember('home.products.forms', now()->addMinutes(2), function () use ($product) {
+        $forms = Cache::store('file')->flexible('home.products.forms', [120, 600], function () use ($product) {
             return $product->with(['discount', 'image', 'user', 'menus'])
                 ->whereIn('status', [4, 5])
                 ->whereHas('group', fn ($query) => $query->where('name', 'فرم'))
@@ -107,7 +121,7 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $discounts = Cache::remember('home.discounts', now()->addMinutes(1), function () use ($discount) {
+        $discounts = Cache::store('file')->flexible('home.discounts', [60, 300], function () use ($discount) {
             return $discount->where('expired', '>', now())
                 ->where('discountable_type', Product::class)
                 ->with('discountable')
@@ -115,11 +129,10 @@ class GuestController extends Controller
                 ->withQueryString();
         });
 
-        $orders = Cache::remember('home.orders', now()->addMinutes(1), function () use ($orderable) {
+        $orders = Cache::store('file')->flexible('home.orders', [60, 300], function () use ($orderable) {
             return $orderable->with('product')
                 ->where('orderable_type', Product::class)
-                ->whereYear('created_at', now()->year)
-                ->whereMonth('created_at', now()->month)
+                ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])
                 ->select('orderable_id')
                 ->selectRaw('count(orderable_id) as occurences')
                 ->groupBy('orderable_id')
@@ -128,7 +141,7 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $webDesigns = Cache::remember('home.web_designs', now()->addMinutes(2), function () use ($webDesign) {
+        $webDesigns = Cache::store('file')->flexible('home.web_designs', [120, 600], function () use ($webDesign) {
             return $webDesign->with(['discount', 'user', 'image', 'menus', 'group', 'type', 'category'])
                 ->where('status', 4)
                 ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
@@ -137,7 +150,7 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $blogs = Cache::remember('home.blogs', now()->addMinutes(2), function () use ($blog) {
+        $blogs = Cache::store('file')->flexible('home.blogs', [120, 600], function () use ($blog) {
             return $blog->with('image', 'group', 'type', 'category', 'user', 'menus')
                 ->withCount(['comments', 'views'])
                 ->where('status', 4)
@@ -146,11 +159,11 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $namads = Cache::remember('home.namads', now()->addMinutes(10), function () use ($namad) {
+        $namads = Cache::store('file')->flexible('home.namads', [600, 1800], function () use ($namad) {
             return $namad->with('menu')->latest()->get();
         });
 
-        $cafes = Cache::remember('home.cafes', now()->addMinutes(2), function () use ($webDesign) {
+        $cafes = Cache::store('file')->flexible('home.cafes', [120, 600], function () use ($webDesign) {
             return $webDesign->with(['discount', 'user', 'image', 'menus', 'group', 'type', 'category'])
                 ->where('status', 4)
                 ->whereHas('group', fn ($query) => $query->where('name', 'کافی نت'))
@@ -175,6 +188,7 @@ class GuestController extends Controller
             'menu' => $menu,
             'coupon_count' => $coupon_count,
             'results' => $results,
+            'forms' => $forms,
             'companies' => $companies,
             'socials' => $socials,
             'path' => $path,
