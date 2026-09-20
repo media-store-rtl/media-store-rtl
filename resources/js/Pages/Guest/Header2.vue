@@ -41,7 +41,7 @@ onMounted(() => {
         loader.style.opacity = '0';
         setTimeout(()=>{
             loader.remove();
-        },5000)
+        },500)
     }
   const scriptClass = 'dynamic-script';
 
@@ -78,9 +78,7 @@ onMounted(() => {
     "/assets/js/plugins/jquery.elevatezoom.js",
     "/assets/js/main.js",
     "/assets/js/shop.js",
-    "/assets/js/invoice/jspdf.min.js",
-    "/assets/js/invoice/invoice.js"
-  ];
+      ];
 
   const uniqueItems = [...new Set(items)];
   uniqueItems.forEach(addJs);
@@ -229,7 +227,6 @@ const submitRemove = (id,model) => {
         <link :href="$page.props.ziggy.url+'/assets/css/plugins/animate.min.css'" rel="stylesheet" type="text/css"/>
         <link :href="$page.props.ziggy.url+'/assets/css/main.css'" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" :href="$page.props.ziggy.url+'/assets/css/mohi.css'">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=check" />
     </head>
     <!-- Modal -->
      <!-- <div class="modal fade custom-modal" id="onloadModal" tabindex="-1" aria-labelledby="onloadModalLabel" aria-hidden="true">
