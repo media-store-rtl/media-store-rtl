@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction'
+    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm ci'
+    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm run build'
+    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && php artisan optimize'
