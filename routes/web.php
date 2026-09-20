@@ -129,7 +129,6 @@ Route::resource('/charts-xauusd', ChartsController::class);
 
 Route::prefix('users')->group(function()
 {
-    Route::get('/profile/{id}',[ProfileController::class,'show'])->name('profile.show');
     Route::middleware(['auth','verified'])->group(function()
     {
         //buyer
