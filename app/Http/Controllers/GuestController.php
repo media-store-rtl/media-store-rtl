@@ -35,6 +35,7 @@ use App\Http\Utilities\DepositCreate;
 use Illuminate\Foundation\Application;
 use App\Notifications\SupportNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Cache;
 use App\Notifications\UserRegisterNotification;
 use App\Models\Namad;
 
@@ -47,56 +48,155 @@ class GuestController extends Controller
      */
     public function index(Request $request,Coupon $coupon,User $user,Discount $discount,Social $social,Route $route,Product $product,Orderable $orderable,Blog $blog,Namad $namad,WebDesign $webDesign)
     {
-        $oldCart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
+        $oldCart = $request->session()->get('cart');
         $cart = new Cart($oldCart);
-        $time = Carbon::now();
-        // dd($cart);
-        // $discounts = $discount->with('discountable')->where('expired','>',$time)->paginate(10)->WithQueryString();
-        $alert = $request->session()->has('alert') ? $request->session()->get('alert') : null;
-        // $menus = $menu->where('parent_id', null)->where('section', 'supports')->where('status', 4)->with('children')->where('status', 4)->get();
-        $menus = $route->where('name',$request->path())->first() && $route->where('name',$request->path())->first()?
-            $route->where('name',$request->path())->first()->menus:null;
-        $menu = Menu::where('parent_id',null)->where('status',4)->with('children','sections','routes')->get();
-        $sessions = Session::updateCurrent();
-        $coupon_count = $coupon->where('user_id',null)->count();
-        $companies = $user->with('image')->with('profile')->first();
-        $socials = $social->with(['link' => fn ($q) => $q->where(['user_id' => 1,'status' => 4]),'menu'])->where('status',4)->get();
-        $users = auth() && auth()->user();
-        // $results = $product->with('discount')->with('image')->with('file')->with('user')->with('group')->with('type')->with('category')
-        //     ->where('status',4)->OrWhere('status',5)->with('menus')->withCount('orders')->withCount('comments')->withAvg('ratings', 'rating')->limit(5)->get();
-        $results = $product->with(['discount', 'image', 'file', 'user', 'group', 'type', 'category', 'menus'])->whereIn('status', [4, 5])
-            ->whereHas('group', function ($query) {$query->where('name', 'قالب');})->withCount(['orders', 'comments'])->withAvg('ratings', 'rating')->orderBy('created_at','desc')->limit(5)->get();
-        $forms = $product->with(['discount', 'image', 'file', 'user', 'group', 'type', 'category', 'menus'])->whereIn('status', [4, 5])
-            ->whereHas('group', function ($query) {$query->where('name', 'فرم');})->withCount(['orders', 'comments'])->withAvg('ratings', 'rating')->orderBy('created_at','desc')->limit(5)->get();
+        $time = now();
+        $alert = $request->session()->get('alert');
+        $path = $request->path();
 
-        $discounts = $discount->where('expired','>',$time)->where('discountable_type' , 'App\\Models\\Product')->with('discountable')
-            ->paginate(9)->WithQueryString();
-        $orders = $orders = $orderable->with('product')->where('orderable_type', 'App\Models\Product')->whereYear('created_at', '=', Carbon::now()->year)
-            ->whereMonth('created_at', '=', Carbon::now()->month)->select('orderable_id')->selectRaw('count(`orderable_id`) as `occurences`')->groupBy('orderable_id')
-            ->having('occurences', '>', 0)->orderByDesc('occurences')->limit(5)->get();
-        // $webDesigns = $tarahi->with('discount')->with('user')->with('menus')->where([['status',4],['company_id',null]])->withCount('offers')->withCount('comments')->limit(4)->get();
-        $webDesigns = $webDesign->with(['discount','user','image','menus','group', 'type', 'category'])->where('status',4)->whereHas('group', function ($query) {$query->where('name', 'پلن طراحی سایت');})->orderBy('created_at','desc')->limit(5)->get();
-        $blogs = $blog->with('image')->with('group')->with('type')->with('category')->withCount('comments')->with('user')->with('menus')->withCount('views')->where('status',4)->orderBy('created_at','desc')->limit(5)->get();
-        $namads = $namad->with('menu')->orderBy('created_at','desc')->get();
-        $cafes = $webDesign->with(['discount','user','image','menus','group', 'type', 'category'])->where('status',4)->whereHas('group', function ($query) {$query->where('name', 'کافی نت');})->orderBy('created_at','desc')->limit(5)->get();
-        
-        if($companies)
-        {
-            // dd($webDesigns);
-            // dd($cafes);
-            return Inertia::render('Guest/index', ['canLogin' => 'Illuminate\Support\Facades\Route'::has('login'),
-                'canRegister' => 'Illuminate\Support\Facades\Route'::has('register'),'laravelVersion' => Application::VERSION,'forms'=> $forms,
-                'phpVersion' => PHP_VERSION, 'alert' => $alert,'discounts' => $discounts, 'time' => $time, 'menus' => $menus, 'menu' => $menu,
-                'coupon_count'=>$coupon_count,'results'=> $results,'companies'=>$companies,'socials'=> $socials,'path' => $request->path(),
-                'users' => $users,'cart'=>[ 'products' => $cart->products,'count' => $cart->count,'price' => $cart->price,
-                'discount'=> $cart->discount,'coupon' => $cart->coupon,'total' => $cart->total,'tax'=> $cart->tax,'col'=>$cart->col,
-                'payment'=>$cart->payment,'balance'=>$cart->balance],'namads'=> $namads,'orders'=>$orders,'webDesigns' => $webDesigns,'blogs' => $blogs,
-                'cafes' =>$cafes ]);
-        }
-        else
-        {
+        $menus = Cache::remember('home.route_menus.' . $path, now()->addMinutes(10), function () use ($route, $path) {
+            $currentRoute = $route->where('name', $path)->first();
+            return $currentRoute?->menus;
+        });
+
+        $menu = Cache::remember('home.menus', now()->addMinutes(10), function () {
+            return Menu::whereNull('parent_id')
+                ->where('status', 4)
+                ->with('children', 'sections', 'routes')
+                ->get();
+        });
+
+        Session::updateCurrent();
+
+        $coupon_count = Cache::remember('home.coupon_count', now()->addMinutes(1), function () use ($coupon) {
+            return $coupon->whereNull('user_id')->count();
+        });
+
+        $companies = Cache::remember('home.company', now()->addMinutes(10), function () use ($user) {
+            return $user->with('image', 'profile')->first();
+        });
+
+        $socials = Cache::remember('home.socials', now()->addMinutes(10), function () use ($social) {
+            return $social->with([
+                'link' => fn ($q) => $q->where(['user_id' => 1, 'status' => 4]),
+                'menu',
+            ])->where('status', 4)->get();
+        });
+
+        $users = auth()->user();
+
+        $results = Cache::remember('home.products.templates', now()->addMinutes(2), function () use ($product) {
+            return $product->with(['discount', 'image', 'user', 'menus'])
+                ->whereIn('status', [4, 5])
+                ->whereHas('group', fn ($query) => $query->where('name', 'قالب'))
+                ->withCount(['orders', 'comments'])
+                ->withAvg('ratings', 'rating')
+                ->latest()
+                ->limit(5)
+                ->get();
+        });
+
+        $forms = Cache::remember('home.products.forms', now()->addMinutes(2), function () use ($product) {
+            return $product->with(['discount', 'image', 'user', 'menus'])
+                ->whereIn('status', [4, 5])
+                ->whereHas('group', fn ($query) => $query->where('name', 'فرم'))
+                ->withCount(['orders', 'comments'])
+                ->withAvg('ratings', 'rating')
+                ->latest()
+                ->limit(5)
+                ->get();
+        });
+
+        $discounts = Cache::remember('home.discounts', now()->addMinutes(1), function () use ($discount) {
+            return $discount->where('expired', '>', now())
+                ->where('discountable_type', Product::class)
+                ->with('discountable')
+                ->paginate(9)
+                ->withQueryString();
+        });
+
+        $orders = Cache::remember('home.orders', now()->addMinutes(1), function () use ($orderable) {
+            return $orderable->with('product')
+                ->where('orderable_type', Product::class)
+                ->whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->select('orderable_id')
+                ->selectRaw('count(orderable_id) as occurences')
+                ->groupBy('orderable_id')
+                ->orderByDesc('occurences')
+                ->limit(5)
+                ->get();
+        });
+
+        $webDesigns = Cache::remember('home.web_designs', now()->addMinutes(2), function () use ($webDesign) {
+            return $webDesign->with(['discount', 'user', 'image', 'menus', 'group', 'type', 'category'])
+                ->where('status', 4)
+                ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
+                ->latest()
+                ->limit(5)
+                ->get();
+        });
+
+        $blogs = Cache::remember('home.blogs', now()->addMinutes(2), function () use ($blog) {
+            return $blog->with('image', 'group', 'type', 'category', 'user', 'menus')
+                ->withCount(['comments', 'views'])
+                ->where('status', 4)
+                ->latest()
+                ->limit(5)
+                ->get();
+        });
+
+        $namads = Cache::remember('home.namads', now()->addMinutes(10), function () use ($namad) {
+            return $namad->with('menu')->latest()->get();
+        });
+
+        $cafes = Cache::remember('home.cafes', now()->addMinutes(2), function () use ($webDesign) {
+            return $webDesign->with(['discount', 'user', 'image', 'menus', 'group', 'type', 'category'])
+                ->where('status', 4)
+                ->whereHas('group', fn ($query) => $query->where('name', 'کافی نت'))
+                ->latest()
+                ->limit(5)
+                ->get();
+        });
+
+        if (!$companies) {
             return abort(503);
         }
+
+        return Inertia::render('Guest/index', [
+            'canLogin' => 'Illuminate\\Support\\Facades\\Route'::has('login'),
+            'canRegister' => 'Illuminate\\Support\\Facades\\Route'::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'alert' => $alert,
+            'discounts' => $discounts,
+            'time' => $time,
+            'menus' => $menus,
+            'menu' => $menu,
+            'coupon_count' => $coupon_count,
+            'results' => $results,
+            'companies' => $companies,
+            'socials' => $socials,
+            'path' => $path,
+            'users' => $users,
+            'cart' => [
+                'products' => $cart->products,
+                'count' => $cart->count,
+                'price' => $cart->price,
+                'discount' => $cart->discount,
+                'coupon' => $cart->coupon,
+                'total' => $cart->total,
+                'tax' => $cart->tax,
+                'col' => $cart->col,
+                'payment' => $cart->payment,
+                'balance' => $cart->balance,
+            ],
+            'namads' => $namads,
+            'orders' => $orders,
+            'webDesigns' => $webDesigns,
+            'blogs' => $blogs,
+            'cafes' => $cafes,
+        ]);
     }
 
     /**
