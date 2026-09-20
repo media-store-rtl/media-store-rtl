@@ -144,34 +144,40 @@ if (props.discounts.data) {
     <p v-else>👀 این فقط در مرورگر دیده میشه</p> -->
     <!--End header-->
     <main class="main">
-        <section class="home-slider position-relative mb-30">
+        <section class="home-slider position-relative mb-30 homepage-hero">
             <div class="container">
                 <div class="home-slide-cover mt-30">
                     <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
                         <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-1.png)">
-                            <div class="slider-content">
-                                <h1 class="display-2 mb-40">
-                                    محصولات شگفت <br />
-                                    انگیز را از دست ندهید
-                                </h1>
-                                <!-- <p class="mb-65">جهت اطلاع از آخرین اخباردر خبرنامه ثبت نام کنید</p>
-                                <form class="form-subcriber d-flex">
-                                    <input type="email" placeholder="آدرس ایمیل شما" />
-                                    <button class="btn" type="submit">اشتراک</button>
-                                </form> -->
+                            <div class="slider-content homepage-hero-content">
+                                <span class="homepage-hero-kicker">ویژه طراح‌ها و کسب‌وکارها</span>
+                                <h1 class="display-2 mb-25">چیزی که برای رشد کسب‌وکارت نیاز داری، همین‌جاست</h1>
+                                <p class="homepage-hero-text">قالب، طرح، فرم و خدمات دیجیتال را با تجربه‌ای سریع‌تر و ساده‌تر پیدا کن.</p>
+                                <div class="homepage-hero-actions">
+                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">مشاهده محصولات</Link>
+                                    <Link class="homepage-hero-link" :href="route('website-design.index','q')+'all'">دیدن پلن‌ها <i class="fi-rs-arrow-left"></i></Link>
+                                </div>
+                                <div class="homepage-hero-points">
+                                    <span><i class="fi-rs-check"></i> انتخاب سریع</span>
+                                    <span><i class="fi-rs-check"></i> قیمت شفاف</span>
+                                    <span><i class="fi-rs-check"></i> پشتیبانی</span>
+                                </div>
                             </div>
                         </div>
                         <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-2.png)">
-                            <div class="slider-content">
-                                <h1 class="display-2 mb-40">
-                                    طرح تخفیف<br />
-                                    روزانه را از دست ندهید
-                                </h1>
-                                <!-- <p class="mb-65">جهت اطلاع از آخرین اخباردر خبرنامه ثبت نام کنید</p>
-                                <form class="form-subcriber d-flex">
-                                    <input type="email" placeholder="آدرس ایمیل شما" />
-                                    <button class="btn" type="submit">اشتراک</button>
-                                </form> -->
+                            <div class="slider-content homepage-hero-content">
+                                <span class="homepage-hero-kicker">پیشنهادهای تازه</span>
+                                <h1 class="display-2 mb-25">فرصت‌های خوب برای شروع یک پروژه حرفه‌ای</h1>
+                                <p class="homepage-hero-text">محصولات و خدمات منتخب را ببین و گزینه مناسب پروژه‌ات را سریع‌تر پیدا کن.</p>
+                                <div class="homepage-hero-actions">
+                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">شروع جستجو</Link>
+                                    <Link class="homepage-hero-link" :href="route('blog.index')">مطالب و ایده‌ها <i class="fi-rs-arrow-left"></i></Link>
+                                </div>
+                                <div class="homepage-hero-points">
+                                    <span><i class="fi-rs-check"></i> تنوع محصول</span>
+                                    <span><i class="fi-rs-check"></i> تجربه RTL</span>
+                                    <span><i class="fi-rs-check"></i> خرید آسان</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,8 +185,7 @@ if (props.discounts.data) {
                 </div>
             </div>
         </section>
-        <!--End hero slider-->
-        <section class="product-tabs section-padding position-relative" v-if="props.results.length > 0">
+        <!--End hero slider-->       <section class="product-tabs section-padding position-relative" v-if="props.results.length > 0">
             <div class="container">
                 <div class="section-title style-2 wow animate__animated animate__fadeIn">
                     <h3>محصول </h3>
