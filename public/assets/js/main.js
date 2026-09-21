@@ -6,7 +6,9 @@
         $("body").delay(450).css({
             overflow: "visible"
         });
-        $("#onloadModal").modal("show");
+        if ($.fn.modal && $("#onloadModal").length) {
+            $("#onloadModal").modal("show");
+        }
     });
     /*-----------------
         Menu Stick
@@ -27,15 +29,19 @@
     }
 
     /*------ ScrollUp -------- */
-    $.scrollUp({
-        scrollText: '<i class="fi-rs-arrow-small-up"></i>',
-        easingType: "linear",
-        scrollSpeed: 900,
-        animation: "fade"
-    });
+    if ($.fn.scrollUp) {
+        $.scrollUp({
+            scrollText: '<i class="fi-rs-arrow-small-up"></i>',
+            easingType: "linear",
+            scrollSpeed: 900,
+            animation: "fade"
+        });
+    }
 
     /*------ Wow Active ----*/
-    new WOW().init();
+    if (window.WOW && $(".wow").length) {
+        new WOW().init();
+    }
 
     //sidebar sticky
     if ($.fn.theiaStickySidebar && $(".sticky-sidebar").length) {
@@ -107,7 +113,8 @@
         var sliderID = "#" + id;
         var appendArrowsClassName = "#" + id + "-arrows";
 
-        $(sliderID).slick({
+        if ($.fn.slick && $(sliderID).length) {
+            $(sliderID).slick({
             dots: false,
             infinite: true,
             speed: 1000,
@@ -144,7 +151,8 @@
             prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-arrow-small-left"></i></span>',
             nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-arrow-small-right"></i></span>',
             appendArrows: appendArrowsClassName
-        });
+            });
+        }
     });
 
     /*Carausel 10 columns*/
@@ -272,9 +280,11 @@
 
     /*Fix Bootstrap 5 tab & slick slider*/
 
-    $('button[data-bs-toggle="tab"]').on("shown.bs.tab", function (e) {
-        $(".carausel-4-columns").slick("setPosition");
-    });
+    if ($.fn.slick && $(".carausel-4-columns.slick-initialized").length) {
+        $('button[data-bs-toggle="tab"]').on("shown.bs.tab.storefrontSlider", function () {
+            $(".carausel-4-columns.slick-initialized").slick("setPosition");
+        });
+    }
 
     /*------ Timer Countdown ----*/
 
@@ -692,7 +702,13 @@
             container = $(".mobile-header-active"),
             wrapper4 = $("body");
 
-        wrapper4.prepend('<div class="body-overlay-1"></div>');
+        if (!navbarTrigger.length || !container.length) {
+            return;
+        }
+
+        if (!$(".body-overlay-1").length) {
+            wrapper4.prepend('<div class="body-overlay-1"></div>');
+        }
 
         navbarTrigger.on("click", function (e) {
             e.preventDefault();
