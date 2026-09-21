@@ -1,5 +1,27 @@
 <script setup>
 
+const seoProductSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: props.product.name,
+    description: props.product.tag || props.product.name,
+    image: props.product.image?.url ? [$page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+    sku: props.product.slug || undefined,
+    brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
+    offers: props.product.price != null ? {
+        '@type': 'Offer',
+        url: $page.props.ziggy.url + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
+        priceCurrency: 'IRR',
+        price: Number(props.product.price),
+    } : undefined,
+    aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
+        '@type': 'AggregateRating',
+        ratingValue: Number(props.product_averageRating),
+        ratingCount: Number(props.product_usersRated),
+    } : undefined,
+}))
+
+
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import { computed, ref,watch } from 'vue';
@@ -315,7 +337,7 @@ const groupedTests = computed(() => {
 });
 </script>
 <template>
-     <Seo :title="props.product.name" :description="props.product.tag" :noIndex="false" />
+     <Seo :title="props.product.name + ' | فروشگاه مدیا'" :description="props.product.tag || props.product.name" :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'" type="product" :noIndex="false" :schema="seoProductSchema" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
