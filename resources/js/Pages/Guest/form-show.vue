@@ -251,7 +251,31 @@ const submitReply = (id) => {
 
 </script>
 <template>
-     <Seo :title="props.product.name" :description="props.product.tag" :noIndex="false" />
+     <Seo
+        :title="props.product.name + ' | فروشگاه مدیا'"
+        :description="props.product.tag || ('خرید ' + props.product.name + ' از فروشگاه مدیا')"
+        :image="props.product.image && props.product.image.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
+        type="product"
+        :noIndex="false"
+        :schema="{
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: props.product.name,
+            description: props.product.tag || props.product.name,
+            image: props.product.image && props.product.image.url ? [$page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+            offers: props.product.price != null ? {
+                '@type': 'Offer',
+                price: props.product.price,
+                priceCurrency: 'IRR',
+                availability: 'https://schema.org/InStock',
+            } : undefined,
+            aggregateRating: product_averageRating && Number(product_averageRating) > 0 && product_usersRated > 0 ? {
+                '@type': 'AggregateRating',
+                ratingValue: Number(product_averageRating),
+                reviewCount: product_usersRated,
+            } : undefined,
+        }"
+/>
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
     <main class="main">
 
