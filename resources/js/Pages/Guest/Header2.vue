@@ -93,18 +93,33 @@ onMounted(() => {
         const plugins = [
             "/assets/js/plugins/slick.js",
             "/assets/js/plugins/wow.js",
-            "/assets/js/plugins/magnific-popup.js",
-            "/assets/js/plugins/select2.min.js",
-            "/assets/js/plugins/waypoints.js",
-            "/assets/js/plugins/counterup.js",
-            "/assets/js/plugins/jquery.countdown.min.js",
-            "/assets/js/plugins/images-loaded.js",
-            "/assets/js/plugins/isotope.js",
             "/assets/js/plugins/scrollup.js",
-            "/assets/js/plugins/jquery.vticker-min.js",
-            "/assets/js/plugins/jquery.elevatezoom.js",
         ];
 
+        if (document.querySelector(".img-popup")) {
+            plugins.push("/assets/js/plugins/magnific-popup.js");
+        }
+        if (document.querySelector(".select-active")) {
+            plugins.push("/assets/js/plugins/select2.min.js");
+        }
+        if (document.querySelector(".count")) {
+            plugins.push("/assets/js/plugins/counterup.js");
+        }
+        if (document.querySelector("[data-countdown]")) {
+            plugins.push("/assets/js/plugins/jquery.countdown.min.js");
+        }
+        if (document.querySelector(".grid")) {
+            plugins.push(
+                "/assets/js/plugins/images-loaded.js",
+                "/assets/js/plugins/isotope.js",
+            );
+        }
+        if (document.querySelector("#news-flash")) {
+            plugins.push("/assets/js/plugins/jquery.vticker-min.js");
+        }
+        if (isProductDetailPage || document.querySelector(".product-image-slider")) {
+            plugins.push("/assets/js/plugins/jquery.elevatezoom.js");
+        }
         if (document.querySelector(".sticky-sidebar")) {
             plugins.push("/assets/js/plugins/jquery.theia.sticky.js");
         }
