@@ -71,20 +71,33 @@
         });
     }
 
-    /*------ Hero slider 1 ----*/
-    $(".hero-slider-1").slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        fade: true,
-        loop: true,
-        dots: true,
-        rtl:true,
-        arrows: true,
-        prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-angle-left"></i></span>',
-        nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-angle-right"></i></span>',
-        appendArrows: ".hero-slider-1-arrow",
-        autoplay: false
-    });
+    /*------ Hero slider 1 ---- */
+    function initHeroSlider() {
+        $(".hero-slider-1").each(function () {
+            var $slider = $(this);
+
+            if ($slider.hasClass("slick-initialized")) {
+                $slider.slick("unslick");
+            }
+
+            $slider.slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                fade: true,
+                infinite: true,
+                dots: true,
+                rtl: true,
+                arrows: true,
+                prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-angle-left"></i></span>',
+                nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-angle-right"></i></span>',
+                appendArrows: ".hero-slider-1-arrow",
+                autoplay: false
+            });
+        });
+    }
+
+    initHeroSlider();
+    window.initHeroSlider = initHeroSlider;
 
     /*Carausel 8 columns*/
     $(".carausel-8-columns").each(function (key, item) {
