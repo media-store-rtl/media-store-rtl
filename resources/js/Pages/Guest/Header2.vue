@@ -35,80 +35,75 @@ const submitBlogFilter = () => {
    emit('EventSubmitBlogFilter', form.q )
 }
 
+const mobileMenuOpen = ref(false);
+
+const toggleMobileMenu = () => {
+    mobileMenuOpen.value = !mobileMenuOpen.value;
+    document.body.classList.toggle('mobile-menu-active', mobileMenuOpen.value);
+};
+
+const closeMobileMenu = () => {
+    mobileMenuOpen.value = false;
+    document.body.classList.remove('mobile-menu-active');
+};
+
 onMounted(() => {
     const loader = document.getElementById('initial-loader');
-   if (loader) {
+    if (loader) {
         loader.style.opacity = '0';
-        setTimeout(()=>{
-            loader.remove();
-        },500)
+        setTimeout(() => loader.remove(), 300);
     }
-  const scriptClass = 'dynamic-script';
 
-  function addJs(address) {
-    const exists = document.querySelector(`script[src="${address}"]`);
-    if (exists) return;
+    // Load the storefront plugins after the first paint so they do not delay the initial page.
+    const loadStorefrontScripts = () => {
+        const scriptClass = 'dynamic-script';
 
-    const script = document.createElement('script');
-    script.src = address;
-    script.async = false;
-    script.defer = true;
-    script.classList.add(scriptClass);
-    document.body.appendChild(script);
-  }
+        const addJs = (address) => {
+            if (document.querySelector(`script[src="${address}"]`)) return;
 
-  const items = [
-    "/assets/js/vendor/jquery-3.6.0.min.js",
-    "/assets/js/vendor/bootstrap.bundle.min.js",
-    "/assets/js/plugins/slick.js",
-    "/assets/js/plugins/jquery.syotimer.min.js",
-    "/assets/js/plugins/wow.js",
-    "/assets/js/plugins/jquery-ui.js",
-    "/assets/js/plugins/perfect-scrollbar.js",
-    "/assets/js/plugins/magnific-popup.js",
-    "/assets/js/plugins/select2.min.js",
-    "/assets/js/plugins/waypoints.js",
-    "/assets/js/plugins/counterup.js",
-    "/assets/js/plugins/jquery.countdown.min.js",
-    "/assets/js/plugins/images-loaded.js",
-    "/assets/js/plugins/isotope.js",
-    "/assets/js/plugins/scrollup.js",
-    "/assets/js/plugins/jquery.vticker-min.js",
-    "/assets/js/plugins/jquery.theia.sticky.js",
-    "/assets/js/plugins/jquery.elevatezoom.js",
-    "/assets/js/main.js",
-    "/assets/js/shop.js",
-      ];
+            const script = document.createElement('script');
+            script.src = address;
+            script.async = false;
+            script.defer = true;
+            script.classList.add(scriptClass);
+            document.body.appendChild(script);
+        };
 
-  const uniqueItems = [...new Set(items)];
-  uniqueItems.forEach(addJs);
-   
+        [
+            "/assets/js/vendor/jquery-3.6.0.min.js",
+            "/assets/js/vendor/bootstrap.bundle.min.js",
+            "/assets/js/plugins/slick.js",
+            "/assets/js/plugins/jquery.syotimer.min.js",
+            "/assets/js/plugins/wow.js",
+            "/assets/js/plugins/jquery-ui.js",
+            "/assets/js/plugins/perfect-scrollbar.js",
+            "/assets/js/plugins/magnific-popup.js",
+            "/assets/js/plugins/select2.min.js",
+            "/assets/js/plugins/waypoints.js",
+            "/assets/js/plugins/counterup.js",
+            "/assets/js/plugins/jquery.countdown.min.js",
+            "/assets/js/plugins/images-loaded.js",
+            "/assets/js/plugins/isotope.js",
+            "/assets/js/plugins/scrollup.js",
+            "/assets/js/plugins/jquery.vticker-min.js",
+            "/assets/js/plugins/jquery.theia.sticky.js",
+            "/assets/js/plugins/jquery.elevatezoom.js",
+            "/assets/js/main.js",
+            "/assets/js/shop.js",
+        ].forEach(addJs);
+    };
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadStorefrontScripts, { timeout: 1800 });
+    } else {
+        window.setTimeout(loadStorefrontScripts, 1200);
+    }
 });
 
 onBeforeUnmount(() => {
-  // حذف اسکریپت‌ها
-  document.querySelectorAll('script.dynamic-script').forEach(script => {
-    script.remove();
-  });
-
-  // پاکسازی scrollUp
-  const scrollUp = document.getElementById('scrollUp')
-  if (scrollUp) scrollUp.remove()
-
-  // پاکسازی zoomContainer و zoomWindow
-  document.querySelectorAll('.zoomContainer, .zoomWindow').forEach(el => el.remove())
-
-  // حذف دیتاهای attach شده توسط elevateZoom
-  const mainImage = document.getElementById('mainImage')
-  if (mainImage && typeof $(mainImage).removeData === 'function') {
-    $(mainImage).removeData('elevateZoom')
-  }
-   const overlay = document.querySelectorAll('body-overlay-1')
-  if (overlay && typeof $(overlay).removeData === 'function') {
-    $(overlay).removeData('elevateZoom')
-  }
- 
-})
+    document.body.classList.remove('mobile-menu-active');
+    mobileMenuOpen.value = false;
+});
 
 const validate = (text)=>{
     swal.mixin({
@@ -223,11 +218,6 @@ const submitRemove = (id,model) => {
 </script>
 <template v-cloak>
 
-    <head>
-        <link :href="$page.props.ziggy.url+'/assets/css/plugins/animate.min.css'" rel="stylesheet" type="text/css"/>
-        <link :href="$page.props.ziggy.url+'/assets/css/main.css'" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" :href="$page.props.ziggy.url+'/assets/css/mohi.css'">
-    </head>
     <!-- Modal -->
      <!-- <div class="modal fade custom-modal" id="onloadModal" tabindex="-1" aria-labelledby="onloadModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -720,7 +710,7 @@ const submitRemove = (id,model) => {
                             <span>مرکز پشتیبانی 17/7</span></p>
                     </div>
                     <div class="header-action-icon-2 d-block d-lg-none">
-                        <div class="burger-icon burger-icon-white">
+                        <div class="burger-icon burger-icon-white" @click="toggleMobileMenu" role="button" aria-label="باز کردن منو">
                             <span class="burger-icon-top"></span>
                             <span class="burger-icon-mid"></span>
                             <span class="burger-icon-bottom"></span>
@@ -800,7 +790,7 @@ const submitRemove = (id,model) => {
                         </Link> -->
                 </div>
                 <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
-                    <button class="close-style search-close">
+                    <button class="close-style search-close" @click="closeMobileMenu">
                         <i class="icon-top"></i>
                         <i class="icon-bottom"></i>
                     </button>
