@@ -15,3 +15,5 @@
 
 /bootstrap/cache/*.php
 !/bootstrap/cache/.gitignore
+# SSR build output is generated during cPanel deployment
+/bootstrap/ssr/
