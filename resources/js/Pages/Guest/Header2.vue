@@ -87,6 +87,9 @@ onMounted(() => {
             return window.__storefrontScriptsPromise;
         }
 
+        const isProductDetailPage = window.location.pathname.startsWith("/website-templates/")
+            && window.location.pathname !== "/website-templates/";
+
         const plugins = [
             "/assets/js/plugins/slick.js",
             "/assets/js/plugins/wow.js",
@@ -99,12 +102,12 @@ onMounted(() => {
             "/assets/js/plugins/isotope.js",
             "/assets/js/plugins/scrollup.js",
             "/assets/js/plugins/jquery.vticker-min.js",
-            "/assets/js/plugins/jquery.theia.sticky.js",
             "/assets/js/plugins/jquery.elevatezoom.js",
         ];
 
-        const isProductDetailPage = window.location.pathname.startsWith("/website-templates/")
-            && window.location.pathname !== "/website-templates/";
+        if (document.querySelector(".sticky-sidebar")) {
+            plugins.push("/assets/js/plugins/jquery.theia.sticky.js");
+        }
 
         window.__storefrontScriptsPromise = loadScript("/assets/js/vendor/jquery-3.6.0.min.js")
             .then(() => loadScript("/assets/js/vendor/bootstrap.bundle.min.js"))
