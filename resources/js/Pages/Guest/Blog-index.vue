@@ -119,7 +119,7 @@ const getPageUrl = (baseUrl, page) => {
 
 </script>
 <template >
-    <Seo :noIndex="false" />
+    <Seo :title="'وبلاگ فروشگاه مدیا | آموزش و مطالب طراحی سایت و دیجیتال'" :description="'مقالات و آموزش‌های کاربردی فروشگاه مدیا درباره طراحی سایت، قالب‌های آماده، محصولات دیجیتال و کسب‌وکار آنلاین.'" :noIndex="false" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu" @event-submit-blog-filter="submit" />
     <main class="main">
             <div class="page-header mt-30 mb-75">
