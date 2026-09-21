@@ -134,15 +134,26 @@ onMounted(() => {
     };
 
     const start = () => {
+        window.__storefrontScriptsStartScheduled = true;
+
         loadStorefrontScripts().then(() => {
             window.initHeroSlider?.();
         });
     };
 
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(start, { timeout: 1800 });
-    } else {
-        window.setTimeout(start, 1200);
+    // Header2 is remounted during Inertia navigation. Keep only one pending
+    // idle/timeout callback for the whole session; later mounts reuse the same
+    // storefront promise instead of scheduling duplicate startup work.
+    if (window.__storefrontScriptsPromise) {
+        window.__storefrontScriptsPromise.then(() => {
+            window.initHeroSlider?.();
+        });
+    } else if (!window.__storefrontScriptsStartScheduled) {
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(start, { timeout: 1800 });
+        } else {
+            window.setTimeout(start, 1200);
+        }
     }
 });
 
