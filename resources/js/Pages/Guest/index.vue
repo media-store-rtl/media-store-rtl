@@ -628,7 +628,8 @@ if (props.discounts.data) {
 .homepage-hero .homepage-hero-actions,
 .homepage-hero .homepage-hero-points,
 .homepage-hero .homepage-hero-button,
-.homepage-hero .homepage-hero-link {
+.homepage-hero .homepage-hero-link,
+.homepage-hero .slider-content > *:nth-child(n + 4) {
     display: none !important;
 }
 </style>
