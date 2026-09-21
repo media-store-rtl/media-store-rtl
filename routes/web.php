@@ -104,19 +104,19 @@ require __DIR__.'/auth.php';
 
 Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign) {
     $urls = [
-        ['loc' => url('/'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/website-templates'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/website-design'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/blog'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/project'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/cafe-net'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/form'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/accounting'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/about'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/about-hesabdari'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/faq'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/privacy'), 'lastmod' => now()->startOfDay()],
-        ['loc' => url('/terms-conditions'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/')],
+        ['loc' => url('/website-templates')],
+        ['loc' => url('/website-design')],
+        ['loc' => url('/blog')],
+        ['loc' => url('/project')],
+        ['loc' => url('/cafe-net')],
+        ['loc' => url('/form')],
+        ['loc' => url('/accounting')],
+        ['loc' => url('/about')],
+        ['loc' => url('/about-hesabdari')],
+        ['loc' => url('/faq')],
+        ['loc' => url('/privacy')],
+        ['loc' => url('/terms-conditions')],
     ];
 
     $product->whereIn('status', [4, 5])
