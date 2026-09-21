@@ -81,11 +81,13 @@
 
     /*------ Hero slider 1 ---- */
     function initHeroSlider() {
+        if (!$.fn.slick) return;
+
         $(".hero-slider-1").each(function () {
             var $slider = $(this);
 
             if ($slider.hasClass("slick-initialized")) {
-                $slider.slick("unslick");
+                return;
             }
 
             $slider.slick({
