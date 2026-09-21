@@ -11,7 +11,7 @@ Artisan::command('media:audit-images
     {--path=storage/app/public : Directory to scan}
     {--min-kb=200 : Only report files at or above this size}
     {--limit=100 : Maximum rows to display}
-    {--json : Output machine-readable JSON}', function () {
+    {--json : Output machine-readable JSON}\n    {--related : Include database record and imageable title}', function () {
     $root = base_path($this->option('path'));
     $minBytes = max(0, (int) $this->option('min-kb')) * 1024;
     $limit = max(1, (int) $this->option('limit'));
@@ -23,6 +23,9 @@ Artisan::command('media:audit-images
 
     $allowed = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif'];
     $rows = [];
+    $imageRecords = $this->option('related')
+        ? \App\Models\Image::query()->with('imageable')->get()->keyBy('url')
+        : collect();
 
     $iterator = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS)
@@ -53,6 +56,22 @@ Artisan::command('media:audit-images
             'size_kb' => round($bytes / 1024, 1),
             'size_mb' => round($bytes / 1024 / 1024, 2),
         ];
+
+        if ($this->option('related')) {
+            $relativePath = str_replace($root . DIRECTORY_SEPARATOR, '', $file->getPathname());
+            $image = $imageRecords->get($relativePath) ?? $imageRecords->get('images/' . $relativePath);
+
+            if ($image) {
+                $record = $image->imageable;
+                $rows[array_key_last($rows)]['image_id'] = $image->id;
+                $rows[array_key_last($rows)]['imageable_type'] = class_basename($image->imageable_type);
+                $rows[array_key_last($rows)]['imageable_id'] = $image->imageable_id;
+                $rows[array_key_last($rows)]['title'] = $record?->name
+                    ?? $record?->title
+                    ?? $record?->slug
+                    ?? '-';
+            }
+        }
     }
 
     usort($rows, fn (array $a, array $b) => $b['size_kb'] <=> $a['size_kb']);
@@ -69,7 +88,7 @@ Artisan::command('media:audit-images
     }
 
     $this->table(
-        ['File', 'Format', 'Width', 'Height', 'KB', 'MB'],
+        ['File', 'Format', 'Width', 'Height', 'KB', 'MB', 'Type', 'ID', 'Title'],
         array_map(fn (array $row) => [
             $row['file'],
             $row['format'],
