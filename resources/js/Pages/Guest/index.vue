@@ -624,12 +624,22 @@ if (props.discounts.data) {
 </template>
 
 <style>
-/* Keep the homepage hero free of action buttons/feature-point rows. */
+/* Homepage hero: keep only the intended text content and remove any legacy HTML actions/points. */
 .homepage-hero .homepage-hero-actions,
 .homepage-hero .homepage-hero-points,
 .homepage-hero .homepage-hero-button,
 .homepage-hero .homepage-hero-link,
-.homepage-hero .slider-content > *:nth-child(n + 4) {
+.homepage-hero .slider-content > a,
+.homepage-hero .slider-content > button,
+.homepage-hero .slider-content > .button,
+.homepage-hero .slider-content > .btn,
+.homepage-hero .slider-content > :not(.homepage-hero-kicker):not(h1):not(.homepage-hero-text) {
     display: none !important;
+}
+
+.homepage-hero .slider-content > .homepage-hero-kicker,
+.homepage-hero .slider-content > h1,
+.homepage-hero .slider-content > .homepage-hero-text {
+    display: block !important;
 }
 </style>
