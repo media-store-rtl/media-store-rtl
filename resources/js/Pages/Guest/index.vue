@@ -130,7 +130,7 @@ if (props.discounts.data) {
 
 //  const keywordsSeo = ''; // کلمات کلیدی مرتبط با صفحه (موتورهای جستجوی جدید کمتر استفاده میکنند)
 
-// const noIndexSeo = true; // دستور به موتور جستجو برای ایندکس شدن یا نشدن صفحه (مثلاً "index, follow" یا "noindex, nofollow")
+// const noIndexSeo = true; // دستور به موتورهای جستجو برای ایندکس شدن یا نشدن صفحه (مثلاً index, follow یا noindex, nofollow)
 
 
 </script>
@@ -153,15 +153,6 @@ if (props.discounts.data) {
                                 <span class="homepage-hero-kicker">ویژه طراح‌ها و کسب‌وکارها</span>
                                 <h1 class="display-2 mb-25">چیزی که برای رشد کسب‌وکارت نیاز داری، همین‌جاست</h1>
                                 <p class="homepage-hero-text">قالب، طرح، فرم و خدمات دیجیتال را با تجربه‌ای سریع‌تر و ساده‌تر پیدا کن.</p>
-                                <div class="homepage-hero-actions">
-                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">مشاهده محصولات</Link>
-                                    <Link class="homepage-hero-link" :href="route('website-design.index','q')+'all'">دیدن پلن‌ها <i class="fi-rs-arrow-left"></i></Link>
-                                </div>
-                                <div class="homepage-hero-points">
-                                    <span><i class="fi-rs-check"></i> انتخاب سریع</span>
-                                    <span><i class="fi-rs-check"></i> قیمت شفاف</span>
-                                    <span><i class="fi-rs-check"></i> پشتیبانی</span>
-                                </div>
                             </div>
                         </div>
                         <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-2.png)">
@@ -169,15 +160,6 @@ if (props.discounts.data) {
                                 <span class="homepage-hero-kicker">پیشنهادهای تازه</span>
                                 <h1 class="display-2 mb-25">فرصت‌های خوب برای شروع یک پروژه حرفه‌ای</h1>
                                 <p class="homepage-hero-text">محصولات و خدمات منتخب را ببین و گزینه مناسب پروژه‌ات را سریع‌تر پیدا کن.</p>
-                                <div class="homepage-hero-actions">
-                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">شروع جستجو</Link>
-                                    <Link class="homepage-hero-link" :href="route('blog.index')">مطالب و ایده‌ها <i class="fi-rs-arrow-left"></i></Link>
-                                </div>
-                                <div class="homepage-hero-points">
-                                    <span><i class="fi-rs-check"></i> تنوع محصول</span>
-                                    <span><i class="fi-rs-check"></i> تجربه RTL</span>
-                                    <span><i class="fi-rs-check"></i> خرید آسان</span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -185,7 +167,8 @@ if (props.discounts.data) {
                 </div>
             </div>
         </section>
-        <!--End hero slider-->       <section class="product-tabs section-padding position-relative" v-if="props.results.length > 0">
+        <!--End hero slider-->
+        <section class="product-tabs section-padding position-relative" v-if="props.results.length > 0">
             <div class="container">
                 <div class="section-title style-2 wow animate__animated animate__fadeIn">
                     <h3>محصول </h3>
@@ -239,7 +222,7 @@ if (props.discounts.data) {
                                         </div>
                                         <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block" >
-                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%' "></div>
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
                                             </div>
                                             <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating" > ({{ result.ratings_avg_rating }})</span>
                                             <span class="font-small ml-5 text-muted" v-else > (0.000)</span>
@@ -323,18 +306,11 @@ if (props.discounts.data) {
                                         </div>
                                         <h2><Link :href="route('website-design.show',[result.slug])">{{ result.name }}</Link></h2>
                                         <div>
-                                                    <span class="font-small text-muted"
-                                                        > {{ result.tag }} </span
-                                                    >
-                                                </div>
-                                                <div>
-                                                    <span class="font-small text-muted"
-                                                        >حداقل {{ result.rouzekari }} روز کاری</span
-                                                    >
-                                                </div>
+                                             <span class="font-small text-muted"> {{ result.tag }} </span>
+                                        </div>
                                         <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block" >
-                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%' "></div>
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
                                             </div>
                                             <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating" > ({{ result.ratings_avg_rating }})</span>
                                             <span class="font-small ml-5 text-muted" v-else > (0.000)</span>
@@ -349,7 +325,6 @@ if (props.discounts.data) {
                                             </div>
                                             <div class="product-price" v-else>
                                                 <span>{{ Number(result.price).toLocaleString("fa-IR") }}</span>
-                                                <!-- <span class="old-price">$32.8</span> -->
                                             </div>
                                             <div class="add-cart">
                                                 <Link class="add" href="" @click.prevent="submitWeb(result.id)" ><i class="fi-rs-shopping-cart mr-5"></i>خرید </Link>
@@ -370,7 +345,7 @@ if (props.discounts.data) {
         <section class="product-tabs section-padding position-relative" v-if="props.cafes.length > 0">
             <div class="container">
                 <div class="section-title style-2 wow animate__animated animate__fadeIn">
-                    <h3>خدمات </h3>
+                    <h3>کافه نت</h3>
                     <ul class="nav nav-tabs links" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <Link class="show-all" :href="route('cafe-net.index','q')+'all' " > نمایش <i class="fi-rs-angle-left"></i> </Link>
@@ -428,7 +403,7 @@ if (props.discounts.data) {
                                                 </div>
                                         <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block" >
-                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%' "></div>
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
                                             </div>
                                             <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating" > ({{ result.ratings_avg_rating }})</span>
                                             <span class="font-small ml-5 text-muted" v-else > (0.000)</span>
@@ -446,7 +421,7 @@ if (props.discounts.data) {
                                                 <!-- <span class="old-price">$32.8</span> -->
                                             </div>
                                             <div class="add-cart">
-                                                <Link class="add" href="" @click.prevent="submitWeb(result.id)" ><i class="fi-rs-shopping-cart mr-5"></i>خرید </Link>
+                                                <Link class="add" href="" @click.prevent="submitCart(result.id)" ><i class="fi-rs-shopping-cart mr-5"></i>خرید </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -517,7 +492,7 @@ if (props.discounts.data) {
                                                 </div>
                                         <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block" >
-                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%' "></div>
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
                                             </div>
                                             <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating" > ({{ result.ratings_avg_rating }})</span>
                                             <span class="font-small ml-5 text-muted" v-else > (0.000)</span>
@@ -601,7 +576,7 @@ if (props.discounts.data) {
                                                 </div>
                                         <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block" >
-                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%' "></div>
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
                                             </div>
                                             <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating" > ({{ result.ratings_avg_rating }})</span>
                                             <span class="font-small ml-5 text-muted" v-else > (0.000)</span>
