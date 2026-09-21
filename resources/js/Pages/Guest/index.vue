@@ -1,6 +1,6 @@
 <script setup>
 
-import { computed, ref,watch,onMounted } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import Footer from './Footer2.vue';
 import Header from './Header2.vue';
 import Seo from '@/Components/Seo.vue';
@@ -8,6 +8,27 @@ import { useForm, usePage,Link} from '@inertiajs/vue3';
 import swal from 'sweetalert2';
 
 const errors = computed(() => usePage().props.errors);
+
+const loadDeferredHeroBackgrounds = () => {
+  document.querySelectorAll('[data-deferred-bg]').forEach((element) => {
+    const url = element.getAttribute('data-deferred-bg');
+    if (url && !element.style.backgroundImage) {
+      element.style.backgroundImage = `url("${url}")`;
+    }
+    element.removeAttribute('data-deferred-bg');
+  });
+};
+
+onMounted(() => {
+  const hero = document.querySelector('.homepage-hero');
+  if (!hero) return;
+
+  const schedule = 'requestIdleCallback' in window
+    ? window.requestIdleCallback(loadDeferredHeroBackgrounds, { timeout: 1800 })
+    : window.setTimeout(loadDeferredHeroBackgrounds, 1200);
+
+  hero.addEventListener('pointerdown', loadDeferredHeroBackgrounds, { once: true });
+});
 
 const props = defineProps({
     auth: Object,discounts: Object,menus: Object,socials: Object,path: String,results:Object,cafes:Object,
@@ -154,7 +175,7 @@ if (props.discounts.data) {
                                 <p class="homepage-hero-text">قالب، طرح، فرم و خدمات دیجیتال را با تجربه‌ای سریع‌تر و ساده‌تر پیدا کن.</p>
                             </div>
                         </div>
-                        <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-2.png)">
+                        <div class="single-hero-slider single-animation-wrap" data-deferred-bg="{{ asset('assets/imgs/slider/slider-2.png') }}">
                             <div class="slider-content homepage-hero-content">
                                 <span class="homepage-hero-kicker">پیشنهادهای تازه</span>
                                 <h1 class="display-2 mb-25">فرصت‌های خوب برای شروع یک پروژه حرفه‌ای</h1>
