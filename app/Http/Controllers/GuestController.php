@@ -68,6 +68,7 @@ class GuestController extends Controller
         $menu = Cache::store('file')->flexible('home.menus', [600, 1800], function () {
             $parents = Menu::whereNull('parent_id')
                 ->where('status', 4)
+                ->with('sections')
                 ->get(['id', 'name', 'status']);
 
             $children = Menu::whereIn('parent_id', $parents->pluck('id'))
