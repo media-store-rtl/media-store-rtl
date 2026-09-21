@@ -24,7 +24,7 @@
         @vite(['resources/js/app.ts'])
         @inertiaHead
     </head>
-    <body class="opacity-0 transition-opacity duration-300">
+    <body>
         @inertia
     </body>
 </html>
