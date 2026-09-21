@@ -882,29 +882,94 @@ const submitRemove = (id,model) => {
 </template>
 <style>
 
-/* Desktop navigation: keep the Nest menu visible and aligned in RTL layouts. */
+/* Desktop navigation: restore the original Nest hover/dropdown behavior in RTL. */
 @media (min-width: 992px) {
-    .header-area .header-bottom .header-wrap .header-nav {
+    .header-area .header-bottom .header-wrap {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-area .header-bottom .header-nav {
         display: flex !important;
+        align-items: center;
         flex: 1 1 auto;
         min-width: 0;
     }
 
-    .header-area .header-bottom .main-menu.main-menu-padding-1 {
+    .header-area .header-bottom .main-menu {
         display: block !important;
-        flex: 1 1 auto;
-        min-width: 0;
+        width: 100%;
     }
 
     .header-area .header-bottom .main-menu > nav > ul {
         display: flex !important;
         align-items: center;
+        justify-content: flex-start;
         margin: 0;
         padding: 0;
+        list-style: none;
     }
 
     .header-area .header-bottom .main-menu > nav > ul > li {
         display: block !important;
+        position: relative;
+        line-height: 70px;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li > a {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+    }
+
+    /* Dropdowns must work without main.js. */
+    .header-area .header-bottom .main-menu > nav > ul > li > ul.sub-menu {
+        display: block;
+        position: absolute;
+        right: 0;
+        left: auto;
+        top: 100%;
+        min-width: 250px;
+        margin-top: 20px;
+        padding: 25px 15px;
+        background: #fff;
+        border: 1px solid #ececec;
+        border-radius: 10px;
+        box-shadow: 5px 5px 15px rgba(0,0,0,.05);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition: opacity .2s ease, visibility .2s ease, transform .2s ease, margin-top .2s ease;
+        z-index: 9999;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li:hover > ul.sub-menu,
+    .header-area .header-bottom .main-menu > nav > ul > li:focus-within > ul.sub-menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        margin-top: 0;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li > ul.sub-menu > li {
+        display: block;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li > ul.sub-menu > li > a {
+        display: block;
+        padding: 9px 10px;
+        white-space: nowrap;
+        border-radius: 6px;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li > ul.sub-menu > li > a:hover {
+        background: #f5f5f5;
     }
 }
 
