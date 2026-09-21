@@ -101,7 +101,9 @@
                 prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-angle-left"></i></span>',
                 nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-angle-right"></i></span>',
                 appendArrows: ".hero-slider-1-arrow",
-                autoplay: false
+                autoplay: true,
+                autoplaySpeed: 5000,
+                pauseOnHover: false
             });
         });
     }
