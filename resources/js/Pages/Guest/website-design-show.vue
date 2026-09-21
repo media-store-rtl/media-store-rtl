@@ -1,15 +1,18 @@
 <script setup>
 
+const seoPage = usePage()
+const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
+
 const seoWebDesignSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: props.tarahis.name,
     description: props.tarahis.tag || props.tarahis.name,
-    image: props.tarahis.image?.url ? [usePage().props?.ziggy?.url || '' + '/storage/' + props.tarahis.image.url] : undefined,
-    provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: usePage().props?.ziggy?.url || '' },
+    image: props.tarahis.image?.url ? [seoSiteUrl.value + '/storage/' + props.tarahis.image.url] : undefined,
+    provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: seoSiteUrl.value },
     offers: props.tarahis.price != null ? {
         '@type': 'Offer',
-        url: usePage().props?.ziggy?.url || '' + '/website-design/' + encodeURIComponent(props.tarahis.slug || ''),
+        url: seoSiteUrl.value + '/website-design/' + encodeURIComponent(props.tarahis.slug || ''),
         priceCurrency: 'IRR',
         price: Number(props.tarahis.price),
     } : undefined,
