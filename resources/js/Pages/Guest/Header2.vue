@@ -121,76 +121,31 @@ const validate = (text)=>{
     })
 }
 
-const menus = ref([]);
+const hasMenuSection = (menu, sectionName) => {
+    if (menu?.sections?.some(section => section.name === sectionName)) {
+        return true;
+    }
 
-if (props.menu) {
+    return menu?.children?.some(child =>
+        child?.sections?.some(section => section.name === sectionName)
+    ) ?? false;
+};
 
-    props.menu.forEach(element => {
-        if (element.sections.length > 0)
-        {
-            element.sections.forEach(section => {
-                if(section.name == 'products')
-                {
-                    menus.value.push(element)
-                }
-            });
-        }
+const menus = ref(
+    (props.menu ?? []).filter(menu => hasMenuSection(menu, 'products'))
+);
 
-    });
-}
-const menusTarahi = ref([]);
+const menusTarahi = ref(
+    (props.menu ?? []).filter(menu => hasMenuSection(menu, 'web_designs'))
+);
 
-if (props.menu) {
+const menusProject = ref(
+    (props.menu ?? []).filter(menu => hasMenuSection(menu, 'projects'))
+);
 
-    props.menu.forEach(element => {
-        if (element.sections.length > 0)
-        {
-            element.sections.forEach(section => {
-                if(section.name == 'web_designs')
-                {
-                    menusTarahi.value.push(element)
-                }
-            });
-        }
-
-    });
-}
-
-const menusProject = ref([]);
-
-if (props.menu) {
-
-    props.menu.forEach(element => {
-        if (element.sections.length > 0)
-        {
-            element.sections.forEach(section => {
-                if(section.name == 'projects')
-                {
-                    menusProject.value.push(element)
-                }
-            });
-        }
-
-    });
-}
-
-const menusBlog = ref([]);
-
-if (props.menu) {
-
-    props.menu.forEach(element => {
-        if (element.sections.length > 0)
-        {
-            element.sections.forEach(section => {
-                if(section.name == 'blogs')
-                {
-                    menusBlog.value.push(element)
-                }
-            });
-        }
-
-    });
-}
+const menusBlog = ref(
+    (props.menu ?? []).filter(menu => hasMenuSection(menu, 'blogs'))
+);
 
 const submit = ()=>{
 
