@@ -89,10 +89,7 @@ onMounted(() => {
 
         const plugins = [
             "/assets/js/plugins/slick.js",
-            "/assets/js/plugins/jquery.syotimer.min.js",
             "/assets/js/plugins/wow.js",
-            "/assets/js/plugins/jquery-ui.js",
-            "/assets/js/plugins/perfect-scrollbar.js",
             "/assets/js/plugins/magnific-popup.js",
             "/assets/js/plugins/select2.min.js",
             "/assets/js/plugins/waypoints.js",
