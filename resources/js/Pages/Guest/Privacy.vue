@@ -2,7 +2,8 @@
 
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
-import { Head,Link, useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
+import Seo from '@/Components/Seo.vue';
 import moment from "moment-jalaali";
 import fa from "moment/src/locale/fa";
 
@@ -16,7 +17,7 @@ const form =  useForm({name:null,lasst_name:null,email:null,tel:null,date:null,t
 
 </script>
 <template >
-    <Head title="حریم خصوصی" /> 
+    <Seo :title="'حریم خصوصی | فروشگاه مدیا'" :description="'سیاست حریم خصوصی و نحوه استفاده و حفاظت از اطلاعات کاربران در فروشگاه مدیا.'" :noIndex="false" />
    <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu" />
 
     <main class="main pages" style="transform: none;">
