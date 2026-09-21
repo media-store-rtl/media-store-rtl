@@ -228,7 +228,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                                             loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url"
                                                             alt=""
                                                         />
-                                                        <img class="hover-img" loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
+                                                        <img class="hover-img" loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" width="300" height="300" alt="" />
                                                     </Link>
                                                     <Link :href="route('website-templates.show', [result.slug])" v-else-if="props.companies">
                                                         <img
@@ -452,7 +452,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                                                         :src="$page.props.ziggy.url + '/storage/' + result.discountable.image.url"
                                                                         :alt="result.discountable.name"
                                                                     />
-                                                                    <img v-else src="/storage/images/logo.jpg" :alt="props.companies.name_show" />
+                                                                    <img v-else src="/storage/images/logo.jpg" width="300" height="250" :alt="props.companies.name_show" />
                                                                 </Link>
                                                             </div>
                                                         </div>
@@ -581,7 +581,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                 <figure class="col-md-4 mb-0">
                                     <Link :href="route('website-templates.show', [result.product.slug])"
                                     v-if="(result.image && result.image.status == 4) || 5" >
-                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.product.image.url" alt="" />
+                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.product.image.url" width="100" height="100" alt="" />
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
@@ -615,7 +615,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                         <div class="product-list-small animated animated">
                             <article class="row align-items-center hover-up" v-for="result,index in props.favorites" :key="index">
                                 <figure class="col-md-4 mb-0 ">
-                                    <Link :href="route('website-templates.show', [result.favoritable.slug])"><img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.favoritable.image.url" alt="" /></Link>
+                                    <Link :href="route('website-templates.show', [result.favoritable.slug])"><img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.favoritable.image.url" width="100" height="100" alt="" /></Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
                                     <h6>
@@ -649,7 +649,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                             <article class="row align-items-center hover-up"  v-for="(result, index) in props.resultsNew" :key="index">
                                 <figure class="col-md-4 mb-0">
                                     <Link :href="route('website-templates.show', [result.slug])">
-                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
+                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" width="100" height="100" alt="" />
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
@@ -683,7 +683,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                             <article class="row align-items-center hover-up" v-for="result,index in props.topRated" :key="index">
                                 <figure class="col-md-4 mb-0">
                                     <Link :href="route('website-templates.show', [result.slug])">
-                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
+                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" width="100" height="100" alt="" />
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
