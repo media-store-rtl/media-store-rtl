@@ -6,11 +6,11 @@ import { usePage } from '@inertiajs/vue3'
 const props = defineProps({
   title: {
     type: String,
-    default: 'فروشگاه مدیا | قالب سایت، محصولات دیجیتال و خدمات دیجیتال',
+    default: 'فروشگاه مدیا | قالب سایت و محصولات دیجیتال',
   },
   description: {
     type: String,
-    default: 'فروشگاه مدیا؛ مرجع قالب سایت، محصولات دیجیتال، طراحی سایت و خدمات آنلاین.',
+    default: 'فروشگاه مدیا؛ مرجع قالب سایت و محصولات دیجیتال برای راه‌اندازی و توسعه کسب‌وکار آنلاین.',
   },
   keywords: {
     type: String,
