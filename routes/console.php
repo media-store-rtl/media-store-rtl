@@ -103,3 +103,69 @@ Artisan::command('media:audit-images
     $this->comment('Sorted by file size. Start with the largest files used by Product/Card components.');
     return 0;
 });
+
+
+Artisan::command('media:generate-webp
+    {files* : Relative image paths under storage/app/public or public}
+    {--quality=78 : WebP quality from 0 to 100}', function () {
+    if (! function_exists('imagewebp')) {
+        $this->error('PHP GD WebP support is not available (imagewebp missing).');
+        return 1;
+    }
+
+    $quality = min(100, max(0, (int) $this->option('quality')));
+    $generated = 0;
+
+    foreach ($this->argument('files') as $relativePath) {
+        $relativePath = ltrim(str_replace('\\\\', '/', $relativePath), '/');
+        $candidates = [
+            public_path($relativePath),
+            storage_path('app/public/' . $relativePath),
+        ];
+        $source = collect($candidates)->first(fn ($path) => is_file($path));
+
+        if (! $source) {
+            $this->warn("Not found: {$relativePath}");
+            continue;
+        }
+
+        $extension = strtolower(pathinfo($source, PATHINFO_EXTENSION));
+        $loader = match ($extension) {
+            'jpg', 'jpeg' => 'imagecreatefromjpeg',
+            'png' => 'imagecreatefrompng',
+            default => null,
+        };
+
+        if (! $loader || ! function_exists($loader)) {
+            $this->warn("Unsupported image: {$relativePath}");
+            continue;
+        }
+
+        $image = @$loader($source);
+        if (! $image) {
+            $this->warn("Could not read: {$relativePath}");
+            continue;
+        }
+
+        imagepalettetotruecolor($image);
+        imagealphablending($image, true);
+        imagesavealpha($image, true);
+
+        $target = preg_replace('/\\.[^.]+$/', '.webp', $source);
+        if (! $target || ! imagewebp($image, $target, $quality)) {
+            imagedestroy($image);
+            $this->warn("Could not write: {$relativePath}");
+            continue;
+        }
+
+        $before = filesize($source) ?: 0;
+        $after = filesize($target) ?: 0;
+        $saving = $before > 0 ? round((1 - ($after / $before)) * 100, 1) : 0;
+        $this->line(sprintf('%s -> %s KB (%s%% smaller)', $relativePath, round($after / 1024, 1), $saving));
+        $generated++;
+        imagedestroy($image);
+    }
+
+    $this->info("Generated {$generated} WebP file(s).");
+    return 0;
+});
