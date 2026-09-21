@@ -1,5 +1,26 @@
 <script setup>
 
+const seoWebDesignSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: props.tarahis.name,
+    description: props.tarahis.tag || props.tarahis.name,
+    image: props.tarahis.image?.url ? [$page.props.ziggy.url + '/storage/' + props.tarahis.image.url] : undefined,
+    provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: $page.props.ziggy.url },
+    offers: props.tarahis.price != null ? {
+        '@type': 'Offer',
+        url: $page.props.ziggy.url + '/website-design/' + encodeURIComponent(props.tarahis.slug || ''),
+        priceCurrency: 'IRR',
+        price: Number(props.tarahis.price),
+    } : undefined,
+    aggregateRating: props.tarahi_averageRating && props.tarahi_timesRated > 0 ? {
+        '@type': 'AggregateRating',
+        ratingValue: Number(props.tarahi_averageRating),
+        ratingCount: Number(props.tarahi_timesRated),
+    } : undefined,
+}))
+
+
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import { computed, ref,watch } from 'vue';
@@ -246,7 +267,7 @@ const submitReply = (id) => {
 }
 </script>
 <template>
-    <Seo :title="props.tarahis.name" :description="props.tarahis.tag" :noIndex="false" />
+    <Seo :title="props.tarahis.name + ' | فروشگاه مدیا'" :description="props.tarahis.tag || props.tarahis.name" :image="props.tarahis.image?.url ? '/storage/' + props.tarahis.image.url : '/storage/images/logo-2.png'" type="service" :noIndex="false" :schema="seoWebDesignSchema" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
