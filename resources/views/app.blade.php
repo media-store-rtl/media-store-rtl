@@ -17,10 +17,14 @@
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.rtl.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/plugins/magnific-popup.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/plugins/slick.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/plugins/perfect-scrollbar.css') }}">
+        <link rel="preload" as="style" href="{{ asset('assets/css/plugins/magnific-popup.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/css/plugins/magnific-popup.css') }}"></noscript>
+        <link rel="preload" as="style" href="{{ asset('assets/css/plugins/select2.min.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}"></noscript>
+        <link rel="preload" as="style" href="{{ asset('assets/css/plugins/slick.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/css/plugins/slick.css') }}"></noscript>
+        <link rel="preload" as="style" href="{{ asset('assets/css/plugins/perfect-scrollbar.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/css/plugins/perfect-scrollbar.css') }}"></noscript>
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css"></noscript>
