@@ -36,12 +36,12 @@
     new WOW().init();
 
     //sidebar sticky
-    if ($(".sticky-sidebar").length) {
+    if ($.fn.theiaStickySidebar && $(".sticky-sidebar").length) {
         $(".sticky-sidebar").theiaStickySidebar();
     }
 
     // Slider Range JS
-    if ($("#slider-range").length) {
+    if (window.noUiSlider && window.wNumb && $("#slider-range").length) {
         $(".noUi-handle").on("click", function () {
             $(this).width(50);
         });
@@ -276,7 +276,8 @@
 
     /*------ Timer Countdown ----*/
 
-    $("[data-countdown]").each(function () {
+    if ($.fn.countdown) {
+        $("[data-countdown]").each(function () {
         var $this = $(this),
             finalDate = $(this).data("countdown");
         $this.countdown(finalDate, function (event) {
@@ -558,12 +559,14 @@
     /*-----------------------
         Magnific Popup
     ------------------------*/
-    $(".img-popup").magnificPopup({
+    if ($.fn.magnificPopup) {
+        $(".img-popup").magnificPopup({
         type: "image",
         gallery: {
             enabled: true
         }
-    });
+        });
+    }
 
     $('.btn-close').on('click', function(e) {
         $('.zoomContainer').remove();
@@ -581,7 +584,9 @@
     /*---------------------
         Select active
     --------------------- */
-    $(".select-active").select2();
+    if ($.fn.select2) {
+        $(".select-active").select2();
+    }
 
     /*--- Checkout toggle function ----*/
     $(".checkout-click1").on("click", function (e) {
@@ -621,15 +626,18 @@
     }
 
     /*---- CounterUp ----*/
-    $(".count").counterUp({
-        delay: 10,
-        time: 2000
-    });
+    if ($.fn.counterUp) {
+        $(".count").counterUp({
+            delay: 10,
+            time: 2000
+        });
+    }
 
     // Isotope active
-    $(".grid").imagesLoaded(function () {
-        // init Isotope
-        var $grid = $(".grid").isotope({
+    if ($.fn.imagesLoaded && $.fn.isotope) {
+        $(".grid").imagesLoaded(function () {
+            // init Isotope
+            var $grid = $(".grid").isotope({
             itemSelector: ".grid-item",
             percentPosition: true,
             layoutMode: "masonry",
@@ -637,8 +645,9 @@
                 // use outer width of grid-sizer for columnWidth
                 columnWidth: ".grid-item"
             }
+            });
         });
-    });
+    }
 
     /*====== SidebarSearch ======*/
     function sidebarSearch() {
@@ -751,21 +760,25 @@
         $(".product-image-slider").slick("setPosition");
         $(".slider-nav-thumbnails").slick("setPosition");
 
-        $(".product-image-slider .slick-active img").elevateZoom({
+        if ($.fn.elevateZoom) {
+            $(".product-image-slider .slick-active img").elevateZoom({
             zoomType: "inner",
             cursor: "crosshair",
             zoomWindowFadeIn: 500,
             zoomWindowFadeOut: 750
-        });
+            });
+        }
     });
 
     /*--- VSticker ----*/
-    $("#news-flash").vTicker({
+    if ($.fn.vTicker) {
+        $("#news-flash").vTicker({
         speed: 500,
         pause: 3000,
         animation: "fade",
         mousePause: false,
         showItems: 1
-    });
+        });
+    }
 })(jQuery);
 
