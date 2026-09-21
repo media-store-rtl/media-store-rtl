@@ -4,7 +4,7 @@ import { computed, ref,watch,onMounted } from 'vue';
 import Footer from './Footer2.vue';
 import Header from './Header2.vue';
 import Seo from '@/Components/Seo.vue';
-import { useForm, usePage,Link,Head} from '@inertiajs/vue3';
+import { useForm, usePage,Link} from '@inertiajs/vue3';
 import swal from 'sweetalert2';
 
 const errors = computed(() => usePage().props.errors);
@@ -135,8 +135,7 @@ if (props.discounts.data) {
 
 </script>
 <template>
-    <Seo :noIndex="false"/>
-     <Head title="صفحه اصلی" /> 
+    <Seo :title="'فروشگاه مدیا | قالب سایت، محصولات دیجیتال و خدمات دیجیتال'" :description="'خرید قالب سایت، محصولات دیجیتال و دریافت خدمات طراحی سایت و خدمات آنلاین از فروشگاه مدیا.'" :noIndex="false" /> 
     <Header :companies="props.companies" :results="props.results" :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu"
         @event-submit-quickview="submitQuickview"  @event-submit-cart="submitCart" 
      />
