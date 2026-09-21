@@ -34,10 +34,4 @@ export default defineConfig({
             plugins: [tailwindcss, autoprefixer],
         },
     },
-    optimizeDeps: {
-        include: ['moment']
-      },
-      ssr: {
-        noExternal: ['moment','@inertiajs/vue3','@vueuse/head']
-      }
 });
