@@ -20,6 +20,12 @@
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/mohi.css') }}">
 
+        @if (request()->is('/'))
+            <link rel="preload" as="image" href="{{ asset('assets/imgs/slider/slider-1.png') }}" fetchpriority="high">
+        @elseif (request()->is('website-templates'))
+            <link rel="preload" as="image" href="{{ asset('assets/imgs/slider/slider-3.png') }}" fetchpriority="high">
+        @endif
+
         @routes
         @vite(['resources/js/app.ts'])
         @inertiaHead
