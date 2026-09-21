@@ -2,6 +2,10 @@
     'use strict';
     /*Product Details*/
     var productDetails = function () {
+        if (!$.fn.slick || !$(".product-image-slider").length || !$(".slider-nav-thumbnails").length) {
+            return;
+        }
+
         $(".product-image-slider").slick({
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -29,13 +33,14 @@
         $('.slider-nav-thumbnails .slick-slide').eq(0).addClass('slick-active');
 
         // On before slide change match active thumbnail to current slide
-        $('.product-image-slider').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+        $('.product-image-slider').on('beforeChange.storefrontThumb', function (event, slick, currentSlide, nextSlide) {
             var mySlideNumber = nextSlide;
             $('.slider-nav-thumbnails .slick-slide').removeClass('slick-active');
             $('.slider-nav-thumbnails .slick-slide').eq(mySlideNumber).addClass('slick-active');
         });
 
-        $('.product-image-slider').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+        if ($.fn.elevateZoom) {
+            $('.product-image-slider').on('beforeChange.storefrontZoom', function (event, slick, currentSlide, nextSlide) {
             var img = $(slick.$slides[nextSlide]).find("img");
             $('.zoomWindowContainer,.zoomContainer').remove();
             $(img).elevateZoom({
@@ -43,10 +48,11 @@
                 cursor: "crosshair",
                 zoomWindowFadeIn: 500,
                 zoomWindowFadeOut: 750
+                });
             });
-        });
+        }
         //Elevate Zoom
-        if ( $(".product-image-slider").length ) {
+        if ($.fn.elevateZoom && $(".product-image-slider").length) {
             $('.product-image-slider .slick-active img').elevateZoom({
                 zoomType: "inner",
                 cursor: "crosshair",
