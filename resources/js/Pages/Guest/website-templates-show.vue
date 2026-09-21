@@ -1,16 +1,19 @@
 <script setup>
 
+const seoPage = usePage()
+const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
+
 const seoProductSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: props.product.name,
     description: props.product.tag || props.product.name,
-    image: props.product.image?.url ? [usePage().props?.ziggy?.url || '' + '/storage/' + props.product.image.url] : undefined,
+    image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
     sku: props.product.slug || undefined,
     brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
     offers: props.product.price != null ? {
         '@type': 'Offer',
-        url: usePage().props?.ziggy?.url || '' + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
+        url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
         priceCurrency: 'IRR',
         price: Number(props.product.price),
     } : undefined,
