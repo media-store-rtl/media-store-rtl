@@ -734,7 +734,7 @@ const submitRemove = (id,model) => {
             </div>
         </div>
     </header>
-    <div class="mobile-header-active mobile-header-wrapper-style">
+    <div :class="['mobile-header-active', 'mobile-header-wrapper-style', { 'sidebar-visible': mobileMenuOpen }]">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
