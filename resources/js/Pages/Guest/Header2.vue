@@ -40,11 +40,13 @@ const mobileMenuOpen = ref(false);
 const toggleMobileMenu = () => {
     mobileMenuOpen.value = !mobileMenuOpen.value;
     document.body.classList.toggle('mobile-menu-active', mobileMenuOpen.value);
+    document.querySelector('.mobile-header-wrapper-style')?.classList.toggle('sidebar-visible', mobileMenuOpen.value);
 };
 
 const closeMobileMenu = () => {
     mobileMenuOpen.value = false;
     document.body.classList.remove('mobile-menu-active');
+    document.querySelector('.mobile-header-wrapper-style')?.classList.remove('sidebar-visible');
 };
 
 onMounted(() => {
