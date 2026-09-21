@@ -816,7 +816,7 @@
         pause: 3000,
         animation: "fade",
         mousePause: false,
-        showItems: 1
+        showItems: 1,
         });
     }
 })(jQuery);
