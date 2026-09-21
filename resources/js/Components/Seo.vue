@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { useHead, usePage } from '@inertiajs/vue3'
+import { useHead } from '@vueuse/head'
+import { usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
   title: {
