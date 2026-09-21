@@ -169,3 +169,85 @@ Artisan::command('media:generate-webp
     $this->info("Generated {$generated} WebP file(s).");
     return 0;
 });
+
+
+Artisan::command('media:generate-webp-all
+    {--path=storage/app/public : Directory to scan}
+    {--min-kb=100 : Only convert files at or above this size}
+    {--quality=78 : WebP quality from 0 to 100}', function () {
+    if (! function_exists('imagewebp')) {
+        $this->error('PHP GD WebP support is not available (imagewebp missing).');
+        return 1;
+    }
+
+    $directory = $this->option('path');
+    $root = is_dir($directory)
+        ? $directory
+        : (str_starts_with($directory, 'storage/app/public/')
+            ? base_path($directory)
+            : storage_path('app/public/' . ltrim($directory, '/')));
+
+    if (! is_dir($root)) {
+        $this->error("Directory not found: {$root}");
+        return 1;
+    }
+
+    $minBytes = max(0, (int) $this->option('min-kb')) * 1024;
+    $quality = min(100, max(0, (int) $this->option('quality')));
+    $generated = 0;
+    $skipped = 0;
+
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS)) as $source) {
+        if (! $source->isFile() || $source->getSize() < $minBytes) {
+            continue;
+        }
+
+        $extension = strtolower($source->getExtension());
+        $loader = match ($extension) {
+            'jpg', 'jpeg' => 'imagecreatefromjpeg',
+            'png' => 'imagecreatefrompng',
+            default => null,
+        };
+
+        if (! $loader || ! function_exists($loader)) {
+            continue;
+        }
+
+        $target = preg_replace('/\\.[^.]+$/', '.webp', $source->getPathname());
+        if (! $target) {
+            continue;
+        }
+
+        if (is_file($target) && filemtime($target) >= filemtime($source->getPathname())) {
+            $skipped++;
+            continue;
+        }
+
+        $image = @$loader($source->getPathname());
+        if (! $image) {
+            $this->warn("Could not read: {$source->getPathname()}");
+            continue;
+        }
+
+        imagepalettetotruecolor($image);
+        imagealphablending($image, true);
+        imagesavealpha($image, true);
+
+        if (! imagewebp($image, $target, $quality)) {
+            imagedestroy($image);
+            $this->warn("Could not write: {$target}");
+            continue;
+        }
+
+        $before = $source->getSize();
+        $after = filesize($target) ?: 0;
+        $saving = $before > 0 ? round((1 - ($after / $before)) * 100, 1) : 0;
+        $relative = ltrim(str_replace(base_path(), '', $source->getPathname()), '/');
+        $this->line(sprintf('%s -> %s KB (%s%% smaller)', $relative, round($after / 1024, 1), $saving));
+        $generated++;
+        imagedestroy($image);
+    }
+
+    $this->info("Generated {$generated} WebP file(s); skipped {$skipped} up-to-date file(s).");
+    return 0;
+});
