@@ -291,8 +291,8 @@ const submitRemove = (id,model) => {
 
                                     <div class="product-image-slider" >
                                         <figure class="border-radius-10" v-for="(result ,index) in props.results.data" :key="index"  >
-                                            <img v-if="props.Quickview" :src="$page.props.ziggy.url+'/storage/'+props.Quickview.image.url" alt="product image" />
-                                            <img v-else-if="result.image && result.image.status == 4 || result.image &&  result.image.status == 5" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="product image" />
+                                            <img v-if="props.Quickview" :src="$page.props.ziggy.url+'/storage/'+props.Quickview.image.url" width="600" height="600" alt="product image" />
+                                            <img v-else-if="result.image && result.image.status == 4 || result.image &&  result.image.status == 5" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="600" height="600" alt="product image" />
 
                                         </figure>
                                         <!-- <figure class="border-radius-10">
@@ -571,7 +571,7 @@ const submitRemove = (id,model) => {
                     <div class="logo logo-width-1 mobile-header-only">
                         <!-- <a href='/'><img :src="$page.props.ziggy.url +'/assets/imgs/theme/logo.svg'" alt="logo"></a> -->
                          <Link :href="route('index')"  v-if="props.companies && props.companies.image && props.companies.image.status == 4">
-                            <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" :alt="props.companies.name_show" />
+                            <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" height="40" width="60" :alt="props.companies.name_show" />
                         </Link>
                     </div>
                     <div class="header-nav desktop-header-flex">
@@ -800,7 +800,7 @@ const submitRemove = (id,model) => {
                 <div class="mobile-header-logo">
                     <Link :href="route('index')"  v-if="props.companies && props.companies.image && props.companies.image.status == 4">
                         <!-- <img :src="$page.props.ziggy.url +'/assets/imgs/theme/logo.svg'" alt="logo" /> -->
-                          <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" :alt="props.companies.name_show" />
+                          <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" height="40" width="60" :alt="props.companies.name_show" />
                     </Link>
                      <!-- <Link :href="route('index')"  v-if="props.companies && props.companies.image && props.companies.image.status == 4">
                             <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" height="40" width="60" :alt="props.companies.name_show" />
