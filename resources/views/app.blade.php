@@ -1,7 +1,3 @@
-@php
-    use App\Models\User;
-@endphp
-@include('sweetalert2::index')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl" class="rtl" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
     <head>
@@ -12,9 +8,7 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        @if (User::first() && User::first()->image)
-            <link rel="shortcut icon" href="{{ asset('storage/images/logo-2.png') }}" type="image/x-icon">
-        @endif
+        <link rel="icon" href="{{ asset('storage/images/logo-2.png') }}" type="image/png">
 
         {{-- Performance: discover critical dependencies early and avoid CSS @import waterfalls. --}}
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
