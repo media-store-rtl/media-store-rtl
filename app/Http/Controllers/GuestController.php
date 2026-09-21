@@ -65,7 +65,7 @@ class GuestController extends Controller
                 ->get();
         });
 
-        $menu = Cache::store('file')->flexible('home.menus', [600, 1800], function () {
+        $menu = Cache::store('file')->flexible('home.menus.v2', [600, 1800], function () {
             $parents = Menu::whereNull('parent_id')
                 ->where('status', 4)
                 ->with('sections')
