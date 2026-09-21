@@ -49,6 +49,8 @@ const handleSystemThemeChange = () => {
     updateTheme(currentAppearance || 'system');
 };
 
+let systemThemeListenerAttached = false;
+
 export function initializeTheme() {
     if (typeof window === 'undefined') {
         return;
@@ -58,8 +60,11 @@ export function initializeTheme() {
     const savedAppearance = getStoredAppearance();
     updateTheme(savedAppearance || 'system');
 
-    // Set up system theme change listener...
-    mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+    // Attach the system theme listener only once.
+    if (!systemThemeListenerAttached) {
+        mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+        systemThemeListenerAttached = true;
+    }
 }
 
 export function useAppearance() {
