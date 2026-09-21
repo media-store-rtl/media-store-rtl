@@ -82,6 +82,18 @@ onMounted(() => {
         document.head.appendChild(script);
     });
 
+    const loadStyle = (href) => {
+        if (document.querySelector('link[href="' + href + '"]')) {
+            return;
+        }
+
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.classList.add('dynamic-style');
+        document.head.appendChild(link);
+    };
+
     const loadStorefrontScripts = () => {
         if (window.__storefrontScriptsPromise) {
             return window.__storefrontScriptsPromise;
@@ -95,10 +107,15 @@ onMounted(() => {
         ];
 
         if (document.querySelector(".img-popup")) {
+            loadStyle("/assets/css/plugins/magnific-popup.css");
             plugins.push("/assets/js/plugins/magnific-popup.js");
         }
         if (document.querySelector(".select-active")) {
+            loadStyle("/assets/css/plugins/select2.min.css");
             plugins.push("/assets/js/plugins/select2.min.js");
+        }
+        if (document.querySelector(".perfect-scrollbar")) {
+            loadStyle("/assets/css/plugins/perfect-scrollbar.css");
         }
         if (document.querySelector(".count")) {
             plugins.push("/assets/js/plugins/counterup.js");
