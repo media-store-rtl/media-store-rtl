@@ -118,7 +118,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                     <section class="home-slider position-relative mb-30">
                         <div class="home-slide-cover mt-30">
                             <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
-                                <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-3.png)">
+                                <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-3.webp)">
                                     <div class="slider-content">
                                         <h1 class="display-2 mb-40">
                                             تخفیفات شگفت انگیز
@@ -133,7 +133,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                         </form> -->
                                     </div>
                                 </div>
-                                <div class="single-hero-slider single-animation-wrap" data-deferred-bg="/assets/imgs/slider/slider-4.png">
+                                <div class="single-hero-slider single-animation-wrap" data-deferred-bg="/assets/imgs/slider/slider-4.webp">
                                     <div class="slider-content">
                                         <h1 class="display-2 mb-40">
                                              از بن های تخفیف
