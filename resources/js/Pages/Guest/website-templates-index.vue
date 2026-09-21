@@ -63,10 +63,29 @@ const getPageUrl = (baseUrl, page) => {
 
 const showMore = ref(false)
 
+const loadDeferredHeroBackgrounds = () => {
+  document.querySelectorAll('[data-deferred-bg]').forEach((element) => {
+    const url = element.getAttribute('data-deferred-bg')
+    if (url && !element.style.backgroundImage) {
+      element.style.backgroundImage = `url("${url}")`
+    }
+    element.removeAttribute('data-deferred-bg')
+  })
+}
+
 onMounted(() => {
   const url = new URL(window.location.href)
   // اگه category توی کوئری باشه (مثلاً ?category=5) منو باز بشه
   showMore.value = url.searchParams.has('category')
+
+  const hero = document.querySelector('.home-slider')
+  if (!hero) return
+
+  const schedule = 'requestIdleCallback' in window
+    ? window.requestIdleCallback(loadDeferredHeroBackgrounds, { timeout: 1800 })
+    : window.setTimeout(loadDeferredHeroBackgrounds, 1200)
+
+  hero.addEventListener('pointerdown', loadDeferredHeroBackgrounds, { once: true })
 })
 
 function toggleShowMore(event) {
@@ -112,7 +131,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                         </form> -->
                                     </div>
                                 </div>
-                                <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-4.png)">
+                                <div class="single-hero-slider single-animation-wrap" data-deferred-bg="/assets/imgs/slider/slider-4.png">
                                     <div class="slider-content">
                                         <h1 class="display-2 mb-40">
                                              از بن های تخفیف
