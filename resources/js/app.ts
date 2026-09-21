@@ -47,14 +47,15 @@ createInertiaApp({
         router.on('navigate', () => {
             document.body.classList.remove('mobile-menu-active');
 
-            setTimeout(() => {
+            window.requestAnimationFrame(() => {
                 window.initHeroSlider?.();
-            }, 50);
+            });
         });
-	router.on('finish', () => {
-  		$('.body-overlay-1').remove();
-  		$('body').removeClass('mobile-menu-active');
-	});
+
+        router.on('finish.storefrontCleanup', () => {
+            $('.body-overlay-1').remove();
+            document.body.classList.remove('mobile-menu-active');
+        });
     },
 });
 
