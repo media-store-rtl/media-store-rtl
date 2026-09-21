@@ -7,6 +7,12 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import { createHead } from '@vueuse/head';
 
+declare global {
+    interface Window {
+        initHeroSlider?: () => void;
+    }
+}
+
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
     interface ImportMetaEnv {
@@ -41,9 +47,13 @@ createInertiaApp({
 
         // حذف opacity-0 برای نمایش نرم
         document.body.classList.remove('opacity-0');
-	router.on('navigate', () => {
-  		document.body.classList.remove('mobile-menu-active');
-	});
+        router.on('navigate', () => {
+            document.body.classList.remove('mobile-menu-active');
+
+            setTimeout(() => {
+                window.initHeroSlider?.();
+            }, 50);
+        });
 	router.on('finish', () => {
   		$('.body-overlay-1').remove();
   		$('body').removeClass('mobile-menu-active');
