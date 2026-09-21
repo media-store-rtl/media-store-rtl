@@ -43,7 +43,14 @@ const siteUrl = computed(() => page.props?.ziggy?.url || '')
 const currentUrl = computed(() => {
   if (props.canonical) return props.canonical
   const url = page.url || '/'
-  return siteUrl.value ? new URL(url, siteUrl.value).toString() : url
+  try {
+    const canonical = new URL(url, siteUrl.value || undefined)
+    canonical.search = ''
+    canonical.hash = ''
+    return canonical.toString()
+  } catch {
+    return url.split('?')[0].split('#')[0]
+  }
 })
 const imageUrl = computed(() => {
   if (!props.image) return ''
@@ -61,12 +68,7 @@ const baseSchema = computed(() => [
     name: 'فروشگاه مدیا',
     url: siteUrl.value,
     inLanguage: 'fa-IR',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: siteUrl.value ? `${siteUrl.value}/search?q={search_term_string}` : '/search?q={search_term_string}',
-      'query-input': 'required name=search_term_string',
-    },
-  },
+   },
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
