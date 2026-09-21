@@ -228,7 +228,7 @@ const descriptionSeo ='اگر دنبال راهی سریع‌تر و مقرون�
                                                             :src="$page.props.ziggy.url + '/storage/' + result.image.url"
                                                             alt=""
                                                         />
-                                                        <img class="hover-img" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
+                                                        <img class="hover-img" loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
                                                     </Link>
                                                     <Link :href="route('website-templates.show', [result.slug])" v-else-if="props.companies">
                                                         <img
