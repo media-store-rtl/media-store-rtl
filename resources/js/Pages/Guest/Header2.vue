@@ -4,7 +4,6 @@ import {onMounted,ref,onBeforeUnmount } from 'vue';
 import {  Link, useForm , router} from '@inertiajs/vue3';
 import moment from "moment-jalaali";
 import fa from "moment/src/locale/fa";
-import swal from 'sweetalert2';
 
 const props = defineProps({
     canLogin: Boolean,canRegister: Boolean,laravelVersion: String,phpVersion: String,menu: Object,
@@ -126,7 +125,12 @@ onBeforeUnmount(() => {
     mobileMenuOpen.value = false;
 });
 
-const validate = (text)=>{
+let swalPromise;
+
+const validate = async (text)=>{
+    swalPromise ??= import('sweetalert2');
+    const { default: swal } = await swalPromise;
+
     swal.mixin({
     toast: true,
     position: 'top-end',
