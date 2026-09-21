@@ -5,18 +5,18 @@ const seoBlogSchema = computed(() => ({
     '@type': 'Article',
     headline: props.product.title,
     description: props.product.tag || props.product.title,
-    image: props.product.image?.url ? [$page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+    image: props.product.image?.url ? [usePage().props?.ziggy?.url || '' + '/storage/' + props.product.image.url] : undefined,
     datePublished: props.product.created_at,
     dateModified: props.product.updated_at || props.product.created_at,
     mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': $page.props.ziggy.url + '/blog/' + encodeURIComponent(props.product.slug || ''),
+        '@id': usePage().props?.ziggy?.url || '' + '/blog/' + encodeURIComponent(props.product.slug || ''),
     },
     author: props.product.user ? {
         '@type': 'Person',
         name: props.product.user.name_show,
     } : undefined,
-    publisher: { '@type': 'Organization', name: 'فروشگاه مدیا', url: $page.props.ziggy.url },
+    publisher: { '@type': 'Organization', name: 'فروشگاه مدیا', url: usePage().props?.ziggy?.url || '' },
 }))
 
 
