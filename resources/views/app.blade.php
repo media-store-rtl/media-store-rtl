@@ -37,6 +37,10 @@
                 height: 100%;
                 object-fit: cover;
             }
+            /* Keep the second hero slide hidden until Slick initializes. */
+            .hero-slider-1:not(.slick-initialized) .single-hero-slider:not(:first-child) {
+                display: none !important;
+            }
         </style>
 
         @routes
