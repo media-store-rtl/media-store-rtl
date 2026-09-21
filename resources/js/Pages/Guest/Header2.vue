@@ -92,8 +92,6 @@ onMounted(() => {
 
         const plugins = [
             "/assets/js/plugins/slick.js",
-            "/assets/js/plugins/wow.js",
-            "/assets/js/plugins/scrollup.js",
         ];
 
         if (document.querySelector(".img-popup")) {
@@ -128,7 +126,24 @@ onMounted(() => {
             .then(() => loadScript("/assets/js/vendor/bootstrap.bundle.min.js"))
             .then(() => Promise.all(plugins.map(loadScript)))
             .then(() => loadScript("/assets/js/main.js"))
-            .then(() => isProductDetailPage ? loadScript("/assets/js/shop.js") : undefined);
+            .then(() => isProductDetailPage ? loadScript("/assets/js/shop.js") : undefined)
+            .then(() => Promise.all([
+                loadScript("/assets/js/plugins/wow.js"),
+                loadScript("/assets/js/plugins/scrollup.js"),
+            ]))
+            .then(() => {
+                if (window.WOW && document.querySelector(".wow")) {
+                    new window.WOW().init();
+                }
+                if (window.jQuery?.fn?.scrollUp && !document.getElementById("scrollUp")) {
+                    window.jQuery.scrollUp({
+                        scrollText: '<i class="fi-rs-arrow-small-up"></i>',
+                        easingType: "linear",
+                        scrollSpeed: 900,
+                        animation: "fade",
+                    });
+                }
+            });
 
         return window.__storefrontScriptsPromise;
     };
