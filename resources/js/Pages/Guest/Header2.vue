@@ -56,25 +56,22 @@ onMounted(() => {
         setTimeout(() => loader.remove(), 300);
     }
 
-    // Storefront plugins must initialize immediately because the desktop navigation
-    // dropdowns in main.js depend on jQuery being available at page startup.
+    // Load storefront plugins after the first paint so they do not delay the initial page.
     const loadStorefrontScripts = () => {
         const scriptClass = 'dynamic-script';
 
-        const addJs = (address, callback) => {
-            if (document.querySelector(`script[src="${address}"]`)) {
-                callback?.();
-                return;
-            }
+        const addJs = (address) => {
+            if (document.querySelector('script[src="' + address + '"]')) return;
 
             const script = document.createElement('script');
             script.src = address;
             script.async = false;
-            script.onload = () => callback?.();
-            document.head.appendChild(script);
+            script.defer = true;
+            script.classList.add(scriptClass);
+            document.body.appendChild(script);
         };
 
-        const plugins = [
+        [
             "/assets/js/vendor/jquery-3.6.0.min.js",
             "/assets/js/vendor/bootstrap.bundle.min.js",
             "/assets/js/plugins/slick.js",
@@ -93,23 +90,17 @@ onMounted(() => {
             "/assets/js/plugins/jquery.vticker-min.js",
             "/assets/js/plugins/jquery.theia.sticky.js",
             "/assets/js/plugins/jquery.elevatezoom.js",
-        ];
-
-        const loadNext = (index) => {
-            if (index >= plugins.length) {
-                addJs("/assets/js/main.js", () => {
-                    addJs("/assets/js/shop.js");
-                });
-                return;
-            }
-            addJs(plugins[index], () => loadNext(index + 1));
-        };
-
-        loadNext(0);
+            "/assets/js/main.js",
+            "/assets/js/shop.js",
+        ].forEach(addJs);
     };
 
-    // Start after Vue has mounted, but do not wait for requestIdleCallback.
-    window.setTimeout(loadStorefrontScripts, 0);
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadStorefrontScripts, { timeout: 1800 });
+    } else {
+        window.setTimeout(loadStorefrontScripts, 1200);
+    }
+
 });
 
 onBeforeUnmount(() => {
