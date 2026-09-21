@@ -1,8 +1,6 @@
 <script setup>
 
 import {Link} from '@inertiajs/vue3';
-import moment from "moment-jalaali";
-import fa from "moment/src/locale/fa";
 
 const props = defineProps({
     companies:Object,socials:Object,time: String,menus:Object,path:String,namads:Object
@@ -395,7 +393,7 @@ const props = defineProps({
                             </span>
                         </strong>
                         <span style="vertical-align: inherit;" v-if="props.companies" >
-                            <span style="vertical-align: inherit;"> - {{ moment(time).locale("fa", fa).format('jYYYY') }}  <Link :href="route('website-design.index','q')+'all'">طراحی</Link>  توسط
+                            <span style="vertical-align: inherit;"> - {{ new Intl.DateTimeFormat("fa-IR-u-ca-persian", { year: "numeric" }).format(new Date(time)) }}  <Link :href="route('website-design.index','q')+'all'">طراحی</Link>  توسط
                                 <Link :href="route('guest-profile.show',props.companies.user_name)"> {{ props.companies.name + ' ' + props.companies.lasst_name }}</Link>
                             </span>
                         </span><br>
