@@ -73,6 +73,7 @@ class GuestController extends Controller
 
             $children = Menu::whereIn('parent_id', $parents->pluck('id'))
                 ->where('status', 4)
+                ->with('sections')
                 ->get(['id', 'parent_id', 'name', 'status'])
                 ->groupBy('parent_id');
 
