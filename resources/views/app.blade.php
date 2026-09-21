@@ -14,7 +14,6 @@
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
         <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 
-        <link rel="stylesheet" href="{{ asset('assets/css/vendors/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.rtl.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}">
         <link rel="preload" as="style" href="{{ asset('assets/css/plugins/magnific-popup.css') }}" onload="this.onload=null;this.rel='stylesheet'">
