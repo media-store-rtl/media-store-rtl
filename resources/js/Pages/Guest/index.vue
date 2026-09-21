@@ -170,14 +170,14 @@ if (props.discounts.data) {
             <div class="container">
                 <div class="home-slide-cover mt-30">
                     <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
-                        <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-1.png)">
+                        <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-1.webp)">
                             <div class="slider-content homepage-hero-content">
                                 <span class="homepage-hero-kicker">ویژه طراح‌ها و کسب‌وکارها</span>
                                 <h1 class="display-2 mb-25">چیزی که برای رشد کسب‌وکارت نیاز داری، همین‌جاست</h1>
                                 <p class="homepage-hero-text">قالب، طرح، فرم و خدمات دیجیتال را با تجربه‌ای سریع‌تر و ساده‌تر پیدا کن.</p>
                             </div>
                         </div>
-                        <div class="single-hero-slider single-animation-wrap" data-deferred-bg="/assets/imgs/slider/slider-2.png">
+                        <div class="single-hero-slider single-animation-wrap" data-deferred-bg="/assets/imgs/slider/slider-2.webp">
                             <div class="slider-content homepage-hero-content">
                                 <span class="homepage-hero-kicker">پیشنهادهای تازه</span>
                                 <h1 class="display-2 mb-25">فرصت‌های خوب برای شروع یک پروژه حرفه‌ای</h1>
