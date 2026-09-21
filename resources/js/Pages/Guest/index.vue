@@ -622,3 +622,13 @@ if (props.discounts.data) {
     </main>
     <Footer :companies="props.companies" :socials="props.socials" :time="props.time" :menus="props.menus" :path="props.path" :namads="props.namads" />
 </template>
+
+<style>
+/* Keep the homepage hero free of action buttons/feature-point rows. */
+.homepage-hero .homepage-hero-actions,
+.homepage-hero .homepage-hero-points,
+.homepage-hero .homepage-hero-button,
+.homepage-hero .homepage-hero-link {
+    display: none !important;
+}
+</style>
