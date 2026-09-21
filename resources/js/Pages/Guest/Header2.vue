@@ -67,14 +67,27 @@ onMounted(() => {
     // Load the legacy storefront scripts only once for the whole Inertia session.
     // Header2 can mount again on every Inertia navigation; re-injecting these files
     // makes jQuery/plugins run repeatedly and causes slow navigations and broken sliders.
+    const loadScript = (src) => new Promise((resolve) => {
+        if (document.querySelector('script[src="' + src + '"]')) {
+            resolve();
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        script.classList.add('dynamic-script');
+        script.onload = resolve;
+        script.onerror = resolve;
+        document.head.appendChild(script);
+    });
+
     const loadStorefrontScripts = () => {
         if (window.__storefrontScriptsPromise) {
             return window.__storefrontScriptsPromise;
         }
 
-        const scripts = [
-            "/assets/js/vendor/jquery-3.6.0.min.js",
-            "/assets/js/vendor/bootstrap.bundle.min.js",
+        const plugins = [
             "/assets/js/plugins/slick.js",
             "/assets/js/plugins/jquery.syotimer.min.js",
             "/assets/js/plugins/wow.js",
@@ -91,27 +104,15 @@ onMounted(() => {
             "/assets/js/plugins/jquery.vticker-min.js",
             "/assets/js/plugins/jquery.theia.sticky.js",
             "/assets/js/plugins/jquery.elevatezoom.js",
-            "/assets/js/main.js",
-            "/assets/js/shop.js",
         ];
 
-        window.__storefrontScriptsPromise = scripts.reduce(
-            (promise, src) => promise.then(() => new Promise((resolve) => {
-                if (document.querySelector('script[src="' + src + '"]')) {
-                    resolve();
-                    return;
-                }
-
-                const script = document.createElement('script');
-                script.src = src;
-                script.async = false;
-                script.classList.add('dynamic-script');
-                script.onload = resolve;
-                script.onerror = resolve;
-                document.head.appendChild(script);
-            })),
-            Promise.resolve()
-        );
+        window.__storefrontScriptsPromise = loadScript("/assets/js/vendor/jquery-3.6.0.min.js")
+            .then(() => loadScript("/assets/js/vendor/bootstrap.bundle.min.js"))
+            .then(() => Promise.all(plugins.map(loadScript)))
+            .then(() => Promise.all([
+                loadScript("/assets/js/main.js"),
+                loadScript("/assets/js/shop.js"),
+            ]));
 
         return window.__storefrontScriptsPromise;
     };
