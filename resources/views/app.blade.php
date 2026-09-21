@@ -26,6 +26,16 @@
             <link rel="preload" as="image" href="{{ asset('assets/imgs/slider/slider-3.png') }}" fetchpriority="high">
         @endif
 
+        <style>
+            .product-img-action-wrap .product-img > a {
+                aspect-ratio: 1 / 1;
+            }
+            .product-img-action-wrap .product-img > a > img {
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+
         @routes
         @vite(['resources/js/app.ts'])
         @inertiaHead
