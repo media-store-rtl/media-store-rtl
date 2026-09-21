@@ -12,3 +12,6 @@
 .env
 .env.backup
 *.log
+
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitignore
