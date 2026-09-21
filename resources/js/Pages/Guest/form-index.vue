@@ -262,7 +262,7 @@ const descriptionSeo = 'فرم‌های اداری شرکت‌ها , سهولت 
                                                     </template>
                                                 </div>
                                                 <h2>
-                                                    <Link :href="route('form.show', [result.slug])">{{ result.group.name + ' ' + result.type.name + ' ' + result.category.name + ' ' + result.name }}</Link>
+                                                    <Link :href="route('form.show', [result.slug])">{{ [result.group?.name, result.type?.name, result.category?.name, result.name].filter(Boolean).join(' ') }}</Link>
                                                 </h2>
                                                 <div>
                                                     <span class="font-small text-muted"
