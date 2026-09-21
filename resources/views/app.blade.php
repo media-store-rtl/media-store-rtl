@@ -16,8 +16,20 @@
             <link rel="shortcut icon" href="{{ asset('storage/images/logo-2.png') }}" type="image/x-icon">
         @endif
 
-        {{-- Storefront CSS: loaded statically to preserve the template cascade/order --}}
+        {{-- Performance: discover critical dependencies early and avoid CSS @import waterfalls. --}}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/vendors/normalize.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.rtl.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/slick.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/perfect-scrollbar.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css"></noscript>
         <link rel="stylesheet" href="{{ asset('assets/css/mohi.css') }}">
 
         @if (request()->is('/'))
