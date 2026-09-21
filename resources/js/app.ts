@@ -44,9 +44,6 @@ createInertiaApp({
         // حذف لودر اولیه
         const loader = document.getElementById('initial-loader');
         if (loader) loader.remove();
-
-        // حذف opacity-0 برای نمایش نرم
-        document.body.classList.remove('opacity-0');
         router.on('navigate', () => {
             document.body.classList.remove('mobile-menu-active');
 
