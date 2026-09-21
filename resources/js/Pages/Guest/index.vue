@@ -484,7 +484,7 @@ if (props.discounts.data) {
                                             </template>
 
                                         </div>
-                                        <h2><Link :href="route('form.show',[result.slug])">{{ result.group.name + ' ' + result.type.name + ' ' + result.category.name + ' ' + result.name }}</Link></h2>
+                                        <h2><Link :href="route('form.show',[result.slug])">{{ [result.group?.name, result.type?.name, result.category?.name, result.name].filter(Boolean).join(' ') }}</Link></h2>
                                         <div>
                                                     <span class="font-small text-muted"
                                                         > {{ result.tag }} </span
