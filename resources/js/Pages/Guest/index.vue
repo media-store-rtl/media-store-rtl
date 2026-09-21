@@ -135,7 +135,7 @@ if (props.discounts.data) {
 
 </script>
 <template>
-    <Seo :title="'فروشگاه مدیا | قالب سایت، محصولات دیجیتال و خدمات دیجیتال'" :description="'خرید قالب سایت، محصولات دیجیتال و دریافت خدمات طراحی سایت و خدمات آنلاین از فروشگاه مدیا.'" :noIndex="false" /> 
+    <Seo :title="'فروشگاه مدیا | قالب سایت و محصولات دیجیتال'" :description="'خرید قالب سایت و محصولات دیجیتال از فروشگاه مدیا؛ مجموعه‌ای از قالب‌های آماده و ابزارهای دیجیتال برای راه‌اندازی و توسعه کسب‌وکار آنلاین.'" :noIndex="false" /> 
     <Header :companies="props.companies" :results="props.results" :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu"
         @event-submit-quickview="submitQuickview"  @event-submit-cart="submitCart" 
      />
