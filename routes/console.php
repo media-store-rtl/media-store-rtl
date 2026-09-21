@@ -171,6 +171,102 @@ Artisan::command('media:generate-webp
 });
 
 
+Artisan::command('media:generate-responsive-webp
+    {--path=storage/app/public : Directory to scan}
+    {--min-kb=100 : Only convert files at or above this size}
+    {--quality=78 : WebP quality from 0 to 100}
+    {--widths=300,600 : Comma-separated output widths}', function () {
+    if (! function_exists('imagewebp')) {
+        $this->error('PHP GD WebP support is not available (imagewebp missing).');
+        return 1;
+    }
+
+    $directory = $this->option('path');
+    $root = is_dir($directory)
+        ? $directory
+        : (str_starts_with($directory, 'storage/app/public/')
+            ? base_path($directory)
+            : storage_path('app/public/' . ltrim($directory, '/')));
+
+    if (! is_dir($root)) {
+        $this->error("Directory not found: {$root}");
+        return 1;
+    }
+
+    $minBytes = max(0, (int) $this->option('min-kb')) * 1024;
+    $quality = min(100, max(0, (int) $this->option('quality')));
+    $widths = collect(explode(',', (string) $this->option('widths')))
+        ->map(fn ($width) => (int) trim($width))
+        ->filter(fn ($width) => $width > 0)
+        ->unique()
+        ->sort()
+        ->values();
+
+    $generated = 0;
+    $skipped = 0;
+
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS)) as $source) {
+        if (! $source->isFile() || $source->getSize() < $minBytes) {
+            continue;
+        }
+
+        $extension = strtolower($source->getExtension());
+        $loader = match ($extension) {
+            'jpg', 'jpeg' => 'imagecreatefromjpeg',
+            'png' => 'imagecreatefrompng',
+            default => null,
+        };
+
+        if (! $loader || ! function_exists($loader)) {
+            continue;
+        }
+
+        $image = @$loader($source->getPathname());
+        if (! $image) {
+            $this->warn("Could not read: {$source->getPathname()}");
+            continue;
+        }
+
+        $sourceWidth = imagesx($image);
+        $sourceHeight = imagesy($image);
+        $relative = ltrim(str_replace(base_path(), '', $source->getPathname()), '/');
+
+        foreach ($widths as $width) {
+            if ($width >= $sourceWidth) {
+                continue;
+            }
+
+            $height = max(1, (int) round($sourceHeight * ($width / $sourceWidth)));
+            $target = preg_replace('/\.[^.]+$/', '-' . $width . '.webp', $source->getPathname());
+
+            if (! $target || (is_file($target) && filemtime($target) >= filemtime($source->getPathname()))) {
+                $skipped++;
+                continue;
+            }
+
+            $resized = imagecreatetruecolor($width, $height);
+            imagealphablending($resized, false);
+            imagesavealpha($resized, true);
+            imagecopyresampled($resized, $image, 0, 0, 0, 0, $width, $height, $sourceWidth, $sourceHeight);
+
+            if (! imagewebp($resized, $target, $quality)) {
+                imagedestroy($resized);
+                $this->warn("Could not write: {$target}");
+                continue;
+            }
+
+            $this->line(sprintf('%s -> %s', $relative, basename($target)));
+            $generated++;
+            imagedestroy($resized);
+        }
+
+        imagedestroy($image);
+    }
+
+    $this->info("Generated {$generated} responsive WebP file(s); skipped {$skipped} existing file(s).");
+    return 0;
+});
+
 Artisan::command('media:generate-webp-all
     {--path=storage/app/public : Directory to scan}
     {--min-kb=100 : Only convert files at or above this size}
