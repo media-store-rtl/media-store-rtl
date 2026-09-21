@@ -300,6 +300,7 @@
             $(this).html(event.strftime("" + '<span class="countdown-section"><span class="countdown-amount hover-up">%D</span><span class="countdown-period"> روز </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%H</span><span class="countdown-period"> ساعت </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%M</span><span class="countdown-period"> دقیقه </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%S</span><span class="countdown-period"> ثانیه </span></span>'));
         });
     });
+    }
 
     /*------ Product slider active 1 ----*/
     if ($.fn.slick && $(".product-slider-active-1").length) {
@@ -546,7 +547,8 @@
         draggable: false,
         fade: false,
         asNavFor: ".product-dec-slider-small , .product-dec-slider-small-2"
-    });
+        });
+    }
 
     /*---------------------------------------
         Product details small image slider
@@ -816,7 +818,7 @@
         pause: 3000,
         animation: "fade",
         mousePause: false,
-        showItems: 1,
+        showItems: 1
         });
     }
 })(jQuery);
