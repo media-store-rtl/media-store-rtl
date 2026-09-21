@@ -243,7 +243,29 @@ if (props.product && props.product.menus && props.product.menus.length > 0) {
 }
 </script>
 <template>
-    <Seo :title="props.product.title"   :description="props.product.tag" :noIndex="false" />
+    <Seo
+        :title="props.product.title + ' | فروشگاه مدیا'"
+        :description="props.product.tag || props.product.title"
+        :image="props.product.image && props.product.image.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
+        type="article"
+        :noIndex="false"
+        :schema="{
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: props.product.title,
+            description: props.product.tag || props.product.title,
+            image: props.product.image && props.product.image.url ? [$page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+            datePublished: props.product.created_at,
+            author: props.product.user ? {
+                '@type': 'Person',
+                name: props.product.user.name_show,
+            } : undefined,
+            publisher: {
+                '@type': 'Organization',
+                name: 'فروشگاه مدیا',
+            },
+        }"
+/>
      <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu"  />
     <main class="main">
         <div class="page-content mb-50">
