@@ -786,7 +786,7 @@ const descriptionSeo = 'هر پروژه‌ای که دارید، می‌توان
                                 <figure class="col-md-4 mb-0">
                                     <Link :href="route('website-design.show', [result.product.slug])"
                                     v-if="(result.image && result.image.status == 4) || 5" >
-                                        <img :src="$page.props.ziggy.url + '/storage/' + result.product.image.url" alt="" />
+                                        <img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.product.image.url" width="100" height="100" alt="" />
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
@@ -820,7 +820,7 @@ const descriptionSeo = 'هر پروژه‌ای که دارید، می‌توان
                         <div class="product-list-small animated animated">
                             <article class="row align-items-center hover-up" v-for="result,index in props.favorites" :key="index">
                                 <figure class="col-md-4 mb-0 ">
-                                    <Link :href="route('website-design.show', [result.favoritable.slug])"><img :src="$page.props.ziggy.url + '/storage/' + result.favoritable.image.url" alt="" /></Link>
+                                    <Link :href="route('website-design.show', [result.favoritable.slug])"><img loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.favoritable.image.url" width="100" height="100" alt="" /></Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
                                     <h6>
