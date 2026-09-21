@@ -56,22 +56,15 @@ onMounted(() => {
         setTimeout(() => loader.remove(), 300);
     }
 
-    // Load storefront plugins after the first paint so they do not delay the initial page.
+    // Load the legacy storefront scripts only once for the whole Inertia session.
+    // Header2 can mount again on every Inertia navigation; re-injecting these files
+    // makes jQuery/plugins run repeatedly and causes slow navigations and broken sliders.
     const loadStorefrontScripts = () => {
-        const scriptClass = 'dynamic-script';
+        if (window.__storefrontScriptsPromise) {
+            return window.__storefrontScriptsPromise;
+        }
 
-        const addJs = (address) => {
-            if (document.querySelector('script[src="' + address + '"]')) return;
-
-            const script = document.createElement('script');
-            script.src = address;
-            script.async = false;
-            script.defer = true;
-            script.classList.add(scriptClass);
-            document.body.appendChild(script);
-        };
-
-        [
+        const scripts = [
             "/assets/js/vendor/jquery-3.6.0.min.js",
             "/assets/js/vendor/bootstrap.bundle.min.js",
             "/assets/js/plugins/slick.js",
@@ -92,15 +85,40 @@ onMounted(() => {
             "/assets/js/plugins/jquery.elevatezoom.js",
             "/assets/js/main.js",
             "/assets/js/shop.js",
-        ].forEach(addJs);
+        ];
+
+        window.__storefrontScriptsPromise = scripts.reduce(
+            (promise, src) => promise.then(() => new Promise((resolve) => {
+                if (document.querySelector('script[src="' + src + '"]')) {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = false;
+                script.classList.add('dynamic-script');
+                script.onload = resolve;
+                script.onerror = resolve;
+                document.head.appendChild(script);
+            })),
+            Promise.resolve()
+        );
+
+        return window.__storefrontScriptsPromise;
+    };
+
+    const start = () => {
+        loadStorefrontScripts().then(() => {
+            window.initHeroSlider?.();
+        });
     };
 
     if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(loadStorefrontScripts, { timeout: 1800 });
+        window.requestIdleCallback(start, { timeout: 1800 });
     } else {
-        window.setTimeout(loadStorefrontScripts, 1200);
+        window.setTimeout(start, 1200);
     }
-
 });
 
 onBeforeUnmount(() => {
