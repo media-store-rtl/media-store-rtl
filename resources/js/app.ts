@@ -1,7 +1,3 @@
-import '../../public/css/vendors/bootstrap.rtl.min.css';
-import '../../public/css/style.css';
-import '../../public/css/style-rtl.css';
-import '../../public/css/themify-icons.css';
 
 import { createInertiaApp,router  } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
