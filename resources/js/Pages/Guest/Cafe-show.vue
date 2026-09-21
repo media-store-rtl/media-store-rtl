@@ -260,7 +260,7 @@ const submitReply = (id) => {
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             <figure class="border-radius-10">
-                                                <img :src="$page.props.ziggy.url + '/storage/' + props.tarahis.image.url" alt="product image" />
+                                                <img :src="$page.props.ziggy.url + '/storage/' + props.tarahis.image.url" width="600" height="600" alt="product image" />
                                             </figure>
 
                                         </div>
