@@ -1,5 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+# Serve a generated WebP variant when the browser advertises WebP support.
+# The original image URL stays unchanged, so existing database/image URLs need no migration.
+RewriteCond %{HTTP_ACCEPT} image/webp
+RewriteCond %{REQUEST_FILENAME}.webp -f
+RewriteRule ^(.+)\.(?:png|jpe?g)$ $1.webp [END]
+
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
