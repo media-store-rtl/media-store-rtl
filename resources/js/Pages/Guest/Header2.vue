@@ -106,13 +106,14 @@ onMounted(() => {
             "/assets/js/plugins/jquery.elevatezoom.js",
         ];
 
+        const isProductDetailPage = window.location.pathname.startsWith("/website-templates/")
+            && window.location.pathname !== "/website-templates/";
+
         window.__storefrontScriptsPromise = loadScript("/assets/js/vendor/jquery-3.6.0.min.js")
             .then(() => loadScript("/assets/js/vendor/bootstrap.bundle.min.js"))
             .then(() => Promise.all(plugins.map(loadScript)))
-            .then(() => Promise.all([
-                loadScript("/assets/js/main.js"),
-                loadScript("/assets/js/shop.js"),
-            ]));
+            .then(() => loadScript("/assets/js/main.js"))
+            .then(() => isProductDetailPage ? loadScript("/assets/js/shop.js") : undefined);
 
         return window.__storefrontScriptsPromise;
     };
