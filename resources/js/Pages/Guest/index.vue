@@ -23,9 +23,11 @@ onMounted(() => {
   const hero = document.querySelector('.homepage-hero');
   if (!hero) return;
 
-  const schedule = 'requestIdleCallback' in window
-    ? window.requestIdleCallback(loadDeferredHeroBackgrounds, { timeout: 1800 })
-    : window.setTimeout(loadDeferredHeroBackgrounds, 1200);
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadDeferredHeroBackgrounds, { timeout: 1800 })
+  } else {
+    window.setTimeout(loadDeferredHeroBackgrounds, 1200)
+  };
 
   hero.addEventListener('pointerdown', loadDeferredHeroBackgrounds, { once: true });
 });
