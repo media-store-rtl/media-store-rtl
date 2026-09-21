@@ -2,7 +2,8 @@
 
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
-import {Head,Link } from '@inertiajs/vue3';
+import {Link } from '@inertiajs/vue3';
+import Seo from '@/Components/Seo.vue';
 import moment from "moment-jalaali";
 import fa from "moment/src/locale/fa";
 
@@ -14,7 +15,7 @@ const props = defineProps({
 
 </script>
 <template >
-     <Head title="قوانین و مقررات" /> 
+     <Seo :title="'قوانین و مقررات | فروشگاه مدیا'" :description="'قوانین و مقررات استفاده از خدمات و خرید محصولات در فروشگاه مدیا.'" :noIndex="false" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu" />
     <main class="main pages" style="transform: none;">
 
