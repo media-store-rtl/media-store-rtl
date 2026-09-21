@@ -3,6 +3,7 @@
 use App\Http\Middleware\Check404;
 use App\Http\Middleware\Check503;
 use Illuminate\Support\Facades\Route;
+use App\Models\WebDesign;
 use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\BankController;
@@ -103,19 +104,19 @@ require __DIR__.'/auth.php';
 
 Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign) {
     $urls = [
-        ['loc' => url('/'), 'lastmod' => now()],
-        ['loc' => url('/website-templates'), 'lastmod' => now()],
-        ['loc' => url('/website-design'), 'lastmod' => now()],
-        ['loc' => url('/blog'), 'lastmod' => now()],
-        ['loc' => url('/project'), 'lastmod' => now()],
-        ['loc' => url('/cafe-net'), 'lastmod' => now()],
-        ['loc' => url('/form'), 'lastmod' => now()],
-        ['loc' => url('/accounting'), 'lastmod' => now()],
-        ['loc' => url('/about'), 'lastmod' => now()],
-        ['loc' => url('/about-hesabdari'), 'lastmod' => now()],
-        ['loc' => url('/faq'), 'lastmod' => now()],
-        ['loc' => url('/privacy'), 'lastmod' => now()],
-        ['loc' => url('/terms-conditions'), 'lastmod' => now()],
+        ['loc' => url('/'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/website-templates'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/website-design'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/blog'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/project'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/cafe-net'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/form'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/accounting'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/about'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/about-hesabdari'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/faq'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/privacy'), 'lastmod' => now()->startOfDay()],
+        ['loc' => url('/terms-conditions'), 'lastmod' => now()->startOfDay()],
     ];
 
     $product->whereIn('status', [4, 5])
