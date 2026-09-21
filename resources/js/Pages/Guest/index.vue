@@ -153,15 +153,7 @@ if (props.discounts.data) {
                                 <span class="homepage-hero-kicker">ویژه طراح‌ها و کسب‌وکارها</span>
                                 <h1 class="display-2 mb-25">چیزی که برای رشد کسب‌وکارت نیاز داری، همین‌جاست</h1>
                                 <p class="homepage-hero-text">قالب، طرح، فرم و خدمات دیجیتال را با تجربه‌ای سریع‌تر و ساده‌تر پیدا کن.</p>
-                                <div class="homepage-hero-actions">
-                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">مشاهده محصولات</Link>
-                                    <Link class="homepage-hero-link" :href="route('website-design.index','q')+'all'">دیدن پلن‌ها <i class="fi-rs-arrow-left"></i></Link>
-                                </div>
-                                <div class="homepage-hero-points">
-                                    <span><i class="fi-rs-check"></i> انتخاب سریع</span>
-                                    <span><i class="fi-rs-check"></i> قیمت شفاف</span>
-                                    <span><i class="fi-rs-check"></i> پشتیبانی</span>
-                                </div>
+
                             </div>
                         </div>
                         <div class="single-hero-slider single-animation-wrap" style="background-image: url(assets/imgs/slider/slider-2.png)">
@@ -169,15 +161,7 @@ if (props.discounts.data) {
                                 <span class="homepage-hero-kicker">پیشنهادهای تازه</span>
                                 <h1 class="display-2 mb-25">فرصت‌های خوب برای شروع یک پروژه حرفه‌ای</h1>
                                 <p class="homepage-hero-text">محصولات و خدمات منتخب را ببین و گزینه مناسب پروژه‌ات را سریع‌تر پیدا کن.</p>
-                                <div class="homepage-hero-actions">
-                                    <Link class="button homepage-hero-button" :href="route('website-templates.index','q')+'all'">شروع جستجو</Link>
-                                    <Link class="homepage-hero-link" :href="route('blog.index')">مطالب و ایده‌ها <i class="fi-rs-arrow-left"></i></Link>
-                                </div>
-                                <div class="homepage-hero-points">
-                                    <span><i class="fi-rs-check"></i> تنوع محصول</span>
-                                    <span><i class="fi-rs-check"></i> تجربه RTL</span>
-                                    <span><i class="fi-rs-check"></i> خرید آسان</span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
