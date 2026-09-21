@@ -498,7 +498,7 @@ const submitRemove = (id,model) => {
 									</div> -->
 									<div class="header-action-icon-2">
 										<a class='mini-cart-icon' href="#">
-											<img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-cart.svg'" />
+											<img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-cart.svg'" width="24" height="24" />
 											<span class="pro-count blue" v-if="props.cart &&  props.cart.count > 0">{{ (props.cart.count).toLocaleString("fa-IR") }}</span>
 										</a>
 										<a href="#"><span class="lable">سبد خرید</span></a>
@@ -509,7 +509,7 @@ const submitRemove = (id,model) => {
 														<a href="#">
                                                             <img v-if="product.product && product.product.image && product.product.image.status == 4 || 
                                                                 product.product && product.product.image && product.product.image.status == 5" :alt="product.product.nam" :src="$page.props.ziggy.url+'/storage/'+product.product.image.url" />
-                                                            <img v-else :alt="product.product.nam" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" />
+                                                            <img v-else :alt="product.product.nam" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="60" height="40" />
                                                         </a>
 													</div>
 													<div class="shopping-cart-title">
@@ -546,7 +546,7 @@ const submitRemove = (id,model) => {
 
 									<div class="header-action-icon-2" v-if="$page.props.auth.user !== null">
 										<a href='#'>
-											<img class="svgInject" alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-user.svg'" />
+											<img class="svgInject" alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-user.svg'" width="24" height="24" />
 										</a>
 										<a  href='#'><span class="lable ml-0">حساب</span></a>
 										<div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
@@ -737,13 +737,13 @@ const submitRemove = (id,model) => {
                         <div class="header-action-2">
                             <!-- <div class="header-action-icon-2">
                                 <a href='/shop-wishlist'>
-                                    <img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-heart.svg'">
+                                    <img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-heart.svg'" width="24" height="24">
                                     <span class="pro-count white">4</span>
                                 </a>
                             </div> -->
                             <div class="header-action-icon-2" >
                                 <a class='mini-cart-icon' href="#" >
-                                    <img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-cart.svg'">
+                                    <img alt="" :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-cart.svg'" width="24" height="24">
                                     <span class="pro-count white" v-if="props.cart &&  props.cart.count > 0">{{ (props.cart.count).toLocaleString("fa-IR") }} </span>
                                 </a>
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2">
