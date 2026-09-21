@@ -101,6 +101,77 @@ use App\Http\Controllers\DataBaseController;
 
 require __DIR__.'/auth.php';
 
+Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign) {
+    $urls = [
+        ['loc' => url('/'), 'lastmod' => now()],
+        ['loc' => url('/website-templates'), 'lastmod' => now()],
+        ['loc' => url('/website-design'), 'lastmod' => now()],
+        ['loc' => url('/blog'), 'lastmod' => now()],
+        ['loc' => url('/project'), 'lastmod' => now()],
+        ['loc' => url('/cafe-net'), 'lastmod' => now()],
+        ['loc' => url('/form'), 'lastmod' => now()],
+        ['loc' => url('/accounting'), 'lastmod' => now()],
+        ['loc' => url('/about'), 'lastmod' => now()],
+        ['loc' => url('/about-hesabdari'), 'lastmod' => now()],
+        ['loc' => url('/faq'), 'lastmod' => now()],
+        ['loc' => url('/privacy'), 'lastmod' => now()],
+        ['loc' => url('/terms-conditions'), 'lastmod' => now()],
+    ];
+
+    $product->whereIn('status', [4, 5])
+        ->whereHas('group', fn ($query) => $query->where('name', 'قالب'))
+        ->whereNotNull('slug')
+        ->select(['slug', 'updated_at'])
+        ->chunkById(500, function ($products) use (&$urls) {
+            foreach ($products as $item) {
+                $urls[] = [
+                    'loc' => url('/website-templates/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $blog->where('status', 4)
+        ->whereNotNull('slug')
+        ->select(['slug', 'updated_at'])
+        ->chunkById(500, function ($blogs) use (&$urls) {
+            foreach ($blogs as $item) {
+                $urls[] = [
+                    'loc' => url('/blog/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $webDesign->where('status', 4)
+        ->whereNotNull('slug')
+        ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
+        ->select(['slug', 'updated_at'])
+        ->chunkById(500, function ($items) use (&$urls) {
+            foreach ($items as $item) {
+                $urls[] = [
+                    'loc' => url('/website-design/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+    foreach ($urls as $item) {
+        $xml .= "  <url>\n";
+        $xml .= '    <loc>' . e($item['loc']) . "</loc>\n";
+        $xml .= '    <lastmod>' . $item['lastmod']->toAtomString() . "</lastmod>\n";
+        $xml .= "  </url>\n";
+    }
+
+    $xml .= '</urlset>';
+
+    return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');
+
+
 Route::resource('/', GuestController::class);
 Route::resource('/website-templates',WebsiteTemplatesController::class);
 Route::get('website-templates/{id}/comment',[GuestCommentController::class,'show'])->name('guest_comment.show');
