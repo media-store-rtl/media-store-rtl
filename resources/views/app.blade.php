@@ -17,16 +17,8 @@
         @endif
 
         {{-- Storefront CSS: loaded statically to preserve the template cascade/order --}}
-        <link rel="stylesheet" href="{{ asset('css/vendors/bootstrap.rtl.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/mohi.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style-rtl.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/mohi.css') }}">
 
         @routes
         @vite(['resources/js/app.ts'])
