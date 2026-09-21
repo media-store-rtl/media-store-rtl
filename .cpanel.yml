@@ -6,4 +6,5 @@ deployment:
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm ci'
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && rm -rf public/build.new && npm run build -- --outDir public/build.new'
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && test -f public/build.new/manifest.json && rm -rf public/build && mv public/build.new public/build'
+    - /bin/bash -lc 'rm -rf /home/mediast1/public_html/build.new && cp -a /home/mediast1/repositories/media-store-rtl/public/build /home/mediast1/public_html/build.new && test -f /home/mediast1/public_html/build.new/manifest.json && rm -rf /home/mediast1/public_html/build && mv /home/mediast1/public_html/build.new /home/mediast1/public_html/build'
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && php artisan optimize:clear && php artisan optimize'
