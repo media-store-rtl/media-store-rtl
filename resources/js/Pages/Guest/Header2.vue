@@ -882,6 +882,33 @@ const submitRemove = (id,model) => {
 </template>
 <style>
 
+/* Desktop navigation: keep the Nest menu visible and aligned in RTL layouts. */
+@media (min-width: 992px) {
+    .header-area .header-bottom .header-wrap .header-nav {
+        display: flex !important;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .header-area .header-bottom .main-menu.main-menu-padding-1 {
+        display: block !important;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul {
+        display: flex !important;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-area .header-bottom .main-menu > nav > ul > li {
+        display: block !important;
+    }
+}
+
+
 /* @import '../../../../public/css/bootstrap.min.css';
 @import '../../../../public/css/magnific-popup.css';
 @import '../../../../public/css/themify-icons.css';
