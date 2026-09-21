@@ -320,7 +320,7 @@ const submitRemove = (id,model) => {
         </div>
     <header class="header-area header-style-1 header-height-2">
         <div class="mobile-promotion"><span>تا حالا از <strong>تخفیفات روزانه</strong> استفاده کردی؟<strong>بهتره تا تموم نشدن</strong> ازشون استفاده کنی</span></div>
-        <div class="header-top header-top-ptb-1 d-none d-lg-block">
+        <div class="header-top header-top-ptb-1 desktop-header-block">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-3 col-lg-4">
@@ -368,7 +368,7 @@ const submitRemove = (id,model) => {
                 </div>
             </div>
         </div>
-        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="header-middle header-middle-ptb-1 desktop-header-block">
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
@@ -509,13 +509,13 @@ const submitRemove = (id,model) => {
         <div class="header-bottom header-bottom-bg-color sticky-bar">
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
-                    <div class="logo logo-width-1 d-block d-lg-none">
+                    <div class="logo logo-width-1 mobile-header-only">
                         <!-- <a href='/'><img :src="$page.props.ziggy.url +'/assets/imgs/theme/logo.svg'" alt="logo"></a> -->
                          <Link :href="route('index')"  v-if="props.companies && props.companies.image && props.companies.image.status == 4">
                             <img :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url" class="" :alt="props.companies.name_show" />
                         </Link>
                     </div>
-                    <div class="header-nav d-none d-lg-flex">
+                    <div class="header-nav desktop-header-flex">
                         <!-- <div class="main-categori-wrap d-none d-lg-block">
                             <a class="categories-button-active " href="#">
                                 <span class="fi-rs-apps"></span> <span class="et"> کل </span> دسته بندی ها
@@ -553,7 +553,7 @@ const submitRemove = (id,model) => {
                                 <div class="more_categories"> <span class="icon"></span> <span class="heading-sm-1">Show more...</span></div>
                             </div>
                         </div> -->
-                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 desktop-header-block font-heading">
                             <nav>
                                 <ul>
 
@@ -661,20 +661,20 @@ const submitRemove = (id,model) => {
                             </nav>
                         </div>
                     </div>
-                    <div class="hotline d-none d-lg-flex" v-if="props.companies">
+                    <div class="hotline desktop-header-flex" v-if="props.companies">
                         <img :src="$page.props.ziggy.url +'/assets/imgs/theme/icons/icon-headphone.svg'" alt="hotline">
                         <p>{{'0' + props.companies.phone }}
                             <template v-if="props.companies && props.companies.tel !== null"> -{{ '0' + props.companies.tel }}</template>
                             <span>مرکز پشتیبانی 17/7</span></p>
                     </div>
-                    <div class="header-action-icon-2 d-block d-lg-none">
+                    <div class="header-action-icon-2 mobile-header-only">
                         <div class="burger-icon burger-icon-white" @click="toggleMobileMenu" role="button" aria-label="باز کردن منو">
                             <span class="burger-icon-top"></span>
                             <span class="burger-icon-mid"></span>
                             <span class="burger-icon-bottom"></span>
                         </div>
                     </div>
-                    <div class="header-action-right d-block d-lg-none">
+                    <div class="header-action-right mobile-header-only">
                         <div class="header-action-2">
                             <!-- <div class="header-action-icon-2">
                                 <a href='/shop-wishlist'>
@@ -895,7 +895,18 @@ const submitRemove = (id,model) => {
 @import '../../../../public/css/style-rtl.css';
 @import '../../../../public/css/responsive.css';
 @import '../../../../public/css/mohi.css'; */
-[v-cloak] {
+
+/* Desktop header visibility: supports browser desktop mode with a ~980px viewport. */
+@media (min-width: 900px) {
+  .desktop-header-block { display: block !important; }
+  .desktop-header-flex { display: flex !important; }
+  .mobile-header-only { display: none !important; }
+}
+@media (max-width: 899px) {
+  .desktop-header-block,
+  .desktop-header-flex { display: none !important; }
+}
+\n[v-cloak] {
   display: none;
 }
 </style>
