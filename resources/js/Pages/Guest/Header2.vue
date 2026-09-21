@@ -2,8 +2,17 @@
 
 import {onMounted,ref,onBeforeUnmount } from 'vue';
 import {  Link, useForm , router} from '@inertiajs/vue3';
-import moment from "moment-jalaali";
-import fa from "moment/src/locale/fa";
+
+const formatJalaliDate = (value) => {
+    const parts = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    }).formatToParts(new Date(value));
+
+    const get = (type) => parts.find((part) => part.type === type)?.value ?? '';
+    return get('year') + '/' + get('month') + '/' + get('day');
+};
 
 const props = defineProps({
     canLogin: Boolean,canRegister: Boolean,laravelVersion: String,phpVersion: String,menu: Object,
@@ -329,7 +338,7 @@ const submitRemove = (id,model) => {
                                     <div class="font-xs">
                                         <ul>
                                             <li class="mb-5">فروشنده: <span class="text-brand">{{ props.Quickview.user.name_show }}</span></li>
-                                            <li class="mb-5">MFG:<span class="text-brand"> {{  moment(props.Quickview.created_at).locale("fa", fa).format('jYYYY/jM/jD') }}</span></li>
+                                            <li class="mb-5">MFG:<span class="text-brand"> {{  formatJalaliDate(props.Quickview.created_at) }}</span></li>
                                         </ul>
                                     </div>
                                 </div>
