@@ -210,12 +210,12 @@ if (props.discounts.data) {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('website-templates.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
                                             <Link :href="route('website-templates.show',[result.slug])"  v-else-if="props.companies">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
                                             </Link>
                                         </div>
                                         <!-- <div class="product-action-1">
@@ -298,12 +298,12 @@ if (props.discounts.data) {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('website-design.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
                                             <Link :href="route('website-design.show',[result.slug])"  v-else-if="props.companies">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
                                             </Link>
                                         </div>
                                         <!-- <div class="product-action-1">
@@ -384,12 +384,12 @@ if (props.discounts.data) {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('cafe-net.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
                                             <Link :href="route('cafe-net.show',[result.slug])"  v-else-if="props.companies">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
                                             </Link>
                                         </div>
                                         <!-- <div class="product-action-1">
@@ -478,12 +478,12 @@ if (props.discounts.data) {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('form.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
                                             <Link :href="route('form.show',[result.slug])"  v-else-if="props.companies">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
                                             </Link>
                                         </div>
                                         <!-- <div class="product-action-1">
@@ -568,12 +568,12 @@ if (props.discounts.data) {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('blog.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
                                             <Link :href="route('blog.show',[result.slug])"  v-else-if="props.companies">
-                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
-                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" />
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
                                             </Link>
                                         </div>
 
