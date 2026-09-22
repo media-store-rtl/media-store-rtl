@@ -94,6 +94,20 @@ const descriptionSeo = props.user.name + ' ' + props.user.lasst_name  +'-'+ prop
                                                 <template v-for="(section,index) in menu.sections" :key="section.id">
                                                     <Link href="#" v-if="section.name == 'products' || section.name == 'web_designs' || section.name == 'blogs'" >{{ menu.name + ' '}}</Link>
                                                 </template>
+
+<style scoped>
+.public-profile-card{position:relative;overflow:hidden;padding:28px 22px 22px;border:1px solid #eef0f3!important;border-radius:18px;background:#fff!important;box-shadow:0 10px 30px rgba(15,23,42,.06);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.public-profile-card:before{content:'';position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#3bb77e,#8ed1b0)}
+.public-profile-card:hover{transform:translateY(-3px);border-color:#dfe8e3!important;box-shadow:0 16px 38px rgba(15,23,42,.09)}
+.public-profile-avatar{width:112px;height:112px;margin:4px auto 18px!important;padding:4px;border-radius:50%;background:linear-gradient(135deg,#3bb77e,#e9f8f1);box-shadow:0 8px 22px rgba(59,183,126,.18)}
+.public-profile-avatar img{width:100%!important;height:100%!important;display:block;object-fit:cover;border-radius:50%;border:3px solid #fff}
+.public-profile-content{text-align:center}.public-profile-role{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:4px 11px;margin-bottom:7px;border-radius:999px;background:#effaf5;color:#2f9e6d!important;font-size:12px;font-weight:600}
+.public-profile-name{margin-bottom:10px!important;font-size:20px!important;line-height:1.6;font-weight:800}.public-profile-name a{color:#253047!important}
+.public-profile-bio{margin:0 auto 20px!important;padding:13px 14px;border:1px solid #f0f1f4;border-radius:12px;background:#fafbfc;text-align:right}.public-profile-bio p{margin:0;color:#687080!important;font-size:13px;line-height:2}
+.public-profile-social{padding-top:17px;margin-bottom:18px!important;border-top:1px solid #f0f1f4}.public-profile-social h6{margin-bottom:10px!important;color:#253047;font-size:13px}.public-profile-social .social-network{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}.public-profile-social .social-network li{margin:0!important}.public-profile-social .social-network a{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid #edf0f2;border-radius:11px;background:#fff;transition:.2s ease}.public-profile-social .social-network a:hover{transform:translateY(-2px);border-color:#cdebdc;background:#effaf5}
+.public-profile-contact{padding-top:16px;border-top:1px solid #f0f1f4}.public-profile-contact ul{margin-bottom:0!important}.public-profile-contact li{display:flex;align-items:center;gap:7px;min-height:38px;padding:8px 10px;margin-bottom:7px;border:1px solid #f0f1f4;border-radius:10px;background:#fff;font-size:12px}.public-profile-contact li:last-child{margin-bottom:0}.public-profile-contact li strong{color:#3b4352;white-space:nowrap}.public-profile-contact li span{color:#7a8190;overflow-wrap:anywhere}.public-profile-contact li img{width:17px;height:17px;margin:0!important;flex:0 0 auto}
+@media(max-width:991px){.public-profile-card{margin-bottom:25px}}
+</style>
                                             </template>
                                         </div>
                                         <h2>
@@ -196,8 +210,8 @@ const descriptionSeo = props.user.name + ' ' + props.user.lasst_name  +'-'+ prop
                         </div>
                     </div>
                     <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
-                        <div class="sidebar-widget widget-store-info mb-30 bg-3 border-0">
-                            <div class="vendor-logo mb-30">
+                        <div class="sidebar-widget widget-store-info mb-30 bg-3 border-0 public-profile-card">
+                            <div class="vendor-logo mb-30 public-profile-avatar">
                                 <!-- <img src="assets/imgs/vendor/vendor-16.png" alt="" /> -->
                                 <img v-if="props.user.image && props.user.image.status == 4 " :src="$page.props.ziggy.url+'/storage/'+props.user.image.url" :alt="props.user.user_name" />
                                 <img v-else :src="$page.props.ziggy.url+'/storage/images/default-user.png'"  :alt="props.user.user_name" />
@@ -210,7 +224,7 @@ const descriptionSeo = props.user.name + ' ' + props.user.lasst_name  +'-'+ prop
                                     <span class="text-muted" v-else-if="props.role &&  props.role.id == 4" >{{ props.role.name }}</span>
                                     <span class="text-muted" v-else >خریدار/کارفرما </span>
                                 </div>
-                                <h4 class="mb-5"><a href="#" class="text-heading">{{ props.user.name_show }}</a></h4>
+                                <h4 class="mb-5 public-profile-name"><a href="#" class="text-heading">{{ props.user.name_show }}</a></h4>
 
                                 <div class="product-rate-cover mb-15">
                                     <!-- <div class="product-rate d-inline-block">
@@ -219,10 +233,10 @@ const descriptionSeo = props.user.name + ' ' + props.user.lasst_name  +'-'+ prop
                                     <span class="font-small ml-5 text-muted"> (4.0)</span> -->
                                 </div>
 
-                                <div class="vendor-des mb-30">
+                                <div class="vendor-des mb-30 public-profile-bio">
                                     <p class="font-sm text-heading" v-if=" props.user && props.user.profile ">{{ props.user.profile.biography }}</p>
                                 </div>
-                                <div class="follow-social mb-20" v-if="props.role &&  props.role.id > 3 && props.user && props.user.socials">
+                                <div class="follow-social mb-20 public-profile-social" v-if="props.role &&  props.role.id > 3 && props.user && props.user.socials">
                                     <h6 class="mb-15">دنبال کن</h6>
                                     <ul class="social-network" >
 
