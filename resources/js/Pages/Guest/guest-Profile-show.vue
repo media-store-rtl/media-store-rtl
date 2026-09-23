@@ -1,9 +1,13 @@
 <script setup>
+import { computed } from 'vue';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import { ref} from 'vue';
 import { useForm,Head,Link} from '@inertiajs/vue3';
 import Seo from '@/Components/Seo.vue';
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage();
 
 const props = defineProps({
     user:Object,results:Object,orders_count:Number,companies:Object,role:Object,
@@ -43,11 +47,29 @@ const getPageUrl = (baseUrl, page) => {
 // console.log(props.userResults);
 
 const titleSeo = props.user.user_name;
-const descriptionSeo = props.user.name + ' ' + props.user.lasst_name  +'-'+ props.user.profile.biography;
+const descriptionSeo = String(props.user.name + ' ' + props.user.lasst_name + '-' + (props.user.profile?.biography || ''))
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\\s+/g, ' ')
+    .trim()
+    .slice(0, 160)
+
+const seoProfileSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: titleSeo,
+    description: descriptionSeo,
+    url: page.props.ziggy.url + '/guest-profile/' + encodeURIComponent(props.user.user_name || props.user.id),
+    mainEntity: {
+        '@type': 'Person',
+        name: [props.user.name, props.user.lasst_name].filter(Boolean).join(' '),
+        alternateName: props.user.user_name || undefined,
+        description: descriptionSeo,
+    },
+}))
 
 </script>
 <template>
-    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false"/>
+    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" type="profile" :schema="seoProfileSchema" />
      <Head title="index" /> 
     <Header :companies="props.companies" :results="props.results" :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu" />
         <main class="main">
