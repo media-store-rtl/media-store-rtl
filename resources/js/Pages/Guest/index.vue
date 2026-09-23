@@ -247,46 +247,161 @@ if (props.discounts.data) {
             </div>
             </div>
         </section>
-        <section class="product-tabs section-padding position-relative" v-if="props.cafes.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>کافه </h3></div>
-            <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.cafes" :key="index">
-                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn"><div class="product-img-action-wrap"><div class="product-img product-img-zoom">
-                    <Link :href="route('cafe-net.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /></Link>
-                    <Link :href="route('cafe-net.show',[result.slug])" v-else-if="props.companies"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /></Link>
-                </div></div>
-                <div class="product-content-wrap"><div class="product-category"><template v-for="(menu,index) in result.menus" :key="index"><template v-for="(section,index) in menu.sections" :key="section.id"><Link href="" v-if="section.name == 'cafes'" >{{ menu.name + ' '}}</Link></template></template></div>
-                <h2><Link :href="route('cafe-net.show',[result.slug])">{{ result.name }}</Link></h2><div><span class="font-small text-muted">{{ result.tag }}</span></div>
-                <div class="product-rate-cover"><div class="product-rate d-inline-block"><div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div></div><span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating"> ({{ result.ratings_avg_rating }})</span><span class="font-small ml-5 text-muted" v-else> (0.000)</span></div>
-                <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
-                <div class="product-card-bottom"><div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR")}}</span></div><div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div></div>
-                </div></div></div></div></div>
+        <section class="product-tabs section-padding position-relative" v-if="props.cafes && props.cafes.length > 0">
+            <div class="container">
+                <div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>کافه</h3></div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <div class="row product-grid-4">
+                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.cafes" :key="index">
+                                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
+                                    <div class="product-img-action-wrap">
+                                        <div class="product-img product-img-zoom">
+                                            <Link :href="route('cafe-net.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                            <Link :href="route('cafe-net.show',[result.slug])" v-else-if="props.companies">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-wrap">
+                                        <div class="product-category">
+                                            <template v-for="(menu,index) in result.menus" :key="index">
+                                                <template v-for="(section,index) in menu.sections" :key="section.id">
+                                                    <Link href="" v-if="section.name == 'cafes'">{{ menu.name + ' '}}</Link>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <h2><Link :href="route('cafe-net.show',[result.slug])">{{ result.name }}</Link></h2>
+                                        <div><span class="font-small text-muted">{{ result.tag }}</span></div>
+                                        <div class="product-rate-cover">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating">({{ result.ratings_avg_rating }})</span>
+                                            <span class="font-small ml-5 text-muted" v-else>(0.000)</span>
+                                        </div>
+                                        <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
+                                        <div class="product-card-bottom">
+                                            <div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR") }}</span></div>
+                                            <div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        <section class="product-tabs section-padding position-relative" v-if="props.forms && props.forms.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>فرم </h3></div>
-            <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.forms" :key="index">
-                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn"><div class="product-img-action-wrap"><div class="product-img product-img-zoom">
-                    <Link :href="route('form.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /></Link>
-                    <Link :href="route('form.show',[result.slug])" v-else-if="props.companies"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /></Link>
-                </div></div>
-                <div class="product-content-wrap"><div class="product-category"><template v-for="(menu,index) in result.menus" :key="index"><template v-for="(section,index) in menu.sections" :key="section.id"><Link href="" v-if="section.name == 'forms'" >{{ menu.name + ' '}}</Link></template></template></div>
-                <h2><Link :href="route('form.show',[result.slug])">{{ [result.group?.name, result.type?.name, result.category?.name, result.name].filter(Boolean).join(' ') }}</Link></h2><div><span class="font-small text-muted">{{ result.tag }}</span></div>
-                <div class="product-rate-cover"><div class="product-rate d-inline-block"><div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div></div><span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating"> ({{ result.ratings_avg_rating }})</span><span class="font-small ml-5 text-muted" v-else> (0.000)</span></div>
-                <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
-                <div class="product-card-bottom"><div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR")}}</span></div><div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div></div>
-                </div></div></div></div></div>
+
+        <section class="product-tabs section-padding position-relative" v-if="props.forms && props.forms.length > 0">
+            <div class="container">
+                <div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>فرم</h3></div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <div class="row product-grid-4">
+                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.forms" :key="index">
+                                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
+                                    <div class="product-img-action-wrap">
+                                        <div class="product-img product-img-zoom">
+                                            <Link :href="route('form.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                            <Link :href="route('form.show',[result.slug])" v-else-if="props.companies">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-wrap">
+                                        <div class="product-category">
+                                            <template v-for="(menu,index) in result.menus" :key="index">
+                                                <template v-for="(section,index) in menu.sections" :key="section.id">
+                                                    <Link href="" v-if="section.name == 'forms'">{{ menu.name + ' '}}</Link>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <h2><Link :href="route('form.show',[result.slug])">{{ [result.group?.name, result.type?.name, result.category?.name, result.name].filter(Boolean).join(' ') }}</Link></h2>
+                                        <div><span class="font-small text-muted">{{ result.tag }}</span></div>
+                                        <div class="product-rate-cover">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating">({{ result.ratings_avg_rating }})</span>
+                                            <span class="font-small ml-5 text-muted" v-else>(0.000)</span>
+                                        </div>
+                                        <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
+                                        <div class="product-card-bottom">
+                                            <div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR") }}</span></div>
+                                            <div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        <section class="product-tabs section-padding position-relative" v-if="props.blogs.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>بلاگ</h3></div>
-            <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
-                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn"><div class="product-img-action-wrap"><div class="product-img product-img-zoom">
-                    <Link :href="route('blog.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /></Link>
-                    <Link :href="route('blog.show',[result.slug])" v-else-if="props.companies"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /></Link>
-                </div></div>
-                <div class="product-content-wrap"><div class="product-category"><template v-for="(menu,index) in result.menus" :key="index"><template v-for="(section,index) in menu.sections" :key="section.id"><Link href="" v-if="section.name == 'blogs'" >{{ menu.name + ' '}}</Link></template></template></div>
-                <h2><Link :href="route('blog.show',[result.slug])">{{result.title}}</Link></h2><div><span class="font-small text-muted">{{ result.tag }}</span></div>
-                <div class="product-rate-cover"><div class="product-rate d-inline-block"><div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div></div><span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating"> ({{ result.ratings_avg_rating }})</span><span class="font-small ml-5 text-muted" v-else> (0.000)</span></div>
-                <div><span class="font-small text-muted">نویسنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
-                <div class="product-card-bottom"><div class="product-price"><span v-if="result.discount">{{(result.price-(result.price*result.discount.percent/100)).toLocaleString("fa-IR")}}<span class="old-price">{{(result.price).toLocaleString("fa-IR")}}</span></span><span v-else></span><div class="add-cart"><Link class="add" :href="route('blog.show',[result.slug])">جزئیات</Link></div></div>
-                </div></div></div></div></div>
+
+        <section class="product-tabs section-padding position-relative" v-if="props.blogs && props.blogs.length > 0">
+            <div class="container">
+                <div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>بلاگ</h3></div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <div class="row product-grid-4">
+                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
+                                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
+                                    <div class="product-img-action-wrap">
+                                        <div class="product-img product-img-zoom">
+                                            <Link :href="route('blog.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                            <Link :href="route('blog.show',[result.slug])" v-else-if="props.companies">
+                                                <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                                <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-wrap">
+                                        <div class="product-category">
+                                            <template v-for="(menu,index) in result.menus" :key="index">
+                                                <template v-for="(section,index) in menu.sections" :key="section.id">
+                                                    <Link href="" v-if="section.name == 'blogs'">{{ menu.name + ' '}}</Link>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <h2><Link :href="route('blog.show',[result.slug])">{{ result.title }}</Link></h2>
+                                        <div><span class="font-small text-muted">{{ result.tag }}</span></div>
+                                        <div class="product-rate-cover">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" v-if="result.ratings_avg_rating" :style="'width:' + result.ratings_avg_rating*20 + '%'"></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted" v-if="result.ratings_avg_rating">({{ result.ratings_avg_rating }})</span>
+                                            <span class="font-small ml-5 text-muted" v-else>(0.000)</span>
+                                        </div>
+                                        <div><span class="font-small text-muted">نویسنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
+                                        <div class="product-card-bottom">
+                                            <div class="product-price">
+                                                <span v-if="result.discount">
+                                                    {{ (result.price-(result.price*result.discount.percent/100)).toLocaleString("fa-IR") }}
+                                                    <span class="old-price">{{ result.price.toLocaleString("fa-IR") }}</span>
+                                                </span>
+                                            </div>
+                                            <div class="add-cart"><Link class="add" :href="route('blog.show',[result.slug])">جزئیات</Link></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
