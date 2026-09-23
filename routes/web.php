@@ -4,6 +4,7 @@ use App\Http\Middleware\Check404;
 use App\Http\Middleware\Check503;
 use Illuminate\Support\Facades\Route;
 use App\Models\WebDesign;
+use App\Models\Tarahi;
 use App\Models\Product;
 use App\Models\Blog;
 use App\Http\Controllers\FaqController;
@@ -104,7 +105,7 @@ use App\Http\Controllers\DataBaseController;
 
 require __DIR__.'/auth.php';
 
-Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign) {
+Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi) {
     $urls = [
         ['loc' => url('/')],
         ['loc' => url('/website-templates')],
@@ -156,6 +157,19 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
             foreach ($products as $item) {
                 $urls[] = [
                     'loc' => url('/form/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $tarahi->whereIn('status', [3, 4, 6])
+        ->whereNotNull('slug')
+        ->whereHas('group', fn ($query) => $query->whereIn('name', ['کافی نت', 'پلن طراحی سایت']))
+        ->select(['id', 'slug', 'updated_at'])
+        ->chunkById(500, function ($items) use (&$urls) {
+            foreach ($items as $item) {
+                $urls[] = [
+                    'loc' => url('/project/' . rawurlencode($item->slug)),
                     'lastmod' => $item->updated_at ?? now(),
                 ];
             }
