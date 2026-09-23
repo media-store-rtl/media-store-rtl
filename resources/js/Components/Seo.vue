@@ -68,7 +68,7 @@ const baseSchema = computed(() => [
     name: 'فروشگاه مدیا',
     url: siteUrl.value,
     inLanguage: 'fa-IR',
-   },
+  },
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -118,7 +118,7 @@ const breadcrumbSchema = computed(() => {
   }]
   if (segments.length) {
     segments.forEach((segment, index) => {
-      const itemUrl = siteUrl.value.replace(/\\/$/, '') + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
+      const itemUrl = siteUrl.value.replace(/\/$/, '') + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
       items.push({
         '@type': 'ListItem',
         position: index + 2,
