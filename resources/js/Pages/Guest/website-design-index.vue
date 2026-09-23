@@ -9,6 +9,7 @@ import Seo from '@/Components/Seo.vue';
 import 'vue3-carousel/dist/carousel.css'
 
 const errors = computed(() => usePage().props.errors);
+const seoHasQuery = computed(() => String(usePage().url || '').includes('?'));
 const props = defineProps({
     auth: Object, menus: Object, alert: Object, flash: String, results:Object,cart:Object,
     companies: Object,users:Object,path:String,orders:Object,querystring:String,usersRating:Object,
@@ -323,7 +324,7 @@ const descriptionSeo = 'مشاهده پلن‌های طراحی سایت فرو�
 
 </script>
 <template>
-    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" />
+    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="seoHasQuery" />
     <Header :cart="props.cart"  :alert="props.alert" :users="props.users" :companies="props.companies"  @event-submit-tarahi-filter="submitFilter"
      :menus="props.menus" :menu="props.menu"/>
     <main class="main">
