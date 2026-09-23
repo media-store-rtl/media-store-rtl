@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import Seo from '@/Components/Seo.vue';
 import '@/../css/tailwind.css';
 
 
 </script>
 
 <template >
+    <Seo :title="'حسابداری آنلاین | نرم‌افزار حسابداری | فروشگاه مدیا'" :description="'خدمات و ابزارهای حسابداری آنلاین فروشگاه مدیا برای مدیریت بهتر امور مالی و حسابداری کسب‌وکار.'" :noIndex="false" />
     <Head title="accounting">
         <!-- <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
