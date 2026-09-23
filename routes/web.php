@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\WebDesign;
 use App\Models\Tarahi;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Blog;
 use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Artisan;
@@ -105,7 +106,7 @@ use App\Http\Controllers\DataBaseController;
 
 require __DIR__.'/auth.php';
 
-Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi) {
+Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi, User $user) {
     $urls = [
         ['loc' => url('/')],
         ['loc' => url('/website-templates')],
@@ -187,6 +188,18 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
             }
         });
 
+    $user->whereNotNull('user_name')
+        ->where('user_name', '!=', '')
+        ->select(['id', 'user_name', 'updated_at'])
+        ->chunkById(500, function ($users) use (&$urls) {
+            foreach ($users as $item) {
+                $urls[] = [
+                    'loc' => url('/guest-profile/' . rawurlencode($item->user_name)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
     $webDesign->where('status', 4)
         ->whereNotNull('slug')
         ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
@@ -199,6 +212,8 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
                 ];
             }
         });
+
+    $urls = collect($urls)->unique('loc')->values()->all();
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
