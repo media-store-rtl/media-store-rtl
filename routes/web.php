@@ -164,12 +164,24 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
 
     $tarahi->whereIn('status', [3, 4, 6])
         ->whereNotNull('slug')
-        ->whereHas('group', fn ($query) => $query->whereIn('name', ['کافی نت', 'پلن طراحی سایت']))
         ->select(['id', 'slug', 'updated_at'])
         ->chunkById(500, function ($items) use (&$urls) {
             foreach ($items as $item) {
                 $urls[] = [
                     'loc' => url('/project/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $tarahi->whereIn('status', [3, 4, 6])
+        ->whereNotNull('slug')
+        ->whereHas('group', fn ($query) => $query->where('name', 'کافی نت'))
+        ->select(['id', 'slug', 'updated_at'])
+        ->chunkById(500, function ($items) use (&$urls) {
+            foreach ($items as $item) {
+                $urls[] = [
+                    'loc' => url('/cafe-net/' . rawurlencode($item->slug)),
                     'lastmod' => $item->updated_at ?? now(),
                 ];
             }
