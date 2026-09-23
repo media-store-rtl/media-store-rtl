@@ -144,6 +144,20 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
             }
         });
 
+
+    $forms = $product->whereIn('status', [4, 5])
+        ->whereHas('group', fn ($query) => $query->where('name', 'فرم'))
+        ->whereNotNull('slug')
+        ->select(['slug', 'updated_at'])
+        ->chunkById(500, function ($products) use (&$urls) {
+            foreach ($products as $item) {
+                $urls[] = [
+                    'loc' => url('/form/' . rawurlencode($item->slug)),
+                    'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
     $webDesign->where('status', 4)
         ->whereNotNull('slug')
         ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
