@@ -108,7 +108,7 @@ const submitQuickview = (result) =>{
 
 </script>
 <template>
-    <Seo :noIndex="false"/>
+    <Seo :title="'درباره فروشگاه مدیا | فروشگاه محصولات دیجیتال'" :description="'درباره فروشگاه مدیا؛ آشنایی با خدمات، محصولات دیجیتال، قالب‌های سایت و مسیر همکاری با این مجموعه.'" :noIndex="false" />
      <Head title="index" /> 
     <Header :companies="props.companies"  :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu"
         @event-submit-quickview="submitQuickview" 
