@@ -17,6 +17,8 @@ const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
 const page = usePage()
 const errors = computed(() => page.props?.errors || {})
 
+const seoDescription = computed(() => String(props.tarahis?.text || props.tarahis?.tag || props.tarahis?.title || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160))
+
 const props = defineProps({
     tarahis: Object, cart: Object, time: String, count: Number, menus: Object,auth:Object,
     alert: Object, flash: String, tarahi_count: Number, tarahi_order: Number ||String, coupon_count: Number,
@@ -247,7 +249,7 @@ const submitReply = (id) => {
 }
 </script>
 <template>
-    <Seo :title="props.tarahis.slug" :description="props.tarahis.tag" :noIndex="false" />
+    <Seo :title="(props.tarahis?.title || props.tarahis?.slug || 'خدمات آنلاین') + ' | فروشگاه مدیا'" :description="seoDescription" :noIndex="false" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
