@@ -56,12 +56,12 @@ const descriptionSeo = String(props.user.name + ' ' + props.user.lasst_name + '-
 const seoProfileSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
-    name: titleSeo,
-    description: descriptionSeo,
+    name: profileName.value,
+    description: descriptionSeo.value,
     url: page.props.ziggy.url + '/guest-profile/' + encodeURIComponent(props.user.user_name || props.user.id),
     mainEntity: {
         '@type': 'Person',
-        name: [props.user.name, props.user.lasst_name].filter(Boolean).join(' '),
+        name: profileName.value,
         alternateName: props.user.user_name || undefined,
         description: descriptionSeo,
     },
