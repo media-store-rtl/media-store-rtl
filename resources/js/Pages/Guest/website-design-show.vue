@@ -3,11 +3,19 @@
 const seoPage = usePage()
 const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
 
+const seoDescription = computed(() => {
+    const text = String(props.tarahis.text || props.tarahis.tag || props.tarahis.name || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    return text.slice(0, 160)
+})
+
 const seoWebDesignSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: props.tarahis.name,
-    description: props.tarahis.tag || props.tarahis.name,
+    description: seoDescription.value,
     image: props.tarahis.image?.url ? [seoSiteUrl.value + '/storage/' + props.tarahis.image.url] : undefined,
     provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: seoSiteUrl.value },
     offers: props.tarahis.price != null ? {
@@ -270,7 +278,7 @@ const submitReply = (id) => {
 }
 </script>
 <template>
-    <Seo :title="props.tarahis.name + ' | فروشگاه مدیا'" :description="props.tarahis.tag || props.tarahis.name" :image="props.tarahis.image?.url ? '/storage/' + props.tarahis.image.url : '/storage/images/logo-2.png'" type="service" :noIndex="false" :schema="seoWebDesignSchema" />
+    <Seo :title="props.tarahis.name + ' | فروشگاه مدیا'" :description="seoDescription" :image="props.tarahis.image?.url ? '/storage/' + props.tarahis.image.url : '/storage/images/logo-2.png'" type="service" :noIndex="false" :schema="seoWebDesignSchema" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
