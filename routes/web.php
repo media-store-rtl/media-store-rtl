@@ -4,6 +4,7 @@ use App\Http\Middleware\Check404;
 use App\Http\Middleware\Check503;
 use Illuminate\Support\Facades\Route;
 use App\Models\WebDesign;
+use App\Models\Product;
 use App\Models\Blog;
 use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Artisan;
