@@ -88,7 +88,12 @@ const pageSchema = computed(() => ({
 }))
 
 const breadcrumbSchema = computed(() => {
-  const path = currentUrl.value.replace(/^https?:\\/\\/[^/]+/, '').split('?')[0].split('#')[0]
+  let path = '/'
+  try {
+    path = new URL(currentUrl.value, siteUrl.value || undefined).pathname
+  } catch {
+    path = currentUrl.value.split('?')[0].split('#')[0]
+  }
   const segments = path.split('/').filter(Boolean)
   const labels = {
     'website-templates': 'قالب‌های آماده سایت',
