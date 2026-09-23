@@ -1,4 +1,5 @@
 <script setup>
+import Seo from '@/Components/Seo.vue';
 import { ref,onMounted,onBeforeUnmount} from 'vue';
 import { Link, useForm } from '@inertiajs/vue3';
 
@@ -58,6 +59,7 @@ onMounted(() => {
 });
 </script>
 <template v-cloak>
+    <Seo :title="'ثبت سفارش فرم | فروشگاه مدیا'" :description="'ثبت سفارش و دریافت فرم آماده از فروشگاه مدیا.'" :noIndex="true" />
     <head>
         <link rel="stylesheet" :href="$page.props.ziggy.url+'/css/bootstrap.min.css'" type="text/css" />
         <link rel="stylesheet" :href="$page.props.ziggy.url+'/css/magnific-popup.css'">
