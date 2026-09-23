@@ -1,4 +1,5 @@
 <script setup>
+import Seo from '@/Components/Seo.vue';
 
 import Header from '@/Pages/Guest/Header2.vue';
 import Footer from '@/Pages/Guest/Footer2.vue';
@@ -125,6 +126,7 @@ const submit = () => {
 };
 </script>
 <template>
+    <Seo :title="'تکمیل سفارش | فروشگاه مدیا'" :description="'تکمیل سفارش و پرداخت در فروشگاه مدیا.'" :noIndex="true" />
 
 <body >
     <Head title="shop-checkout" />
