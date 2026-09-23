@@ -1,4 +1,13 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /users/
+Disallow: /cart/
+Disallow: /guest-cart/
+Disallow: /shop-checkout/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /verify
 
 Sitemap: https://web2022.ir/sitemap.xml
