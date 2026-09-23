@@ -3,11 +3,19 @@
 const seoPage = usePage()
 const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
 
+const seoDescription = computed(() => {
+    const text = String(props.product.text || props.product.tag || props.product.title || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    return text.slice(0, 160)
+})
+
 const seoBlogSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: props.product.title,
-    description: props.product.tag || props.product.title,
+    description: seoDescription.value,
     image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
     datePublished: props.product.created_at,
     dateModified: props.product.updated_at || props.product.created_at,
@@ -268,7 +276,7 @@ if (props.product && props.product.menus && props.product.menus.length > 0) {
 <template>
     <Seo
         :title="props.product.title + ' | فروشگاه مدیا'"
-        :description="props.product.tag || props.product.title"
+        :description="seoDescription"
         :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
         type="article"
         :noIndex="false"
