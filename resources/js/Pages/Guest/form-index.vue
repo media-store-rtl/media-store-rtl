@@ -8,6 +8,7 @@ import Footer from './Footer2.vue';
 import Header from './Header2.vue';
 
 const errors = computed(() => usePage().props.errors);
+const seoHasQuery = computed(() => String(usePage().url || '').includes('?'));
 
 const props = defineProps({
     canLogin: Boolean,menu: Object,canRegister: Boolean,laravelVersion: String,phpVersion: String,auth: Object,
@@ -86,7 +87,7 @@ const titleSeo = 'فرم‌های آماده اداری | فرم‌های کار
 const descriptionSeo = 'خرید فرم‌های آماده اداری و کاربردی برای شرکت‌ها و کسب‌وکارها؛ فرم‌های منظم برای جمع‌آوری، ثبت و مدیریت اطلاعات.'
 </script>
 <template>
-    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" />
+    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="seoHasQuery" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu" />
 
     <main class="main">
