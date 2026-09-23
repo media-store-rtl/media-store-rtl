@@ -119,12 +119,13 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         ['loc' => url('/faq')],
         ['loc' => url('/privacy')],
         ['loc' => url('/terms-conditions')],
+        ['loc' => url('/terms-seller')],
     ];
 
     $product->whereIn('status', [4, 5])
         ->whereHas('group', fn ($query) => $query->where('name', 'قالب'))
         ->whereNotNull('slug')
-        ->select(['slug', 'updated_at'])
+        ->select(['id', 'slug', 'updated_at'])
         ->chunkById(500, function ($products) use (&$urls) {
             foreach ($products as $item) {
                 $urls[] = [
@@ -147,7 +148,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         });
 
 
-    $forms = $product->whereIn('status', [4, 5])
+    $product->whereIn('status', [4, 5])
         ->whereHas('group', fn ($query) => $query->where('name', 'فرم'))
         ->whereNotNull('slug')
         ->select(['slug', 'updated_at'])
