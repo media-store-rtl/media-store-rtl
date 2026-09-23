@@ -3,26 +3,45 @@
 const seoPage = usePage()
 const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
 
-const seoProductSchema = computed(() => ({
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: props.product.name,
-    description: props.product.tag || props.product.name,
-    image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
-    sku: props.product.slug || undefined,
-    brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
-    offers: props.product.price != null ? {
-        '@type': 'Offer',
+const seoDescription = computed(() => {
+    const text = String(props.product.text || props.product.tag || props.product.name || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\\s+/g, ' ')
+        .trim()
+    return text.slice(0, 160)
+})
+
+const seoProductSchema = computed(() => {
+    const price = Number(props.product.price)
+    const discount = Number(props.product.discount?.percent || 0)
+    const finalPrice = Number.isFinite(price) && discount > 0
+        ? Math.max(0, price - (price * discount / 100))
+        : price
+
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: props.product.name,
+        description: seoDescription.value,
+        image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
+        sku: props.product.slug || undefined,
+        category: props.product.category?.name || undefined,
+        brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
         url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
-        priceCurrency: 'IRR',
-        price: Number(props.product.price),
-    } : undefined,
-    aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
-        '@type': 'AggregateRating',
-        ratingValue: Number(props.product_averageRating),
-        ratingCount: Number(props.product_usersRated),
-    } : undefined,
-}))
+        offers: Number.isFinite(finalPrice) ? {
+            '@type': 'Offer',
+            url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
+            priceCurrency: 'IRR',
+            price: finalPrice,
+            availability: 'https://schema.org/InStock',
+        } : undefined,
+        aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
+            '@type': 'AggregateRating',
+            ratingValue: Number(props.product_averageRating),
+            ratingCount: Number(props.product_usersRated),
+        } : undefined,
+    }
+})
 
 
 import Header from './Header2.vue';
@@ -340,7 +359,7 @@ const groupedTests = computed(() => {
 });
 </script>
 <template>
-     <Seo :title="props.product.name + ' | فروشگاه مدیا'" :description="props.product.tag || props.product.name" :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'" type="product" :noIndex="false" :schema="seoProductSchema" />
+     <Seo :title="props.product.name + ' | فروشگاه مدیا'" :description="seoDescription" :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'" type="product" :noIndex="false" :schema="seoProductSchema" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
@@ -354,7 +373,7 @@ const groupedTests = computed(() => {
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             <figure class="border-radius-10">
-                                                <img :src="$page.props.ziggy.url + '/storage/' + props.product.image.url" width="600" height="600" alt="product image" />
+                                                <img :src="$page.props.ziggy.url + '/storage/' + props.product.image.url" width="600" height="600" :alt="props.product.name" />
                                             </figure>
 
                                         </div>
