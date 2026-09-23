@@ -10,6 +10,7 @@ import 'vue3-carousel/dist/carousel.css'
 import Editor from '@/Components/Editor.vue';
 
 const errors = computed(() => usePage().props.errors);
+const seoHasQuery = computed(() => String(usePage().url || '').includes('?'));
 const props = defineProps({
     auth: Object, menus: Object, alert: Object, flash: String, results:Object,cart:Object,
     companies: Object,users:Object,path:String,orders:Object,querystring:String,usersRating:Object,
@@ -306,7 +307,7 @@ const titleSeo = ' تعریف پروژه – سریع، آسان و قابل ا�
 const descriptionSeo = 'هر پروژه‌ای که دارید، می‌توانید آن را به راحتی تعریف کنید. کافیست جزئیات پروژه، نیازمندی‌ها و زمان تحویل مورد نظر را وارد کنید. بعد از تعریف پروژه، فریلنسرهای متخصص می‌توانند برای آن پیشنهاد دهند و شما از میان آنها بهترین فرد را انتخاب می‌کنید.'
 </script>
 <template>
-    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" />
+    <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="seoHasQuery" />
     <Header :cart="props.cart"  :alert="props.alert" :users="props.users" :companies="props.companies"  @event-submit-tarahi-filter="submitFilter"
      :menus="props.menus" :menu="props.menu"/>
     <main class="main">
