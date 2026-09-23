@@ -78,9 +78,60 @@ const baseSchema = computed(() => [
   },
 ])
 
+const pageSchema = computed(() => ({
+  '@context': 'https://schema.org',
+  '@type': props.type === 'article' ? 'Article' : props.type === 'product' ? 'Product' : props.type === 'service' ? 'Service' : 'WebPage',
+  name: props.title,
+  description: props.description,
+  url: currentUrl.value,
+  inLanguage: 'fa-IR',
+}))
+
+const breadcrumbSchema = computed(() => {
+  const path = currentUrl.value.replace(/^https?:\\/\\/[^/]+/, '').split('?')[0].split('#')[0]
+  const segments = path.split('/').filter(Boolean)
+  const labels = {
+    'website-templates': 'قالب‌های آماده سایت',
+    'website-design': 'پلن طراحی سایت',
+    'blog': 'وبلاگ',
+    'project': 'پروژه‌ها',
+    'cafe-net': 'خدمات آنلاین',
+    'form': 'فرم‌های آماده',
+    'accounting': 'حسابداری',
+    'about': 'درباره ما',
+    'about-hesabdari': 'درباره حسابداری',
+    'faq': 'سوالات متداول',
+    'privacy': 'حریم خصوصی',
+    'terms-conditions': 'قوانین و مقررات',
+    'terms-seller': 'قوانین فروشندگان',
+  }
+  const items = [{
+    '@type': 'ListItem',
+    position: 1,
+    name: 'فروشگاه مدیا',
+    item: siteUrl.value,
+  }]
+  if (segments.length) {
+    segments.forEach((segment, index) => {
+      const itemUrl = siteUrl.value.replace(/\\/$/, '') + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
+      items.push({
+        '@type': 'ListItem',
+        position: index + 2,
+        name: index === segments.length - 1 ? props.title : (labels[segment] || segment),
+        item: itemUrl,
+      })
+    })
+  }
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items,
+  }
+})
+
 const structuredData = computed(() => {
   const custom = props.schema ? (Array.isArray(props.schema) ? props.schema : [props.schema]) : []
-  return [...baseSchema.value, ...custom]
+  return [...baseSchema.value, pageSchema.value, breadcrumbSchema.value, ...custom]
 })
 
 useHead({
