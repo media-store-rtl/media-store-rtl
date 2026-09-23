@@ -26,7 +26,7 @@ const page = usePage()
 const seoDescription = computed(() => {
     const text = String(props.product.text || props.product.tag || props.product.name || '')
         .replace(/<[^>]*>/g, ' ')
-        .replace(/\\s+/g, ' ')
+        .replace(/\s+/g, ' ')
         .trim()
     return text.slice(0, 160)
 })
