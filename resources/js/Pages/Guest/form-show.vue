@@ -11,6 +11,38 @@ import fa from "moment/src/locale/fa";
 import 'vue3-carousel/dist/carousel.css'
 import CommentReply from '@/Components/CommentReply.vue';
 import Editor from '@tinymce/tinymce-vue';
+const seoDescription = computed(() => {
+    const text = String(props.product.text || props.product.tag || props.product.name || '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    return text.slice(0, 160)
+})
+
+const seoProductSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: props.product.name,
+    description: seoDescription.value,
+    image: props.product.image?.url ? [page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+    sku: props.product.slug || undefined,
+    category: props.product.category?.name || 'فرم',
+    brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
+    url: page.props.ziggy.url + '/form/' + encodeURIComponent(props.product.slug || ''),
+    offers: props.product.price != null ? {
+        '@type': 'Offer',
+        url: page.props.ziggy.url + '/form/' + encodeURIComponent(props.product.slug || ''),
+        priceCurrency: 'IRR',
+        price: Number(props.product.price),
+        availability: 'https://schema.org/InStock',
+    } : undefined,
+    aggregateRating: props.product_averageRating && Number(props.product_averageRating) > 0 && props.product_usersRated > 0 ? {
+        '@type': 'AggregateRating',
+        ratingValue: Number(props.product_averageRating),
+        ratingCount: Number(props.product_usersRated),
+    } : undefined,
+}))
+
 const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
 
 const props = defineProps({
@@ -182,65 +214,15 @@ if (props.product.menus.length > 0) {
 
 const browsers = ref([]);
 if (props.product.menus.length > 0) {
-    props.product.menus.forEach(element => {
-        if (element.sections.length > 0) {
-            element.sections.forEach(section => {
-                if (section.name == 'browsers') {
-                    browsers.value.push(element)
-                }
-            });
-        }
-
-    });
-}
-
-const tests = ref([]);
-
-if (props.product.menus.length > 0) {
-    props.product.menus.forEach(element => {
-        if (element.sections.length > 0)
-        {
-            element.sections.forEach(section =>  {
-                if (section.name == 'tests') {
-                    tests.value.push(element)
-                }
-            })
-        }
-    });
-}
-
-const submitCart = (id) => {
-  form.id = id;
-  form.model = 'App\\Models\\Product';
-  form.post(route('cart.store'));
-};
-
-const submitComment = () => {
-
-    form.user_id=props.product.user.id
-    form.product_id=props.product.id
-    if(form.text == null)
-    {
-        let text
-        text = 'موارد ستاره دار الزامی است.'
-        validate(text)
-    }
-    else
-    {
-        form.post(route('comment.store'))
-    }
-
-}
-
-const submitReply = (id) => {
-    form.parent_id = id
-    form.user_id=props.product.user.id
-    form.product_id=props.product.id
-
-    if(form.text == null)
-    {
-        let text
-        text = 'موارد ستاره دار الزامی است.'
+    props.product.menus.forEach(<Seo
+        :title="props.product.name + ' | فرم آماده اداری | فروشگاه مدیا'"
+        :description="seoDescription"
+        :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
+        type="product"
+        :noIndex="false"
+        :schema="seoProductSchema"
+    />
+ی است.'
         validate(text)
     }
     else
