@@ -249,7 +249,7 @@ const submitReply = (id) => {
 }
 </script>
 <template>
-    <Seo :title="(props.tarahis?.title || props.tarahis?.slug || 'خدمات آنلاین') + ' | فروشگاه مدیا'" :description="seoDescription" :noIndex="false" />
+    <Seo :title="(props.tarahis?.title || props.tarahis?.slug || 'پروژه طراحی سایت') + ' | فروشگاه مدیا'" :description="seoDescription" :noIndex="false" />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
