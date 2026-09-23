@@ -11,10 +11,22 @@ import fa from "moment/src/locale/fa";
 import 'vue3-carousel/dist/carousel.css'
 import CommentReply from '@/Components/CommentReply.vue';
 import Editor from '@tinymce/tinymce-vue';
+const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
+
+const props = defineProps({
+    product: Object, auth: Object, cart: Object, time: String, count: Number,alert: Object,
+    flash: String, product_count: Number, product_order: Number, coupon_count: Number,
+    companies: Object,product_averageRating:String,product_usersRated:Number,carousels:Object,
+    users:Object,namads:Object,menus:Object,menu:Object,socials:Object
+});
+
+
+const page = usePage()
+
 const seoDescription = computed(() => {
     const text = String(props.product.text || props.product.tag || props.product.name || '')
         .replace(/<[^>]*>/g, ' ')
-        .replace(/\s+/g, ' ')
+        .replace(/\\s+/g, ' ')
         .trim()
     return text.slice(0, 160)
 })
@@ -42,18 +54,6 @@ const seoProductSchema = computed(() => ({
         ratingCount: Number(props.product_usersRated),
     } : undefined,
 }))
-
-const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
-
-const props = defineProps({
-    product: Object, auth: Object, cart: Object, time: String, count: Number,alert: Object,
-    flash: String, product_count: Number, product_order: Number, coupon_count: Number,
-    companies: Object,product_averageRating:String,product_usersRated:Number,carousels:Object,
-    users:Object,namads:Object,menus:Object,menu:Object,socials:Object
-});
-
-
-const page = usePage()
 const errors = computed(() => page.props?.errors || {})
 const rawFavorite = computed(() => page.props.product.favorite)
 const favorite = ref(null);
@@ -214,15 +214,65 @@ if (props.product.menus.length > 0) {
 
 const browsers = ref([]);
 if (props.product.menus.length > 0) {
-    props.product.menus.forEach(<Seo
-        :title="props.product.name + ' | فرم آماده اداری | فروشگاه مدیا'"
-        :description="seoDescription"
-        :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
-        type="product"
-        :noIndex="false"
-        :schema="seoProductSchema"
-    />
-ی است.'
+    props.product.menus.forEach(element => {
+        if (element.sections.length > 0) {
+            element.sections.forEach(section => {
+                if (section.name == 'browsers') {
+                    browsers.value.push(element)
+                }
+            });
+        }
+
+    });
+}
+
+const tests = ref([]);
+
+if (props.product.menus.length > 0) {
+    props.product.menus.forEach(element => {
+        if (element.sections.length > 0)
+        {
+            element.sections.forEach(section =>  {
+                if (section.name == 'tests') {
+                    tests.value.push(element)
+                }
+            })
+        }
+    });
+}
+
+const submitCart = (id) => {
+  form.id = id;
+  form.model = 'App\\Models\\Product';
+  form.post(route('cart.store'));
+};
+
+const submitComment = () => {
+
+    form.user_id=props.product.user.id
+    form.product_id=props.product.id
+    if(form.text == null)
+    {
+        let text
+        text = 'موارد ستاره دار الزامی است.'
+        validate(text)
+    }
+    else
+    {
+        form.post(route('comment.store'))
+    }
+
+}
+
+const submitReply = (id) => {
+    form.parent_id = id
+    form.user_id=props.product.user.id
+    form.product_id=props.product.id
+
+    if(form.text == null)
+    {
+        let text
+        text = 'موارد ستاره دار الزامی است.'
         validate(text)
     }
     else
@@ -234,30 +284,13 @@ if (props.product.menus.length > 0) {
 </script>
 <template>
      <Seo
-        :title="props.product.name + ' | فروشگاه مدیا'"
-        :description="props.product.tag || ('خرید ' + props.product.name + ' از فروشگاه مدیا')"
-        :image="props.product.image && props.product.image.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
+        :title="props.product.name + ' | فرم آماده اداری | فروشگاه مدیا'"
+        :description="seoDescription"
+        :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
         type="product"
         :noIndex="false"
-        :schema="{
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: props.product.name,
-            description: props.product.tag || props.product.name,
-            image: props.product.image && props.product.image.url ? [$page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
-            offers: props.product.price != null ? {
-                '@type': 'Offer',
-                price: props.product.price,
-                priceCurrency: 'IRR',
-                availability: 'https://schema.org/InStock',
-            } : undefined,
-            aggregateRating: product_averageRating && Number(product_averageRating) > 0 && product_usersRated > 0 ? {
-                '@type': 'AggregateRating',
-                ratingValue: Number(product_averageRating),
-                reviewCount: product_usersRated,
-            } : undefined,
-        }"
-/>
+        :schema="seoProductSchema"
+    />
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart"  :menu="props.menu" />
     <main class="main">
 
@@ -272,7 +305,7 @@ if (props.product.menus.length > 0) {
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             <figure class="border-radius-10">
-                                                <img :src="$page.props.ziggy.url + '/storage/' + props.product.image.url" width="600" height="600" alt="product image" />
+                                                <img :src="$page.props.ziggy.url + '/storage/' + props.product.image.url" :alt="props.product.name" />
                                             </figure>
 
                                         </div>
