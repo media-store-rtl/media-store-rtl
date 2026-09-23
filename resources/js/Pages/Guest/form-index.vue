@@ -82,8 +82,8 @@ function toggleShowMore(event) {
   }
   window.history.replaceState({}, '', url)
 }
-const titleSeo = ' فرم های آماده اداری'
-const descriptionSeo = 'فرم‌های اداری شرکت‌ها , سهولت در جمع‌آوری اطلاعات, ایجاد نظم در دسته‌بندی و تفکیک اطلاعات '
+const titleSeo = 'فرم‌های آماده اداری | فرم‌های کاربردی | فروشگاه مدیا'
+const descriptionSeo = 'خرید فرم‌های آماده اداری و کاربردی برای شرکت‌ها و کسب‌وکارها؛ فرم‌های منظم برای جمع‌آوری، ثبت و مدیریت اطلاعات.'
 </script>
 <template>
     <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" />
