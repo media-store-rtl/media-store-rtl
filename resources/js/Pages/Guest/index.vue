@@ -245,6 +245,7 @@ if (props.discounts.data) {
                         </div></div></div>
                 </div></div>
             </div>
+            </div>
         </section>
         <section class="product-tabs section-padding position-relative" v-if="props.cafes.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>کافه </h3></div>
             <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.cafes" :key="index">
@@ -258,6 +259,7 @@ if (props.discounts.data) {
                 <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
                 <div class="product-card-bottom"><div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR")}}</span></div><div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div></div>
                 </div></div></div></div></div>
+            </div>
         </section>
         <section class="product-tabs section-padding position-relative" v-if="props.forms && props.forms.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>فرم </h3></div>
             <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.forms" :key="index">
@@ -271,6 +273,7 @@ if (props.discounts.data) {
                 <div><span class="font-small text-muted">فروشنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
                 <div class="product-card-bottom"><div class="product-price"><span>{{ Number(result.price).toLocaleString("fa-IR")}}</span></div><div class="add-cart"><Link class="add" href="" @click.prevent="submitCart(result.id)"><i class="fi-rs-shopping-cart mr-5"></i>خرید</Link></div></div>
                 </div></div></div></div></div>
+            </div>
         </section>
         <section class="product-tabs section-padding position-relative" v-if="props.blogs.length > 0"><div class="container"><div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>بلاگ</h3></div>
             <div class="tab-content"><div class="tab-pane fade show active"><div class="row product-grid-4"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
@@ -284,6 +287,7 @@ if (props.discounts.data) {
                 <div><span class="font-small text-muted">نویسنده <Link :href="route('guest-profile.show', result.user.user_name)">({{ result.user.name_show }})</Link></span></div>
                 <div class="product-card-bottom"><div class="product-price"><span v-if="result.discount">{{(result.price-(result.price*result.discount.percent/100)).toLocaleString("fa-IR")}}<span class="old-price">{{(result.price).toLocaleString("fa-IR")}}</span></span><span v-else></span><div class="add-cart"><Link class="add" :href="route('blog.show',[result.slug])">جزئیات</Link></div></div>
                 </div></div></div></div></div>
+            </div>
         </section>
     </main>
     <Footer :companies="props.companies" :socials="props.socials" :time="props.time" :menus="props.menus" :path="props.path" :namads="props.namads" />
