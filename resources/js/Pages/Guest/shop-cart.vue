@@ -1,4 +1,5 @@
 <script setup>
+import Seo from '@/Components/Seo.vue';
 
 import Header from '@/Pages/Guest/Header2.vue';
 import Footer from '@/Pages/Guest/Footer2.vue';
@@ -33,6 +34,7 @@ const submitRemoveAll = (id) => {
 
 </script>
 <template>
+    <Seo :title="'سبد خرید | فروشگاه مدیا'" :description="'سبد خرید محصولات فروشگاه مدیا.'" :noIndex="true" />
 
 <body >
    
