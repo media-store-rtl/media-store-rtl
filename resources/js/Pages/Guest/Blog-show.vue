@@ -14,7 +14,7 @@ const seoDescription = computed(() => {
 const blogImageUrl = computed(() => {
     const url = String(props.product.image?.url || '').trim()
     if (!url) return ''
-    if (/^(https?:)?\\/\\//.test(url) || url.startsWith('/')) return url
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//') || url.startsWith('/')) return url
     return '/storage/' + url
 })
 
