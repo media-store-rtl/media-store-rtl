@@ -11,12 +11,19 @@ const seoDescription = computed(() => {
     return text.slice(0, 160)
 })
 
+const blogImageUrl = computed(() => {
+    const url = String(props.product.image?.url || '').trim()
+    if (!url) return ''
+    if (/^(https?:)?\\/\\//.test(url) || url.startsWith('/')) return url
+    return '/storage/' + url
+})
+
 const seoBlogSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: props.product.title,
     description: seoDescription.value,
-    image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
+    image: blogImageUrl.value ? [seoSiteUrl.value + blogImageUrl.value] : undefined,
     datePublished: props.product.created_at,
     dateModified: props.product.updated_at || props.product.created_at,
     mainEntityOfPage: {
@@ -277,7 +284,7 @@ if (props.product && props.product.menus && props.product.menus.length > 0) {
     <Seo
         :title="props.product.title + ' | فروشگاه مدیا'"
         :description="seoDescription"
-        :image="props.product.image?.url ? '/storage/' + props.product.image.url : '/storage/images/logo-2.png'"
+        :image="blogImageUrl || '/storage/images/logo-2.png'"
         type="article"
         :noIndex="false"
         :schema="seoBlogSchema"
@@ -315,7 +322,7 @@ if (props.product && props.product.menus && props.product.menus.length > 0) {
                                 </div>
                             </div>
                             <figure class="single-thumbnail">
-                                <img style="margin: auto;" v-if="props.product && props.product.image && props.product.image.status == 4" :src="$page.props.ziggy.url+'/storage/'+props.product.image.url" alt="">
+                                <img style="margin: auto;" v-if="props.product && props.product.image && props.product.image.status == 4" :src="$page.props.ziggy.url + blogImageUrl" :alt="props.product.title">
                             </figure>
                             <div class="single-content">
                                 <div class="row">
