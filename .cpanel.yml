@@ -1,11 +1,11 @@
 ---
 deployment:
   tasks:
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && rm -f bootstrap/cache/*.php'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm ci'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && rm -rf public/build && rm -rf bootstrap/ssr && npm run build:ssr'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && mkdir -p /home/mediast1/storage/app/public/images && cp public/images/sood-darim-chera-pol-nadarim.svg /home/mediast1/storage/app/public/images/sood-darim-chera-pol-nadarim.svg'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && /bin/tar --exclude=.git --exclude=node_modules --exclude=public --exclude=storage --exclude=.env -cf - . | /bin/tar -C /home/mediast1 -xf -'
-    - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && /bin/tar -C public -cf - . | /bin/tar -C /home/mediast1/public_html -xf -'
+    - /bin/bash -lc 'rm -f /home/mediast1/bootstrap/cache/*.php'
+    - /bin/bash -lc 'cd /home/mediast1 && composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction'
+    - /bin/bash -lc 'cd /home/mediast1 && npm ci'
+    - /bin/bash -lc 'cd /home/mediast1 && rm -rf public/build && rm -rf bootstrap/ssr && npm run build:ssr'
+    - /bin/bash -lc 'cd /home/mediast1 && mkdir -p storage/app/public/images && cp public/images/sood-darim-chera-pol-nadarim.svg storage/app/public/images/sood-darim-chera-pol-nadarim.svg'
+    - /bin/bash -lc 'cd /home/mediast1 && /bin/tar --exclude=.git --exclude=node_modules --exclude=public --exclude=storage --exclude=.env -cf - . | /bin/tar -C /home/mediast1 -xf -'
+    - /bin/bash -lc 'cd /home/mediast1 && /bin/tar -C public -cf - . | /bin/tar -C /home/mediast1/public_html -xf -'
     - /bin/bash -lc 'php /home/mediast1/artisan optimize:clear && php /home/mediast1/artisan optimize'
