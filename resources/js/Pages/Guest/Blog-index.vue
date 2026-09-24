@@ -103,6 +103,13 @@ else
 };
 
 // فقط در محیط مرورگر
+const blogImageUrl = (blog) => {
+    const url = String(blog?.image?.url || '').trim()
+    if (!url) return ''
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//') || url.startsWith('/')) return url
+    return '/storage/' + url
+}
+
 const getPageUrl = (baseUrl, page) => {
     if (typeof window !== 'undefined') {
         let queryString = window.location.search;
@@ -174,9 +181,9 @@ const getPageUrl = (baseUrl, page) => {
                                 <div class="row" v-if="props.blogs.total > 0">
                                     <article class="col-xl-3 col-lg-4 col-md-6 text-center hover-up mb-30 animated" v-for="blog,index in props.blogs.data" :key="index" >
                                         <div class="post-thumb" >
-                                            <Link :href="route('blog.show',[blog.slug])" v-if="blog.type">
+                                            <Link :href="route('blog.show',[blog.slug])" >
 
-                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+blog.image.url" width="300" height="200" class="border-radius-15" :alt="blog.name">
+                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url + blogImageUrl(blog)" width="300" height="200" class="border-radius-15" :alt="blog.name">
                                                 <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="200" class="border-radius-15" :alt="props.companies.name">
                                             </Link>
                                             <div class="entry-meta">
@@ -184,7 +191,10 @@ const getPageUrl = (baseUrl, page) => {
                                             </div>
                                         </div>
                                         <div class="entry-content-2">
-                                            <h6 class="mb-10 font-sm"><Link class="entry-meta text-muted" :href="route('blog.index','type')+blog.group.name+'#'">{{ blog.group.name }}</Link></h6>
+                                            <h6 class="mb-10 font-sm">
+    <Link v-if="blog.group" class="entry-meta text-muted" :href="route('blog.index','type')+blog.group.id+'#'">{{ blog.group.name }}</Link>
+    <span v-else class="entry-meta text-muted">حسابداری و مدیریت مالی</span>
+</h6>
                                             <h4 class="post-title mb-15">
                                                 <Link :href="route('blog.show',[blog.slug])">{{ blog.title }}</Link>
                                             </h4>
