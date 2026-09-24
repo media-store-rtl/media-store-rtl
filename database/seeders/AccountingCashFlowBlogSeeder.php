@@ -36,7 +36,7 @@ class AccountingCashFlowBlogSeeder extends Seeder
             [],
             [
                 'user_id' => $user->id,
-                'url' => '/images/sood-darim-chera-pol-nadarim.svg',
+                'url' => 'images/sood-darim-chera-pol-nadarim.svg',
                 'status' => 4,
             ]
         );
