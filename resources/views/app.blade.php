@@ -30,12 +30,12 @@
         @endif
 
         <style>
-            .product-img-action-wrap .product-img > a {
-                aspect-ratio: 1 / 1;
+            .product-cart-wrap .product-img-action-wrap .product-img > a {
+                aspect-ratio: auto;
             }
-            .product-img-action-wrap .product-img > a > img {
-                height: 100%;
-                object-fit: cover;
+            .product-cart-wrap .product-img-action-wrap .product-img > a > img {
+                height: auto;
+                object-fit: contain;
             }
             /* Keep the second hero slide hidden until Slick initializes. */
             .hero-slider-1:not(.slick-initialized) .single-hero-slider:not(:first-child) {
