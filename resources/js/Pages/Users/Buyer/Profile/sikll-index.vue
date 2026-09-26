@@ -120,7 +120,7 @@ const submitDel = ()=>{
                 <div class="row content-header">
                     <div class="d-flex col-sm-12">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto">
+                        <td style="margin-right:auto; text-align:left;">
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                                 <span v-if="form.processing">پردازش...</span>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
