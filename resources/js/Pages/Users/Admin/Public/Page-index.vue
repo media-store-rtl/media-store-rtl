@@ -41,11 +41,10 @@ const toggleMenu = (id) => {
         <main class="main-wrap rtl" >
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12 align-items-center">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto">
-                            <Link :href="route('page.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
-                        </td>
+                        <div style="margin-right:auto; text-align:left;"><Link :href="route('page.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
