@@ -14,6 +14,15 @@ const dark = ref([props.dark]);
 const offcanvas = ref([]);
 const show = ref([]);
 const notif = ref([]);
+const profileMenu = ref(false);
+
+const toggleProfileMenu = () => {
+    profileMenu.value = !profileMenu.value;
+};
+
+const closeProfileMenu = () => {
+    profileMenu.value = false;
+};
 
 watch(() => props.notifications, (val) => {
   notif.value = val;
@@ -86,6 +95,8 @@ const offcanvas_aside = () => {
 
 
 onMounted(() => {
+    document.addEventListener('click', closeProfileMenu);
+
     const scriptClass = 'dynamic-script';
 
     function addJs(address) {
@@ -118,6 +129,7 @@ onMounted(() => {
 
 // موقع ترک این کامپوننت، همه فایل‌های اضافه‌شده رو حذف کن
 onBeforeUnmount(() => {
+    document.removeEventListener('click', closeProfileMenu);
     document.querySelectorAll('script.dynamic-script').forEach(script => {
         script.remove();
     });
@@ -507,7 +519,7 @@ onBeforeUnmount(() => {
                         <a class="dropdown-toggle nav-link btn-icon" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
                             <i class="material-icons md-account_balance_wallet"></i>
                         </a>
-                        <div style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start" aria-labelledby="dropdownAccount">
+                        <div v-if="profileMenu" style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start show" aria-labelledby="dropdownAccount" @click.stop>
                             <a v-if="props.users.profile && props.wallet" class="dropdown-item" href="#">
                                 <i class="material-icons md-account_balance_wallet"></i>
                                 موجودی: {{ (props.wallet).toLocaleString("fa-IR") }} ریال
@@ -517,7 +529,7 @@ onBeforeUnmount(() => {
                         </div>
                     </li>
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                        <a class="dropdown-toggle" href="#" id="dropdownAccount" aria-expanded="false" @click.prevent.stop="toggleProfileMenu">
                             <img v-if="props.users.image && props.users.profile && props.users.image.status == 4 && props.users.profile.status == 4" style="height:40px" class="img-xs rounded-circle" :src="$page.props.ziggy.url+'/storage/'+ props.users.image.url" :alt="props.users.show_name" />
                             <img v-else style="height:40px" class="img-xs rounded-circle" :src="$page.props.ziggy.url+'/storage/images/default-user.png'" :alt="props.users.show_name" />
                         </a>
