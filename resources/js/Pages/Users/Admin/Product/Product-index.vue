@@ -1,6 +1,6 @@
 <script setup>
 
-import { computed,ref } from 'vue';
+import { computed,ref,onMounted,onBeforeUnmount } from 'vue';
 import { Link, useForm, usePage} from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -56,6 +56,30 @@ const submit = () => {
     }
 
 };
+
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
+
+const closeMenu = () => {
+    openMenu.value = null;
+};
+
+const handleDocumentClick = (event) => {
+    if (!event.target.closest('.product-actions-menu')) {
+        closeMenu();
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('click', handleDocumentClick);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleDocumentClick);
+});
 
 const getPageUrl = (baseUrl, page) => {
     if (typeof window !== 'undefined') {
@@ -140,7 +164,7 @@ const getPageUrl = (baseUrl, page) => {
                                     </tr>
                                 </thead>
                                 <tbody >
-                                    <tr v-for="(product,index) in props.products.data" :key="index">
+                                    <tr v-for="product in props.products.data" :key="product.id">
                                         <td >{{(product.id).toLocaleString("fa-IR")}}</td>
                                         <td >
                                             <div class="left">
@@ -171,9 +195,11 @@ const getPageUrl = (baseUrl, page) => {
                                             <span v-if="product.status == 5" class="badge badge-pill badge-soft-warning">متوقف</span>
                                         </td>
                                         <td>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
+                                            <div class="dropdown product-actions-menu">
+                                                <button type="button" class="btn btn-light rounded btn-sm font-sm" @click.stop="toggleMenu(product.id)" :aria-expanded="openMenu === product.id">
+                                                    <i class="material-icons md-more_horiz"></i>
+                                                </button>
+                                                <div v-if="openMenu === product.id" class="dropdown-menu show">
                                                     <Link class="dropdown-item" :href="route('productAdmin.edit',[product.id])"> ویرایش</Link>
                                                     <Link v-if="product.status == 4 && product.group.name == 'قالب'" class="dropdown-item" :href="route('website-templates.show',[product.slug])">نمایش</Link>
                                                     <Link v-if="product.status == 4 && product.group.name == 'فرم'" class="dropdown-item" :href="route('form.show',[product.slug])">نمایش</Link>
