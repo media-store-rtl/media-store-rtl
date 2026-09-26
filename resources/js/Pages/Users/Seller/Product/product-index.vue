@@ -1,6 +1,6 @@
 <script setup>
 
-import { computed,ref} from 'vue';
+import { computed,ref,onMounted,onBeforeUnmount} from 'vue';
 import { Head, Link, useForm,usePage } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -70,6 +70,24 @@ const getPageUrl = (baseUrl, page) => {
 };
 
 const pagination = ref(props.products);
+
+const openMenu = ref(null);
+
+const toggleMenu = (productId) => {
+    openMenu.value = openMenu.value === productId ? null : productId;
+};
+
+const closeMenu = () => {
+    openMenu.value = null;
+};
+
+onMounted(() => {
+    document.addEventListener('click', closeMenu);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', closeMenu);
+});
 </script>
 <template>
 <Header :cart="props.cart"  :wallet="props.wallet" :alert="props.alert" :users="props.users"
@@ -177,8 +195,8 @@ const pagination = ref(props.products);
                                                             </td>
                                                             <td>
                                                                 <div class="dropdown">
-                                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="#" class="btn btn-light rounded btn-sm font-sm" @click.prevent.stop="toggleMenu(product.id)"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === product.id" class="dropdown-menu show" @click.stop>
                                                                         <Link v-if="product.status == 0 || product.status == 3 || product.status == 4" class="dropdown-item" :href="route('product.edit',[product.id])"> ویرایش</Link>
                                                                         <Link v-if="product.status == 4" class="dropdown-item" method="PUT" as="button" :href="route('product.update',[product.id])">بروزرسانی</Link>
                                                                         <Link v-if="product.status == 4" class="dropdown-item" :href="route('website-templates.show',[product.slug])">نمایش</Link>
