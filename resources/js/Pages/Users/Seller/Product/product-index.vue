@@ -77,15 +77,11 @@ const pagination = ref(props.products);
 <main class="main-wrap rtl">
          <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12 product-page-header">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <table class="me-auto">
-                            <thead>
-                            <tr >
-                                <Link :href="route('product.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="product-create-wrap">
+                            <Link :href="route('product.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
@@ -146,7 +142,7 @@ const pagination = ref(props.products);
                                                     </tr>
                                                 </thead>
                                                 <tbody >
-                                                        <tr v-for="(product,index) in props.products.data" :key="index">
+                                                        <tr v-for="product in props.products.data" :key="product.id">
                                                             <td >{{(product.id).toLocaleString("fa-IR")}}</td>
                                                             <td >
                                                                 <div class="left">
@@ -245,3 +241,43 @@ const pagination = ref(props.products);
         <Footer :companies="props.companies" />
     </main>
 </template>
+
+<style scoped>
+.product-page-header {
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.product-create-wrap {
+    margin-right: auto;
+    text-align: left;
+}
+
+@media (max-width: 767.98px) {
+    .product-page-header {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .product-create-wrap {
+        width: 100%;
+        margin-right: 0;
+        text-align: left;
+    }
+
+    .product-create-wrap .btn {
+        min-width: 90px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .itemlist {
+        min-width: 760px;
+    }
+}
+</style>
