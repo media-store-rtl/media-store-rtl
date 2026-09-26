@@ -160,7 +160,7 @@ const submitSikll = ()=>{
                                                                             <option value="3">منقضی</option>
                                                                             <option value="4">منتشر</option>
                                                                     </select>
-                                                                    <button @click.prevent="submitSikll" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
+                                                                    <button @click.prevent="submitSikll" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up" style="margin-right:auto;">
                                                                         <span v-if="form.processing">پردازش...</span>
                                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
                                                                         <span v-else >ارسال</span>
