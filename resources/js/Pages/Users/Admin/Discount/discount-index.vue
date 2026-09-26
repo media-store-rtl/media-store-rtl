@@ -1,6 +1,6 @@
 <script setup>
 
-import {computed} from 'vue';
+import {computed, ref} from 'vue';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
 import { Link, useForm,usePage} from '@inertiajs/vue3';
@@ -20,6 +20,11 @@ const form = useForm({
     price: null,
 });
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
     <Header :cart="props.cart" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount" :wallet="props.wallet"
@@ -75,8 +80,8 @@ const form = useForm({
                                 </td>
                                 <td>
                                     <div class="dropdown">
-                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                        <div class="dropdown-menu">
+                                        <a href="#" @click.prevent.stop="toggleMenu(transaction.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                        <div v-if="openMenu === transaction.id" class="dropdown-menu show" @click.stop>
                                             <Link class="dropdown-item" :href="route('discountAdmin.show',[transaction.id])" >ویرایش</Link>
                                             <Link class="dropdown-item text-danger" :href="route('discountAdmin.destroy',[transaction.id])"> حذف</Link>
                                         </div>
