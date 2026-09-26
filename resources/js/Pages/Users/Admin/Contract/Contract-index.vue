@@ -1,6 +1,6 @@
 <script setup>
 
-import { computed} from 'vue';
+import {computed, ref} from 'vue';
 import { Head, Link, useForm ,usePage} from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -20,6 +20,11 @@ const form = useForm({
     id:null,
 });
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart" :wallet="props.wallet" :alert="props.alert" :users="props.users"
@@ -84,8 +89,8 @@ const form = useForm({
                                                         </td>
                                                         <td class="text-end">
                                                             <div class="dropdown" v-if="tarahi.status !== 3">
-                                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                <div class="dropdown-menu">
+                                                                <a href="#" @click.prevent.stop="toggleMenu(tarahi.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                <div v-if="openMenu === tarahi.id" class="dropdown-menu show" @click.stop>
                                                                     <Link class="dropdown-item" :href="route('contractAdmin.show',[tarahi.id])">نمایش</Link>
                                                                     <!-- <Link class="dropdown-item" :href="route('website_design.show',[tarahi.slug])">نمایش جزئیات</Link> -->
                                                                 </div>
