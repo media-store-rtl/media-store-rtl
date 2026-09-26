@@ -409,7 +409,8 @@ if (props.discounts.data) {
 </template>
 
 <style>
-.product-cart-wrap{position:relative;display:flex;flex-direction:column;height:100%;border:1px solid #e6e9ed;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 5px 18px rgba(20,30,40,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}\n.product-grid-4>.col-lg-3>.product-cart-wrap{width:92%;margin-left:auto;margin-right:auto}
+.product-cart-wrap{position:relative;display:flex;flex-direction:column;height:100%;border:1px solid #e6e9ed;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 5px 18px rgba(20,30,40,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.product-grid-4>.col-lg-3>.product-cart-wrap{width:92%;margin-left:auto;margin-right:auto}
 .product-cart-wrap:hover{transform:translateY(-7px);border-color:#cfe8dc;box-shadow:0 18px 42px rgba(20,30,40,.12)}
 .product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;width:100%;margin:0!important;padding:0!important;line-height:0}
 .product-cart-wrap .product-img{position:relative;width:100%;height:auto;aspect-ratio:1/1;min-height:0;margin:0!important;padding:0!important;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center;line-height:0}
@@ -425,7 +426,8 @@ if (props.discounts.data) {
 .product-cart-wrap h2{font-size:17px;line-height:1.7;min-height:57.8px;max-height:57.8px;margin:0 0 5px;font-weight:700;overflow:hidden}
 .product-cart-wrap h2 a{display:-webkit-box;color:#253d4e;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:2;word-break:break-word}
 .product-cart-wrap h2 a:hover{color:#3bb77e}
-.product-cart-wrap .product-content-wrap>div:not(.product-card-bottom){min-width:0;max-width:100%;overflow:hidden}\n.product-cart-wrap .product-content-wrap>.font-small,
+.product-cart-wrap .product-content-wrap>div:not(.product-card-bottom){min-width:0;max-width:100%;overflow:hidden}
+.product-cart-wrap .product-content-wrap>.font-small,
 .product-cart-wrap .product-content-wrap>div>span.font-small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .product-cart-wrap .product-rate-cover{display:flex;align-items:center;min-width:0;min-height:25px;margin:7px 0 4px;overflow:hidden}
 .product-cart-wrap .product-rate-cover .product-rate{flex:0 0 auto}
