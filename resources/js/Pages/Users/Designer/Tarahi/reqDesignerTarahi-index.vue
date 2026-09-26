@@ -38,6 +38,11 @@ const validate = (text)=>{
 }
 
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cartPrice="props.cartPrice" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount"
@@ -115,8 +120,8 @@ const validate = (text)=>{
                                                             </td>
                                                             <td class="text-end" v-if="reqDesigner.status !== 3 && reqDesigner.status !== 5 && reqDesigner.id !== reqDesigner.req_designer.reqdesigner_id">
                                                                 <div class="dropdown">
-                                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="#" @click.prevent.stop="toggleMenu(reqDesigner.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === reqDesigner.id" class="dropdown-menu show" @click.stop>
                                                                         <Link v-if="reqDesigner.status !== 3 && reqDesigner.status !== 5"
                                                                             class="dropdown-item"  :href="route('reqDesigner.edit',[reqDesigner.id])" method="GET" >ویرایش جزئیات</Link>
                                                                         <Link v-if="reqDesigner.status !== 3 && reqDesigner.status !== 5"
