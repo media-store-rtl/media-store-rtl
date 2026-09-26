@@ -17,3 +17,9 @@
 !/bootstrap/cache/.gitignore
 # SSR build output is generated during cPanel deployment
 /bootstrap/ssr/
+
+# Server/local files - do not track
+/.nvm/
+/Public/
+/public/storage_old/
+/storage/.gitignore
