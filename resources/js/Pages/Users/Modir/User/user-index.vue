@@ -54,6 +54,11 @@ const submit = ()=>{
 
 }
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount" :wallet="props.wallet"
@@ -135,8 +140,8 @@ const submit = ()=>{
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
+                                                <a href="#" @click.prevent.stop="toggleMenu(use.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                <div v-if="openMenu === use.id" class="dropdown-menu show" @click.stop>
                                                     <Link class="dropdown-item" :href="route('userModir.show',[use.id])">ویرایش اطلاعات</Link>
                                                     <!-- <Link class="dropdown-item" :href="route('paymentModir.show',[use.id])">گردش حساب مالی</Link> -->
                                                 </div>
