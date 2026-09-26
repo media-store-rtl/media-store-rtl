@@ -161,8 +161,8 @@ const toggleMenu = (id) => {
                                     </thead>
                                     <tbody  v-if="props.tables && props.tables.rows">
                                             <tr v-for="(product,index) in props.tables.rows.data" :key="index">
-                                                <td v-for="value in product"  class="" >
-                                                         {{value}}
+                                                <td v-for="value in product" class="" >
+                                                    <span class="ellipsis">{{ value }}</span>
                                                 </td>
                                                 <td>
                                                     <div class="dropdown" v-if="product">
@@ -230,8 +230,8 @@ const toggleMenu = (id) => {
 </template>
 <style scoped>
 .ellipsis {
-    display: inline-block;
-    max-width: 120px; /* عرض دلخواه */
+    display: block;
+    max-width: 280px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
