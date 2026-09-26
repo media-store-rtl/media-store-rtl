@@ -36,7 +36,6 @@ const validate = (text)=>{
         icon:'error',
     })
 }
-const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
 
 watch(() => props.alert, (val) => {
   if (val) {
@@ -407,10 +406,12 @@ const descriptionSeo = 'مشاهده پلن‌های طراحی سایت فرو�
                                                 <div class="product-img product-img-zoom">
                                                     <Link
                                                         :href="route('website-design.show', [result.slug])"
-                                                        v-if="(result.image && result.image.status == 4) || 5"
+                                                        v-if="result.image && (result.image.status == 4 || result.image.status == 5)"
                                                     >
                                                         <img
                                                             class="default-img"
+                                                            loading="lazy"
+                                                            decoding="async"
                                                             :src="$page.props.ziggy.url + '/storage/' + result.image.url"
                                                             alt=""
                                                         />
@@ -419,11 +420,15 @@ const descriptionSeo = 'مشاهده پلن‌های طراحی سایت فرو�
                                                     <Link :href="route('website-design.show', [result.slug])" v-else-if="props.companies">
                                                         <img
                                                             class="default-img"
+                                                            loading="lazy"
+                                                            decoding="async"
                                                             :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url"
                                                             alt=""
                                                         />
                                                         <img
                                                             class="hover-img"
+                                                            loading="lazy"
+                                                            decoding="async"
                                                             :src="$page.props.ziggy.url + '/storage/' + props.companies.image.url"
                                                             alt=""
                                                         />
@@ -813,7 +818,7 @@ const descriptionSeo = 'مشاهده پلن‌های طراحی سایت فرو�
                             <article class="row align-items-center hover-up"  v-for="(result, index) in props.resultsNew" :key="index">
                                 <figure class="col-md-4 mb-0">
                                     <Link :href="route('website-design.show', [result.slug])">
-                                        <img v-if="result.image" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
+                                        <img v-if="result.image" loading="lazy" decoding="async" :src="$page.props.ziggy.url + '/storage/' + result.image.url" alt="" />
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
