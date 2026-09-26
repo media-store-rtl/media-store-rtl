@@ -232,7 +232,7 @@ if (props.discounts.data) {
             <div class="container">
                 <div class="section-title style-2 wow animate__animated animate__fadeIn"><h3>پلن </h3><ul class="nav nav-tabs links" id="myTab" role="tablist"><li class="nav-item" role="presentation"><Link class="show-all" :href="route('website-design.index','q')+'all' " > نمایش <i class="fi-rs-angle-left"></i> </Link></li></ul></div>
                 <div class="tab-content" id="myTabContent" ><div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
-                    <div class="row product-grid-4" v-if="props.webDesigns"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.webDesigns" :key="index">
+                    <div class="row product-grid-4" v-if="props.webDesigns"><div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.webDesigns" :key="index">
                         <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn" data-wow-delay=".1s"><div class="product-img-action-wrap"><div class="product-img product-img-zoom">
                             <Link :href="route('website-design.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" loading="lazy" decoding="async" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" loading="lazy" decoding="async" alt="" /></Link>
                             <Link :href="route('website-design.show',[result.slug])" v-else-if="props.companies"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" loading="lazy" decoding="async" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" loading="lazy" decoding="async" alt="" /></Link>
@@ -253,7 +253,7 @@ if (props.discounts.data) {
                 <div class="tab-content">
                     <div class="tab-pane fade show active">
                         <div class="row product-grid-4">
-                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.cafes" :key="index">
+                            <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.cafes" :key="index">
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
@@ -304,7 +304,7 @@ if (props.discounts.data) {
                 <div class="tab-content">
                     <div class="tab-pane fade show active">
                         <div class="row product-grid-4">
-                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.forms" :key="index">
+                            <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.forms" :key="index">
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
@@ -355,7 +355,7 @@ if (props.discounts.data) {
                 <div class="tab-content">
                     <div class="tab-pane fade show active">
                         <div class="row product-grid-4">
-                            <div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
+                            <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
@@ -410,7 +410,7 @@ if (props.discounts.data) {
 
 <style>
 .product-cart-wrap{position:relative;display:flex;flex-direction:column;height:auto!important;margin:0!important;border:1px solid #e6e9ed;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 5px 18px rgba(20,30,40,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
-.product-grid-4>.col-lg-3>.product-cart-wrap{width:100%;margin:0!important}
+.product-grid-4>[class*="col-lg-1-5"]>.product-cart-wrap{width:100%;margin:0!important}
 .product-cart-wrap:hover{transform:translateY(-7px);border-color:#cfe8dc;box-shadow:0 18px 42px rgba(20,30,40,.12)}
 .product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;width:100%;max-height:none!important;margin:0!important;padding:0!important;line-height:0}
 .product-cart-wrap .product-img{position:relative;width:100%;height:auto;min-height:0;margin:0!important;padding:0!important;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center;line-height:0}
