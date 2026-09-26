@@ -147,6 +147,11 @@ const getPageUrl = (baseUrl, page) => {
     }
     return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
 };
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart"  :roles="props.roles" :alert="props.alert" :users="props.users" :wallet="props.wallet"
@@ -202,8 +207,8 @@ const getPageUrl = (baseUrl, page) => {
                                                             </td>
                                                             <td class="text-end">
                                                                 <div class="dropdown">
-                                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="#" @click.prevent.stop="toggleMenu(social.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === social.id" class="dropdown-menu show" @click.stop>
                                                                         <Link class="dropdown-item" :href="route('socialAdmin.edit',[social.id])">ویرایش اطلاعات</Link>
                                                                         <Link class="dropdown-item text-danger" :href="route('socialAdmin.destroy',[social.id])" method="delete" as="button" :on-finish="submitTime">حذف</Link>
                                                                     </div>
