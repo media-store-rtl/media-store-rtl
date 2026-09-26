@@ -52,6 +52,11 @@ const getPageUrl = (baseUrl, page) => {
     }
     return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
 };
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart"  :roles="props.roles" :alert="props.alert" :users="props.users" :wallet="props.wallet"
@@ -107,8 +112,8 @@ const getPageUrl = (baseUrl, page) => {
                                                             </td>
                                                             <td class="text-end">
                                                                 <div class="dropdown">
-                                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="#" @click.prevent.stop="toggleMenu(newsletter.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === newsletter.id" class="dropdown-menu show" @click.stop>
                                                                         <Link class="dropdown-item" :href="route('newsletterAdmin.edit',[newsletter.id])">ویرایش اطلاعات</Link>
                                                                         <Link class="dropdown-item" :href="route('newsletterAdmin.update',[newsletter.id])" method="put" as="button">ارسال</Link>
                                                                     </div>
