@@ -43,6 +43,11 @@ const getPageUrl = (baseUrl, page) => {
     return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
 };
 const pagination = ref(props.transactions);
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
     <Header :cart="props.cart"  :wallet="props.wallet" :alert="props.alert" :users="props.users"
@@ -96,8 +101,8 @@ const pagination = ref(props.transactions);
                                                     </td>
                                                     <td class="text-end" v-if="transaction.status == 0">
                                                         <div class="dropdown">
-                                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                            <div class="dropdown-menu">
+                                                            <a href="#" @click.prevent.stop="toggleMenu(transaction.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                            <div v-if="openMenu === transaction.id" class="dropdown-menu show" @click.stop>
                                                                 <Link class="dropdown-item" :href="route('payment.edit',[transaction.id])">ویرایش</Link>
                                                                 <Link type="button" class="dropdown-item text-danger" :href="route('payment.destroy',[transaction.id])" method="delete" as="delete">لغو</Link>
                                                             </div>
