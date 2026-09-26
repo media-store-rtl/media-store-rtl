@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">سود داریم، چرا پول نداریم؟</title>
+  <desc id="desc">کاور بلاگ حسابداری درباره تفاوت سود و جریان نقدی</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e8eef7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <circle cx="1380" cy="140" r="260" fill="#ffffff" opacity=".06"/>
+  <circle cx="180" cy="760" r="320" fill="#ffffff" opacity=".04"/>
+  <rect x="110" y="125" width="1380" height="650" rx="42" fill="#ffffff" opacity=".08" stroke="#ffffff" stroke-opacity=".14"/>
+  <g transform="translate(190 215)">
+    <rect x="0" y="55" width="570" height="360" rx="28" fill="url(#card)"/>
+    <rect x="48" y="112" width="150" height="22" rx="11" fill="#64748b"/>
+    <rect x="48" y="165" width="420" height="18" rx="9" fill="#cbd5e1"/>
+    <rect x="48" y="210" width="310" height="18" rx="9" fill="#cbd5e1"/>
+    <rect x="48" y="270" width="92" height="92" rx="18" fill="#0f172a"/>
+    <text x="94" y="329" text-anchor="middle" font-family="Arial, sans-serif" font-size="54" font-weight="700" fill="#ffffff">$</text>
+    <rect x="168" y="292" width="300" height="18" rx="9" fill="#94a3b8"/>
+    <rect x="168" y="330" width="230" height="18" rx="9" fill="#cbd5e1"/>
+  </g>
+  <g transform="translate(920 205)">
+    <path d="M0 360 C95 310 150 330 235 270 S390 120 500 145" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round"/>
+    <path d="M0 420 C95 405 155 430 240 360 S395 250 500 285" fill="none" stroke="#94a3b8" stroke-width="14" stroke-linecap="round" opacity=".8"/>
+    <circle cx="500" cy="145" r="20" fill="#38bdf8"/>
+    <circle cx="500" cy="285" r="16" fill="#94a3b8"/>
+    <path d="M500 145 l-36 10 M500 145 l-8 36" stroke="#38bdf8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <text x="800" y="555" text-anchor="middle" direction="rtl" font-family="Arial, Tahoma, sans-serif" font-size="74" font-weight="700" fill="#ffffff">سود داریم، چرا پول نداریم؟</text>
+  <text x="800" y="630" text-anchor="middle" direction="rtl" font-family="Arial, Tahoma, sans-serif" font-size="32" fill="#cbd5e1">تفاوت سود حسابداری و جریان نقدی</text>
+  <g transform="translate(670 690)">
+    <rect width="260" height="58" rx="29" fill="#38bdf8"/>
+    <text x="130" y="39" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#0f172a">ACCOUNTING</text>
+  </g>
+</svg>
