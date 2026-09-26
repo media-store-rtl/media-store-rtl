@@ -413,10 +413,10 @@ if (props.discounts.data) {
 .product-grid-4>.col-lg-3>.product-cart-wrap{width:100%;margin:0!important}
 .product-cart-wrap:hover{transform:translateY(-7px);border-color:#cfe8dc;box-shadow:0 18px 42px rgba(20,30,40,.12)}
 .product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;width:100%;max-height:none!important;margin:0!important;padding:0!important;line-height:0}
-.product-cart-wrap .product-img{position:relative;width:100%;height:auto;aspect-ratio:1/1;min-height:0;margin:0!important;padding:0!important;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center;line-height:0}
-.product-cart-wrap .product-img a{display:flex;width:100%;height:100%;max-width:100%;margin:0!important;padding:0!important;overflow:hidden;align-items:center;justify-content:center;line-height:0}
+.product-cart-wrap .product-img{position:relative;width:100%;height:auto;min-height:0;margin:0!important;padding:0!important;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center;line-height:0}
+.product-cart-wrap .product-img a{display:flex;width:100%;height:auto;max-width:100%;margin:0!important;padding:0!important;overflow:hidden;align-items:center;justify-content:center;line-height:0}
 .product-cart-wrap .product-img::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 65%,rgba(0,0,0,.08))}
-.product-cart-wrap .product-img img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain!important;object-position:center;overflow:hidden;transition:transform .45s ease}
+.product-cart-wrap .product-img img{display:block;width:100%;height:auto;max-width:100%;max-height:none;object-fit:contain!important;object-position:center;overflow:hidden;transition:transform .45s ease}
 .product-cart-wrap .product-img .hover-img{object-fit:contain!important}
 .product-cart-wrap:hover .product-img .default-img{transform:scale(1.015)}
 .product-cart-wrap .product-badges{z-index:3}
