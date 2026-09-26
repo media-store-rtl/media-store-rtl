@@ -129,11 +129,11 @@ const pagination = ref(props.tickets);
         <main class="main-wrap rtl" >
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12 align-items-center">
                         <h2 class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></h2>
-                        <td class="me-auto">
+                        <div style="margin-right:auto; text-align:left;">
                             <Link :href="route('support.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
-                        </td>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <p v-if="props.descriptions" v-html="props.descriptions.text"></p>
