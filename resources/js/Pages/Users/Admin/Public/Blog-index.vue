@@ -29,6 +29,11 @@ const getPageUrl = (baseUrl, page) => {
     }
     return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
 };
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
     <Header :cart="props.cart" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount" :wallet="props.wallet"
@@ -82,8 +87,8 @@ const getPageUrl = (baseUrl, page) => {
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="dropdown">
-                                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                            <div class="dropdown-menu">
+                                                            <a href="#" @click.prevent.stop="toggleMenu(menu.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                            <div v-if="openMenu === menu.id" class="dropdown-menu show" @click.stop>
                                                                 <Link :href="route('blog.show',[menu.slug])" class="dropdown-item">نمایش</Link>
                                                                 <Link :href="route('blogAdmin.show',[menu.id])" class="dropdown-item">نمایش جزئیات</Link>
                                                                 <Link class="dropdown-item text-danger" :href="route('blogAdmin.destroy',[menu.id])" method="delete" as="button" @finish="submitTime()">حذف</Link>
