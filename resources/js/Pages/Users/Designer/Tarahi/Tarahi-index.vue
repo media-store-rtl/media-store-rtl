@@ -176,6 +176,11 @@ const category = (reqDesigner) => {
 
 };
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart"  :wallet="props.wallet" :alert="props.alert" :users="props.users"
@@ -263,8 +268,8 @@ const category = (reqDesigner) => {
                                                             <td class="text-end" v-if="reqDesigner.tarahi_register.status == 2  && reqDesigner.status !== 3 || reqDesigner.tarahi_register.status == 5 && reqDesigner.status !== 3  || reqDesigner.tarahi_register.status == 7 && reqDesigner.status !== 3 || reqDesigner.tarahi_register.status == 8 && reqDesigner.status !== 3
                                                                 || reqDesigner.tarahi_register.status == 6 && reqDesigner.status !== 3">
                                                                 <div class="dropdown">
-                                                                    <a href="" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="" @click.prevent.stop="toggleMenu(reqDesigner.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === reqDesigner.id" class="dropdown-menu show" @click.stop>
 
 
                                                                         <Link v-if="reqDesigner.tarahi_register.status == 4 || reqDesigner.tarahi_register.status == 6" class="dropdown-item" :href="route('project.show',[reqDesigner.tarahi_register.slug])">نمایش جزئیات</Link>
