@@ -1,5 +1,5 @@
 <script setup>
-import { computed} from 'vue';
+import {computed, ref} from 'vue';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
@@ -26,6 +26,11 @@ const getPageUrl = (baseUrl, page) => {
         return newUrl;
     }
     return `${baseUrl}?page=${page}`; // در محیط سرور فقط این URL بدون query string
+};
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
 };
 </script>
 <template>
@@ -73,8 +78,8 @@ const getPageUrl = (baseUrl, page) => {
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="dropdown">
-                                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                            <div class="dropdown-menu">
+                                                            <a href="#" @click.prevent.stop="toggleMenu(menu.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                            <div v-if="openMenu === menu.id" class="dropdown-menu show" @click.stop>
                                                                 <Link :href="route('page.show',[menu.id])" class="dropdown-item">نمایش جزئیات</Link>
                                                                 <Link class="dropdown-item text-danger" :href="route('page.destroy',[menu.id])" method="delete" as="button">حذف</Link>
                                                             </div>
