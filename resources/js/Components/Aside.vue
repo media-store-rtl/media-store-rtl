@@ -5,7 +5,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 </script>
 <template>
     <aside class="col-lg-3 border-end">
-        <nav class="nav nav-pills flex-lg-column mb-4">
+        <nav class="nav nav-pills flex-lg-column mb-4 text-start">
             <Link class="nav-link" :class="[$page.url == '/users/profile' ? 'active':'']" aria-current="page" :href="route('profile.index')">اطلاعات کاربری</Link>
         </nav>
         <nav class="nav nav-pills flex-lg-column mb-4">
