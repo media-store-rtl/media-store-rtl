@@ -138,16 +138,16 @@ if (props.banks && props.banks.length > 0)
         <main class="main-wrap rtl">
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12 align-items-center">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto">
+                        <div style="margin-right:auto; text-align:left;">
                             <!-- <button v-if="form.transaction == 'برداشت' " class="btn btn-primary" @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">ثبت</button> -->
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-primary">
                                 <span v-if="form.processing">پردازش...</span>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
                                 <span v-else >ارسال</span>
                             </button>
-                        </td>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
