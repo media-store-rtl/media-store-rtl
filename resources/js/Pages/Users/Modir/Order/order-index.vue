@@ -339,11 +339,11 @@ props.order_tarahi.forEach(element => {
 <main class="main-wrap rtl">
         <section class="content-main">
             <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12 align-items-center">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto">
+                        <div style="margin-right:auto; text-align:left;">
                             <a v-if="order_count > 0" class="btn btn-sm btn-primary" :href="route('orderModir.create')">فایل اکسل</a>
-                        </td>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
