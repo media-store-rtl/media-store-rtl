@@ -179,6 +179,11 @@ const getPageUrl = (baseUrl, page) => {
 };
 
 const pagination = ref(props.tarahis);
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
     <body >
@@ -304,8 +309,8 @@ const pagination = ref(props.tarahis);
                                                             </td>
                                                             <td class="text-end" v-if="tarahi.status > 3 || tarahi.status < 3">
                                                                 <div class="dropdown">
-                                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                    <div class="dropdown-menu">
+                                                                    <a href="#" @click.prevent.stop="toggleMenu(tarahi.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                    <div v-if="openMenu === tarahi.id" class="dropdown-menu show" @click.stop>
                                                                         <Link v-if="tarahi.status == 0" class="dropdown-item" :href="route('tarahi.show',[tarahi.id])">ویرایش جزئیات</Link>
                                                                         <Link v-if="tarahi.status == 4 || tarahi.status == 2" class="dropdown-item" :href="route('reqTarahi.show',[tarahi.id])">پیشنهادات</Link>
                                                                         <Link v-if="tarahi.status == 4 || tarahi.status == 6" class="dropdown-item" :href="route('project.show',[tarahi.slug])">نمایش جزئیات</Link>
