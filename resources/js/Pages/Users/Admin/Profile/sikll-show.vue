@@ -122,7 +122,7 @@ const submitSikll = ()=>{
                 <div class="row content-header">
                     <div class="d-flex col-sm-12">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto">
+                        <td style="margin-right:auto; text-align:left;">
 
                         </td>
                     </div>
