@@ -366,15 +366,6 @@ class WebsiteDesignController extends Controller
                             //     $user = $user->find($value->id);
                             //     Notification::send($user , new TarahiNotification($tarahis,$message,$route,$user));
                             // }
-                            $files = $request->file('file')?$request->file('file')->store('files'):null;
-                            if($files)
-                            {
-                                $file->create([
-                                    'url'=>  $files,
-                                    'fileable_type'=>Tarahi::class,
-                                    'fileable_id'=> $tarahis->id
-                                ]);
-                            }
 
                             $request->session()->flash(
                                 'alert' ,[
@@ -443,7 +434,7 @@ class WebsiteDesignController extends Controller
                 //  dd($tarahis);
         $tarahi_averageRating = $tarahis->averageRating ? round($tarahis->averageRating) : null;
         $tarahi_timesRated = $tarahis->timesRated() ? round($tarahis->timesRated()) : null;
-        if($tarahis && $tarahis->status == 3 || $tarahis &&  $tarahis->status == 4 || $tarahis &&  $tarahis->status == 6)
+        if($tarahis && in_array((int) $tarahis->status, [3, 4, 6], true))
         {
             $tarahi_count = $tarahis->views()->count();
             $tarahi_order = $tarahis->orders->count();
