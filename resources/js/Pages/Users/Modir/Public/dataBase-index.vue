@@ -88,6 +88,11 @@ const tables = props.tables?props.tables.rows:null;
 const pagination = ref(tables);
 
 
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
+};
 </script>
 <template>
 <Header :cart="props.cart"  :wallet="props.wallet" :alert="props.alert" :users="props.users"
@@ -161,8 +166,8 @@ const pagination = ref(tables);
                                                 </td>
                                                 <td>
                                                     <div class="dropdown" v-if="product">
-                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                        <div class="dropdown-menu">
+                                                        <a href="#" @click.prevent.stop="toggleMenu(product.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div v-if="openMenu === product.id" class="dropdown-menu show" @click.stop>
                                                             <button  class="dropdown-item" @click.prevent="submitEdit(product.id)"> ویرایش</button>
                                                             <button  class="dropdown-item" @click.prevent="submitDel(product.id)"> حذف</button>
                                                             <!-- <button  class="dropdown-item" :href="route('dataBase.show',[product.id])"  @click.prevent="submitEdit(product.id)"> ویرایش</button> -->
