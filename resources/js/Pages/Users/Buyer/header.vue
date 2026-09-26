@@ -15,13 +15,21 @@ const offcanvas = ref([]);
 const show = ref([]);
 const notif = ref([]);
 const profileMenu = ref(false);
+const walletMenu = ref(false);
 
 const toggleProfileMenu = () => {
+    walletMenu.value = false;
     profileMenu.value = !profileMenu.value;
+};
+
+const toggleWalletMenu = () => {
+    profileMenu.value = false;
+    walletMenu.value = !walletMenu.value;
 };
 
 const closeProfileMenu = () => {
     profileMenu.value = false;
+    walletMenu.value = false;
 };
 
 watch(() => props.notifications, (val) => {
@@ -516,10 +524,10 @@ onBeforeUnmount(() => {
                         </Link>
                     </li>
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle nav-link btn-icon" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                        <a class="dropdown-toggle nav-link btn-icon" href="#" id="dropdownWallet" aria-expanded="false" @click.prevent.stop="toggleWalletMenu">
                             <i class="material-icons md-account_balance_wallet"></i>
                         </a>
-                        <div v-if="profileMenu" style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start show" aria-labelledby="dropdownAccount" @click.stop>
+                        <div v-if="walletMenu" style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start show" aria-labelledby="dropdownWallet" @click.stop>
                             <a v-if="props.users.profile && props.wallet" class="dropdown-item" href="#">
                                 <i class="material-icons md-account_balance_wallet"></i>
                                 موجودی: {{ (props.wallet).toLocaleString("fa-IR") }} ریال
@@ -529,11 +537,11 @@ onBeforeUnmount(() => {
                         </div>
                     </li>
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" href="#" id="dropdownAccount" aria-expanded="false" @click.prevent.stop="toggleProfileMenu">
+                        <a class="dropdown-toggle" href="#" id="dropdownProfile" aria-expanded="false" @click.prevent.stop="toggleProfileMenu">
                             <img v-if="props.users.image && props.users.profile && props.users.image.status == 4 && props.users.profile.status == 4" style="height:40px" class="img-xs rounded-circle" :src="$page.props.ziggy.url+'/storage/'+ props.users.image.url" :alt="props.users.show_name" />
                             <img v-else style="height:40px" class="img-xs rounded-circle" :src="$page.props.ziggy.url+'/storage/images/default-user.png'" :alt="props.users.show_name" />
                         </a>
-                        <div style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start" aria-labelledby="dropdownAccount">
+                        <div v-if="profileMenu" style="left:0px;text-align:right;" class="dropdown-menu dropdown-menu-start show" aria-labelledby="dropdownProfile" @click.stop>
                             <Link class="dropdown-item" :href="route('profile.index')"><i class="material-icons md-perm_identity"></i>ویرایش پروفایل
                             </Link>
                             <!-- <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>تنظیمات کاربری</a>
