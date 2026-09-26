@@ -181,7 +181,7 @@ if (props.discounts.data) {
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn" data-wow-delay=".1s">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <Link :href="route('website-templates.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                            <Link :href="route('website-templates.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)">
                                                 <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                                 <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
@@ -234,7 +234,7 @@ if (props.discounts.data) {
                 <div class="tab-content" id="myTabContent" ><div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
                     <div class="row product-grid-4" v-if="props.webDesigns"><div class="col-lg-3 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.webDesigns" :key="index">
                         <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn" data-wow-delay=".1s"><div class="product-img-action-wrap"><div class="product-img product-img-zoom">
-                            <Link :href="route('website-design.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /></Link>
+                            <Link :href="route('website-design.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" /></Link>
                             <Link :href="route('website-design.show',[result.slug])" v-else-if="props.companies"><img class="default-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /><img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" alt="" /></Link>
                         </div><div class="product-badges product-badges-position product-badges-mrg" v-if="result.discount"><span class="hot">{{result.discount.percent}}% تخفیف </span></div></div>
                         <div class="product-content-wrap"><div class="product-category"><template v-for="(menu,index) in result.menus" :key="index"><template v-for="(section,index) in menu.sections" :key="section.id"><Link href="" v-if="section.name == 'web_designs'" >{{ menu.name + ' '}}</Link></template></template></div>
@@ -257,7 +257,7 @@ if (props.discounts.data) {
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <Link :href="route('cafe-net.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                            <Link :href="route('cafe-net.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)">
                                                 <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                                 <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
@@ -308,7 +308,7 @@ if (props.discounts.data) {
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <Link :href="route('form.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                            <Link :href="route('form.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)">
                                                 <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                                 <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
@@ -359,7 +359,7 @@ if (props.discounts.data) {
                                 <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <Link :href="route('blog.show',[result.slug])" v-if="result.image && result.image.status == 4 || 5">
+                                            <Link :href="route('blog.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)">
                                                 <img class="default-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                                 <img class="hover-img" :src="$page.props.ziggy.url+'/storage/'+result.image.url" width="300" height="300" alt="" />
                                             </Link>
@@ -411,11 +411,11 @@ if (props.discounts.data) {
 <style>
 .product-cart-wrap{position:relative;display:flex;flex-direction:column;height:100%;border:1px solid #e6e9ed;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 5px 18px rgba(20,30,40,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
 .product-cart-wrap:hover{transform:translateY(-7px);border-color:#cfe8dc;box-shadow:0 18px 42px rgba(20,30,40,.12)}
-.product-cart-wrap .product-img-action-wrap{position:relative;padding:12px 12px 0}
+.product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;padding:12px 12px 0}
 .product-cart-wrap .product-img{position:relative;width:100%;aspect-ratio:1/1;min-height:0;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center}
-.product-cart-wrap .product-img a{display:block;width:100%;height:100%}
+.product-cart-wrap .product-img a{display:block;width:100%;height:100%;max-width:100%;max-height:100%;overflow:hidden}
 .product-cart-wrap .product-img::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 65%,rgba(0,0,0,.08))}
-.product-cart-wrap .product-img img{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:contain;object-position:center;transition:transform .45s ease}
+.product-cart-wrap .product-img img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;aspect-ratio:1/1;object-fit:contain!important;object-position:center;overflow:hidden;transition:transform .45s ease}
 .product-cart-wrap .product-img .hover-img{object-fit:contain}
 .product-cart-wrap:hover .product-img .default-img{transform:scale(1.015)}
 .product-cart-wrap .product-badges{z-index:3}
@@ -425,8 +425,8 @@ if (props.discounts.data) {
 .product-cart-wrap h2{font-size:17px;line-height:1.7;min-height:57.8px;max-height:57.8px;margin:0 0 5px;font-weight:700;overflow:hidden}
 .product-cart-wrap h2 a{display:-webkit-box;color:#253d4e;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:2;word-break:break-word}
 .product-cart-wrap h2 a:hover{color:#3bb77e}
-.product-cart-wrap .product-content-wrap>.font-small,
-.product-cart-wrap .product-content-wrap>div>span.font-small{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.product-cart-wrap .product-content-wrap>div:not(.product-card-bottom){min-width:0;max-width:100%;overflow:hidden}\n.product-cart-wrap .product-content-wrap>.font-small,
+.product-cart-wrap .product-content-wrap>div>span.font-small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .product-cart-wrap .product-rate-cover{display:flex;align-items:center;min-width:0;min-height:25px;margin:7px 0 4px;overflow:hidden}
 .product-cart-wrap .product-rate-cover .product-rate{flex:0 0 auto}
 .product-cart-wrap .product-rate-cover>span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
