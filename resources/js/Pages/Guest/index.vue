@@ -411,7 +411,7 @@ if (props.discounts.data) {
 <style>
 .product-cart-wrap{position:relative;display:flex;flex-direction:column;height:100%;border:1px solid #e6e9ed;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 5px 18px rgba(20,30,40,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
 .product-cart-wrap:hover{transform:translateY(-7px);border-color:#cfe8dc;box-shadow:0 18px 42px rgba(20,30,40,.12)}
-.product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;padding:12px 12px 0}
+.product-cart-wrap .product-img-action-wrap{position:relative;min-width:0;padding:0}
 .product-cart-wrap .product-img{position:relative;width:100%;min-height:0;border-radius:14px;overflow:hidden;background:#f5f7f8;display:flex;align-items:center;justify-content:center}
 .product-cart-wrap .product-img a{display:block;width:100%;max-width:100%;overflow:hidden}
 .product-cart-wrap .product-img::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 65%,rgba(0,0,0,.08))}
