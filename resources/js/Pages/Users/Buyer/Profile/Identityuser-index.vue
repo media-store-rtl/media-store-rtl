@@ -100,7 +100,7 @@ const change = () => {
                 <div class="row content-header">
                     <div class="d-flex col-sm-12">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="me-auto"  v-if="props.users.identity && props.users.identity.status !== 4">
+                        <td style="margin-right:auto; text-align:left;" v-if="props.users.identity && props.users.identity.status !== 4">
                             <!-- <button v-if="form.transaction == 'برداشت' " class="btn btn-primary" @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">ثبت</button> -->
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                                 <span v-if="form.processing">پردازش...</span>
