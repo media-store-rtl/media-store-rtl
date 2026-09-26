@@ -98,9 +98,9 @@ const change = () => {
         <main class="main-wrap rtl">
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12" style="position:relative;">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <div class="ms-auto text-start" v-if="props.users.identity && props.users.identity.status !== 4">
+                        <div class="text-start" style="position:absolute; left:0; top:0;" v-if="props.users.identity && props.users.identity.status !== 4">
                             <!-- <button v-if="form.transaction == 'برداشت' " class="btn btn-primary" @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">ثبت</button> -->
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                                 <span v-if="form.processing">پردازش...</span>
