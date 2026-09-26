@@ -44,7 +44,7 @@ import CommentReply from '@/Components/CommentReply.vue';
 import swal from 'sweetalert2';
 import Seo from '@/Components/Seo.vue';
 
-const ApiKey = ref('cfw3yx4hh06riwl1qwbq3fwcmjr80c5v0z2ki1fid7agx2ow');
+const ApiKey = import.meta.env.VITE_TINYMCE_API_KEY || undefined;
 const page = usePage()
 const errors = computed(() => page.props?.errors || {})
 
@@ -86,7 +86,7 @@ watch(rawFavorite, (val) => {
         val.forEach(element => {
 
 
-        if (element.favoritable_id == page.props.tarahis.id && props.auth.user && props.auth.user.id == element.user_id) {
+        if (element.favoritable_id == page.props.tarahis.id && props.auth?.user && props.auth.user.id == element.user_id) {
             favorite.value = element
 
         }
@@ -191,7 +191,7 @@ const submitCart = (id) => {
 };
 const submitlogin = () => {
 
-    if (props.auth.user)
+    if (props.auth?.user)
     {
         emit('EventSubmit',form.expired,form.price)
     }
@@ -204,12 +204,13 @@ const submitlogin = () => {
 };
 
 
+if (Array.isArray(props.tarahis.favorite)) {
 props.tarahis.favorite.forEach(element => {
     if (props.auth.user && element.user_id == props.auth.user.id) {
         favorite.value = element
         }
 });
-
+}
 
 
 
@@ -292,7 +293,7 @@ const submitReply = (id) => {
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             <figure class="border-radius-10">
-                                                <img :src="$page.props.ziggy.url + '/storage/' + props.tarahis.image.url" width="600" height="600" alt="product image" />
+                                                <img :src="$page.props.ziggy.url + '/storage/' + props.tarahis.image.url" width="600" height="600" loading="eager" decoding="async" alt="product image" />
                                             </figure>
 
                                         </div>
