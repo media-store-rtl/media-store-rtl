@@ -59,13 +59,13 @@ const change = () =>{
                 <div class="row content-header">
                     <div class="d-flex col-sm-12">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td style="margin-right:auto; text-align:left;">
+                        <div class="ms-auto text-start">
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                                 <span v-if="form.processing">پردازش...</span>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
                                 <span v-else >ارسال</span>
                             </button>
-                        </td>
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
