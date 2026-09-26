@@ -96,7 +96,7 @@ const change = () => {
                 <div class="row content-header">
                     <div class="d-flex col-sm-12">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <td class="d-flex me-auto">
+                        <td class="d-flex" style="margin-right:auto; text-align:left;">
                             <select v-model.lazy="form.status" class="form-select">
                                 <option value="0">ثبت شده</option>
                                 <option value="1">در انتظار</option>
