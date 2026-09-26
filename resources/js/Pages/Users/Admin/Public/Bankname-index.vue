@@ -1,5 +1,5 @@
 <script setup>
-import { computed} from 'vue';
+import {computed, ref} from 'vue';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
 import { usePage } from '@inertiajs/vue3';
@@ -22,6 +22,11 @@ const form = useForm({
 const submit = () => {
     form.get(route('support.search'));
 
+};
+const openMenu = ref(null);
+
+const toggleMenu = (id) => {
+    openMenu.value = openMenu.value === id ? null : id;
 };
 </script>
 <template>
@@ -74,8 +79,8 @@ const submit = () => {
 
                                                     <td class="text-end">
                                                         <div class="dropdown">
-                                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                            <div class="dropdown-menu">
+                                                            <a href="#" @click.prevent.stop="toggleMenu(bankname.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                            <div v-if="openMenu === bankname.id" class="dropdown-menu show" @click.stop>
                                                                 <Link :href="route('bankname.edit',[bankname.id])" class="dropdown-item">ویرایش</Link>
                                                             </div>
                                                         </div>
