@@ -11239,3 +11239,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+
+/* Buyer bank create header: keep the create button on the left */
+.content-header > .d-flex > .me-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
