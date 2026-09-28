@@ -155,21 +155,17 @@ const submitDel = (sectionable_type,sectionable_id) =>{
         </div>
         <form >
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-12">
                     <div class="card mt-4">
                         <div class="card-header">
                             <h4>اطلاعات</h4>
                         </div>
                         <div class="card-body">
-                            <div class="col-lg-12">
-                                <div class="row  gx-2">
-                                    <div class="col-lg-6">
-                                        <div class="mt-4">
-                                            <label class="form-label">نام</label>
-                                            <div class="row gx-2">
-                                                <input v-model.lazy="form.name" placeholder="اینجا تایپ کنید" type="text" class="form-control" />
-                                            </div>
-                                        </div>
+                            <div class="row gx-3">
+                                <div class="col-lg-5 col-md-8 col-12">
+                                    <div class="mt-2">
+                                        <label class="form-label">نام</label>
+                                        <input v-model.lazy="form.name" placeholder="اینجا تایپ کنید" type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <!-- <div class="row  gx-2">
@@ -270,7 +266,7 @@ const submitDel = (sectionable_type,sectionable_id) =>{
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6" v-if="props.subs.total > 0">
+                <div class="col-12" v-if="props.subs.total > 0">
                     <div class="card mt-4">
                         <div class="card-header">
                             <h4>زیر مجموع</h4>
