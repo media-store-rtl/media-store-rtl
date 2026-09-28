@@ -51,9 +51,9 @@ const toggleMenu = (id) => {
         <main class="main-wrap rtl" >
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12 align-items-center">
+                    <div class="d-flex col-sm-12 align-items-center" style="position:relative; min-height:38px;">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <div style="margin-right:auto; text-align:left;"><Link :href="route('route.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
+                        <div style="position:absolute; left:0; top:50%; transform:translateY(-50%); direction:rtl;"><Link :href="route('route.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
                         </div>
                     </div>
                     <div class="col-sm-12">
