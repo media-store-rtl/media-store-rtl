@@ -402,9 +402,9 @@ const sub_test = ()=>{
     <main class="main-wrap rtl">
         <section class="content-main">
             <div class="row content-header">
-                    <div class="d-flex col-sm-12">
+                    <div class="d-flex col-sm-12" style="position:relative; align-items:center; min-height:38px;">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <table class="me-auto">
+                        <table style="position:absolute; left:0; top:50%; transform:translateY(-50%); margin:0;">
                             <thead>
                                 <tr >
                                     <button v-if="step !== 'step'"  @click.prevent="back" :class="{ 'opacity-25': form.processing }"
