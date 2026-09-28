@@ -93,8 +93,8 @@ const toggleMenu = (id) => {
 
                                                     <td class="text-end">
                                                         <div class="dropdown">
-                                                            <a href="#" @click.prevent.stop="toggleMenu(description.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                            <div v-if="openMenu === description.id" class="dropdown-menu show" @click.stop>
+                                                            <a href="#" @click.prevent.stop="toggleMenu(menu.id)" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                            <div v-if="openMenu === menu.id" class="dropdown-menu show" @click.stop>
                                                                 <Link :href="route('description.show',[menu.id])" class="dropdown-item">نمایش جزئیات</Link>
                                                                 <Link class="dropdown-item text-danger" :href="route('description.destroy',[menu.id])" method="delete" as="button">حذف</Link>
                                                             </div>
