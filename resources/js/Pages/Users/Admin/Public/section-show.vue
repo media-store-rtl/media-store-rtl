@@ -139,9 +139,9 @@ const submitDel = (sectionable_type,sectionable_id) =>{
 <main class="main-wrap rtl">
     <section class="content-main">
         <div class="row content-header">
-            <div class="d-flex col-sm-12">
-                <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                <td class="d-flex me-auto">
+            <div class="d-flex col-sm-12" style="position:relative; align-items:center; min-height:38px;">
+                <div class="content-title card-title" style="direction:rtl; margin-right:0; margin-left:0;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
+                <td style="position:absolute; left:0; top:50%; transform:translateY(-50%);">
                     <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                         <span v-if="form.processing">پردازش...</span>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
@@ -248,7 +248,7 @@ const submitDel = (sectionable_type,sectionable_id) =>{
 
                                 </div>
 
-                                <div class="mt-4">
+                                <div class="mt-4" style="text-align:left; direction:ltr;">
                                     <button
                                         @click.prevent="submitSub"
                                         :class="{ 'opacity-25': form.processing }"
