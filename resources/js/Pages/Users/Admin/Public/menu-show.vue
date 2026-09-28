@@ -62,9 +62,9 @@ const submit = () =>{
 <main class="main-wrap rtl">
     <section class="content-main">
         <div class="row content-header">
-            <div class="d-flex col-sm-12">
-                <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                <div class="d-flex me-auto">
+            <div class="d-flex col-sm-12" style="position:relative; align-items:center; min-height:38px;">
+                <div class="content-title card-title" style="direction:rtl; margin-right:0; margin-left:0;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
+                <div style="position:absolute; left:0; top:50%; transform:translateY(-50%); direction:rtl; display:flex; align-items:center; gap:8px;">
                     <select v-model.lazy="form.status" class="form-select">
                             <option value="0">ثبت</option>
                             <option value="1">انتظار</option>
