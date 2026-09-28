@@ -3,7 +3,6 @@ INCLUDE STYLES AND COMPONENTS
 ===================== */
 /*import vendors*/
 @import url(vendors/normalize.css);
-@import url(vendors/bootstrap.rtl.min.css);
 @import url(vendors/material-icon-round.css);
 @import url(vendors/perfect-scrollbar.css);
 @import url(vendors/select2.min.css);
