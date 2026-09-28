@@ -127,15 +127,15 @@ if (props.menus && props.menus.length > 0) {
         <main class="main-wrap rtl" >
             <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
-                        <div style="direction:rtl;">
+                    <div class="d-flex col-sm-12" style="position:relative; align-items:center; min-height:38px;">
+                        <div class="content-title card-title" style="direction:rtl; margin-right:0; margin-left:0;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
+                        <div style="position:absolute; left:0; top:50%; transform:translateY(-50%); direction:rtl;">
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-primary">
                                 <span v-if="form.processing">پردازش...</span>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
                                 <span v-else >ایجاد</span>
                             </button>
                         </div>
-                        <div class="content-title card-title" style="direction:rtl;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
