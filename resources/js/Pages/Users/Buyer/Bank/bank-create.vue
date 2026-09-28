@@ -128,7 +128,6 @@ if (props.menus && props.menus.length > 0) {
             <section class="content-main">
                 <div class="row content-header">
                     <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
-                        <div class="content-title card-title" style="direction:rtl;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
                         <div style="direction:rtl;">
                             <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-primary">
                                 <span v-if="form.processing">پردازش...</span>
@@ -136,6 +135,7 @@ if (props.menus && props.menus.length > 0) {
                                 <span v-else >ایجاد</span>
                             </button>
                         </div>
+                        <div class="content-title card-title" style="direction:rtl;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
                     </div>
                     <div class="col-sm-12">
                         <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
