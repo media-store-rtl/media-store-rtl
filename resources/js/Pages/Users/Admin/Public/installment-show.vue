@@ -115,7 +115,7 @@ const submitDel = (installmentable_type,installmentable_id) =>{
         </div>
         <form >
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-12">
                     <div class="card mt-4">
                         <div class="card-header">
                             <h4>اطلاعات</h4>
@@ -159,7 +159,7 @@ const submitDel = (installmentable_type,installmentable_id) =>{
                     </div>
                 </div>
 
-            <div class="col-lg-6" v-if="props.subs.total > 0">
+            <div class="col-12" v-if="props.subs.total > 0">
                     <div class="card mt-4">
                         <div class="card-header">
                             <h4>زیر مجموع</h4>
