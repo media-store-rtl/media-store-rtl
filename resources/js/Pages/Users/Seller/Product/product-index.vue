@@ -95,9 +95,9 @@ onBeforeUnmount(() => {
 <main class="main-wrap rtl">
          <section class="content-main">
                 <div class="row content-header">
-                    <div class="d-flex col-sm-12 product-page-header">
+                    <div class="d-flex col-sm-12 product-page-header" style="position:relative; align-items:center; min-height:38px;">
                         <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                        <div class="product-create-wrap">
+                        <div class="product-create-wrap" style="position:absolute; left:0; top:50%; transform:translateY(-50%); direction:rtl;">
                             <Link :href="route('product.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
                         </div>
                     </div>
