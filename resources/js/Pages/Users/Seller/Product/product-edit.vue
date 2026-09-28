@@ -683,9 +683,9 @@ const sub_test = ()=>{
 <main class="main-wrap rtl">
     <section class="content-main">
         <div class="row content-header">
-            <div class="d-flex col-sm-12">
+            <div class="d-flex col-sm-12" style="position:relative; align-items:center; min-height:38px;">
                 <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                <td class="me-auto">
+                <div style="position:absolute; left:0; top:50%; transform:translateY(-50%);">
                     <button v-if="step !== 'step'"  @click.prevent="back" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" class="btn btn-md rounded font-sm hover-up ms-1">قبلی</button>
 
@@ -698,7 +698,7 @@ const sub_test = ()=>{
 
                     <button v-if="step !== 'step3'"  @click.prevent="next" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" class="btn btn-md rounded font-sm hover-up me-auto">بعدی</button>
-                </td>
+                </div>
             </div>
             <div class="col-sm-12">
                 <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
