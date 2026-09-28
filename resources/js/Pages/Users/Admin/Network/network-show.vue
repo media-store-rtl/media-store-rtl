@@ -72,9 +72,9 @@ if (hasErrors.value == true) {
                 errors.value.lasst_name ? errors.value.lasst_name +'<br>' :'' ,
                 errors.value.name_show ? errors.value.name_show +'<br>' :'' ,
                 errors.value.tel ? errors.value.tel +'<br>':'',
-                errors.value.birth ? errors.value.birth +'<br>' :',
-                errors.value.gender ? errors.value.gender +'<br>' :',
-                errors.value.biography ? errors.value.biography +'<br>' :',],
+                errors.value.birth ? errors.value.birth +'<br>' :'',
+                errors.value.gender ? errors.value.gender +'<br>' :'',
+                errors.value.biography ? errors.value.biography +'<br>' :'',],
 
         icon:'error',
     })
