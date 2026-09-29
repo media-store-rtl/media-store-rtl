@@ -52,7 +52,6 @@ use App\Http\Controllers\AboutHesabdariController;
 use App\Http\Controllers\NamadAdminController;
 use App\Http\Controllers\OrderModirController;
 use App\Http\Controllers\SikllAdminController;
-use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\OrderSellerController;
@@ -115,7 +114,6 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         ['loc' => url('/project')],
         ['loc' => url('/cafe-net')],
         ['loc' => url('/form')],
-        ['loc' => url('/accounting')],
         ['loc' => url('/about')],
         ['loc' => url('/about-hesabdari')],
         ['loc' => url('/faq')],
@@ -248,7 +246,6 @@ Route::resource('/terms-seller', TermsSellerController::class);
 Route::resource('/guest-profile',GuestProfileController::class);//->middleware(Check404::class);
 Route::resource('/guest-support',GuestSupportController::class);
 Route::resource('/blog',BlogController::class);
-Route::resource('/accounting',AccountingController::class);
 Route::resource('/form', FormController::class);
 Route::resource('/about', AboutController::class);
 Route::resource('/about-hesabdari', AboutHesabdariController::class);
