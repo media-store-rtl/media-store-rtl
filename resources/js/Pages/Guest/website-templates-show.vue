@@ -25,7 +25,7 @@ const seoProductSchema = computed(() => {
         description: seoDescription.value,
         image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
         sku: props.product.slug || undefined,
-        category: props.product.category?.name || undefined,
+        category: props.product.category?.name ? String(props.product.category.name) : undefined,
         brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
         url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
         offers: Number.isFinite(finalPrice) ? {
@@ -34,6 +34,11 @@ const seoProductSchema = computed(() => {
             priceCurrency: 'IRR',
             price: finalPrice,
             availability: 'https://schema.org/InStock',
+            hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'IR',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+            },
         } : undefined,
         aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
             '@type': 'AggregateRating',
