@@ -49,7 +49,7 @@ const getPageUrl = (baseUrl, page) => {
 const profileName = computed(() => props.user?.name_show || [props.user?.name, props.user?.lasst_name].filter(Boolean).join(' ') || props.user?.user_name || '');
 
 const titleSeo = props.user?.user_name || profileName.value;
-const descriptionSeo = String(props.user.name + ' ' + props.user.lasst_name + '-' + (props.user.profile?.biography || ''))
+const descriptionSeo = String((props.user?.name || '') + ' ' + (props.user?.lasst_name || '') + '-' + (props.user?.profile?.biography || ''))
     .replace(/<[^>]*>/g, ' ')
     .replace(/\\s+/g, ' ')
     .trim()
@@ -73,7 +73,7 @@ const seoProfileSchema = computed(() => ({
 <template>
     <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" type="profile" :schema="seoProfileSchema" />
      <Head title="index" /> 
-    <Header :companies="props.companies" :results="props.results" :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu" />
+    <Header :companies="props.companies" :results="props.results" :Quickview="props.Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
                 <div class="archive-header-2 text-center pt-80 pb-50">
