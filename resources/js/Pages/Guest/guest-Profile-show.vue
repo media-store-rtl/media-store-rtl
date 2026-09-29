@@ -46,7 +46,9 @@ const getPageUrl = (baseUrl, page) => {
 };
 // console.log(props.userResults);
 
-const titleSeo = props.user.user_name;
+const profileName = computed(() => props.user?.name_show || [props.user?.name, props.user?.lasst_name].filter(Boolean).join(' ') || props.user?.user_name || '');
+
+const titleSeo = props.user?.user_name || profileName.value;
 const descriptionSeo = String(props.user.name + ' ' + props.user.lasst_name + '-' + (props.user.profile?.biography || ''))
     .replace(/<[^>]*>/g, ' ')
     .replace(/\\s+/g, ' ')
@@ -57,7 +59,7 @@ const seoProfileSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
     name: profileName.value,
-    description: descriptionSeo.value,
+    description: descriptionSeo,
     url: page.props.ziggy.url + '/guest-profile/' + encodeURIComponent(props.user.user_name || props.user.id),
     mainEntity: {
         '@type': 'Person',
