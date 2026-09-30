@@ -40,6 +40,33 @@ class Cart extends Model
         }
     }
 
+    public function addSubscriptionToCart($plan, $request): void
+    {
+        $count = 1;
+        $discount = 0;
+        $total = (int) $plan->price;
+        $tax = 0;
+        $col = $total;
+
+        $this->products[] = [
+            'product' => $plan,
+            'count' => $count,
+            'discount' => $discount,
+            'total' => $total,
+            'tax' => $tax,
+            'col' => $col,
+            'model' => 'App\\Models\\AccountingSubscriptionPlan',
+            'request' => $request->request,
+        ];
+
+        $this->price += $total;
+        $this->count += $count;
+        $this->total += $total;
+        $this->col += $col;
+        $this->payment += $col;
+        $this->balance = 0;
+    }
+
     public function addToCart($product,$model,$request)
     {
         // dd($product,$model,$request,Order::find($request->order_id));
@@ -163,35 +190,11 @@ class Cart extends Model
     }
     public function removeFormAllCart($cart)
     {
-
-        foreach ($this->products as $key => $value)
-        {
-            $product = $value['product'];
-            $count = $value['count'];
-            $discount = $value['discount'];
-            $total = (($product->price*$count)-$discount);
-
-            if($value['product']->discount)
-            {
-                $discount = ($value['product']->price*$value['product']->discount->percent/100);
-
-                if(!array_key_exists($key,$this->products))
-                    return false;
-                unset($this->products[$key]);
-            }
-            else
-            {
-                $discount = 0;
-                if(!array_key_exists($key,$this->products))
-                    return false;
-                unset($this->products[$key]);
-            }
-
-        }
-
+        $this->products = [];
         $this->price = 0;
         $this->count = 0;
         $this->discount = 0;
+        $this->coupon = 0;
         $this->total = 0;
         $this->tax = 0;
         $this->col = 0;
