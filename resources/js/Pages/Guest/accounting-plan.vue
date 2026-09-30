@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -8,12 +7,12 @@ const props = defineProps({
 
 const form = useForm({
     id: null,
-    model: 'App\\Models\\Product',
+    model: 'App\\Models\\AccountingSubscriptionPlan',
 });
 
 const buy = (plan) => {
-    form.id = plan.product_id;
-    form.model = 'App\\Models\\Product';
+    form.id = plan.id;
+    form.model = 'App\\Models\\AccountingSubscriptionPlan';
     form.post(route('cart.store'));
 };
 </script>
