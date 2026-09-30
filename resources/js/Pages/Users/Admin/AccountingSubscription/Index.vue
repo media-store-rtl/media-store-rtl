@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -9,9 +8,6 @@ const props = defineProps({
     cartNumber: Number, cartPrice: Number, cartCount: Number, cartDiscount: Number, cartCoupon: Number, cartTotal: Number,
     notifications: Object, orders: Object, dark: String,
 });
-
-const openMenu = ref(null);
-const toggleMenu = (id) => { openMenu.value = openMenu.value === id ? null : id; };
 
 const getPageUrl = (baseUrl, pageNumber) => {
     if (typeof window !== 'undefined') {
@@ -52,7 +48,6 @@ const getPageUrl = (baseUrl, pageNumber) => {
                                     <th>مدت</th>
                                     <th>کاربر</th>
                                     <th>وضعیت</th>
-                                    <th>عملیات</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,21 +61,7 @@ const getPageUrl = (baseUrl, pageNumber) => {
                                         <span v-if="plan.status === 4" class="badge badge-pill badge-soft-success">فعال</span>
                                         <span v-else class="badge badge-pill badge-soft-secondary">غیرفعال</span>
                                     </td>
-                                    <td class="text-end">
-                                        <div class="dropdown">
-                                            <a href="#" @click.prevent.stop="toggleMenu(plan.id)" class="btn btn-light rounded btn-sm font-sm">
-                                                <i class="material-icons md-more_horiz"></i>
-                                            </a>
-                                            <div v-if="openMenu === plan.id" class="dropdown-menu show" @click.stop>
-                                                <Link :href="route('accountingSubscriptionAdmin.show', [plan.id])" class="dropdown-item">
-                                                    نمایش جزئیات
-                                                </Link>
-                                                <Link :href="route('accountingSubscriptionAdmin.edit', [plan.id])" class="dropdown-item">
-                                                    ویرایش
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
