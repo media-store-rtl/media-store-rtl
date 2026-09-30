@@ -6,6 +6,7 @@ use App\Models\Link;
 use App\Models\Order;
 use App\Models\Tarahi;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,9 +32,9 @@ class Orderable extends Model
         'orderable_id',
     ];
 
-    public function orderable()
+    public function orderable(): MorphTo
     {
-        return $this->morphTo()->with('menus')->with('group')->with('type')->with('category')->with('user')->with('registerDesigner')->with('image')->with('file');
+        return $this->morphTo();
     }
     public function user()
     {
