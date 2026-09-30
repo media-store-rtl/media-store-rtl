@@ -99,6 +99,7 @@ const submitRemoveAll = (id) => {
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\WebDesign'" href="">{{ product['product'].name }}</Link>
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\Tarahi'" href="">{{ 'پروژه ' + product['product'].title }}</Link>
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\ReqDesigner'" href="">{{  'ضمانت پروژه ' + product['product'].tarahi_register.title }}</Link>
+                                            <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\AccountingSubscriptionPlan'" href="">{{ product['product'].name }}</Link>
                                         </h6>
                                         <!-- <div class="product-rate-cover">
                                             <div class="product-rate d-inline-block">
