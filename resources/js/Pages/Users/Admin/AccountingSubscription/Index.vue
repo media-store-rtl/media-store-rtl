@@ -25,7 +25,7 @@ const form = useForm({
     price: '',
     duration_days: 365,
     max_users: 5,
-    is_active: true,
+    status: 4,
 });
 
 const openMenu = ref(null);
@@ -51,7 +51,7 @@ const submit = () => {
             form.reset('name', 'slug', 'description', 'price');
             form.duration_days = 365;
             form.max_users = 5;
-            form.is_active = true;
+            form.status = 4;
         },
     });
 };
@@ -126,12 +126,13 @@ const submit = () => {
                                 <small v-if="errorBag.max_users" class="text-danger">{{ errorBag.max_users }}</small>
                             </div>
 
-                            <div class="col-12 mb-3">
-                                <label class="form-check">
-                                    <input v-model="form.is_active" type="checkbox" class="form-check-input">
-                                    <span class="form-check-label">فعال و قابل خرید باشد</span>
-                                </label>
-                                <small v-if="errorBag.is_active" class="text-danger d-block">{{ errorBag.is_active }}</small>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">وضعیت</label>
+                                <select v-model="form.status" class="form-control">
+                                    <option :value="4">فعال و قابل خرید</option>
+                                    <option :value="5">غیرفعال</option>
+                                </select>
+                                <small v-if="errorBag.status" class="text-danger">{{ errorBag.status }}</small>
                             </div>
                         </div>
 
@@ -156,7 +157,6 @@ const submit = () => {
                                     <th>مدت</th>
                                     <th>کاربر</th>
                                     <th>وضعیت</th>
-                                    <th>محصول فروش</th>
                                     <th>عملیات</th>
                                 </tr>
                             </thead>
@@ -168,10 +168,9 @@ const submit = () => {
                                     <td>{{ plan.duration_days }} روز</td>
                                     <td>{{ plan.max_users }} نفر</td>
                                     <td>
-                                        <span v-if="plan.is_active" class="badge badge-pill badge-soft-success">فعال</span>
+                                        <span v-if="plan.status === 4" class="badge badge-pill badge-soft-success">فعال</span>
                                         <span v-else class="badge badge-pill badge-soft-secondary">غیرفعال</span>
                                     </td>
-                                    <td>#{{ plan.product_id }}</td>
                                     <td class="text-end">
                                         <div class="dropdown">
                                             <a href="#" @click.prevent.stop="toggleMenu(plan.id)" class="btn btn-light rounded btn-sm font-sm">
