@@ -1,99 +1,44 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
 
 const props = defineProps({
-    users: Object,
-    plans: Object,
-    wallet: Number,
-    companies: Object,
-    descriptions: Object,
-    alert: Object,
-    cart: Object,
-    cartNumber: Number,
-    cartPrice: Number,
-    cartCount: Number,
-    cartDiscount: Number,
-    cartCoupon: Number,
-    cartTotal: Number,
-    notifications: Object,
-    orders: Object,
-    dark: String,
-});
-
-const page = usePage();
-const errorBag = computed(() => page.props.errors || {});
-const success = computed(() => page.props.flash?.success || null);
-
-const form = useForm({
-    name: '',
-    slug: '',
-    description: '',
-    price: '',
-    duration_days: 365,
-    max_users: 5,
-    status: 4,
+    users: Object, plans: Object, wallet: Number, companies: Object, descriptions: Object, alert: Object, cart: Object,
+    cartNumber: Number, cartPrice: Number, cartCount: Number, cartDiscount: Number, cartCoupon: Number, cartTotal: Number,
+    notifications: Object, orders: Object, dark: String,
 });
 
 const openMenu = ref(null);
-
-const toggleMenu = (id) => {
-    openMenu.value = openMenu.value === id ? null : id;
-};
+const toggleMenu = (id) => { openMenu.value = openMenu.value === id ? null : id; };
 
 const getPageUrl = (baseUrl, pageNumber) => {
     if (typeof window !== 'undefined') {
         let queryString = window.location.search;
         queryString = queryString.replace(/(\?|&)page=\d+/, '');
-        return `${baseUrl}?page=${pageNumber}${queryString ? '&' + queryString.substring(1) : ''}`;
+        return 'function raw() { [native code] }';
     }
-
     return `${baseUrl}?page=${pageNumber}`;
-};
-
-const submit = () => {
-    form.post(route('accountingSubscriptionAdmin.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset('name', 'slug', 'description', 'price');
-            form.duration_days = 365;
-            form.max_users = 5;
-            form.status = 4;
-        },
-    });
 };
 </script>
 
 <template>
-    <Header
-        :cart="props.cart"
-        :cartCount="props.cartCount"
-        :cartDiscount="props.cartDiscount"
-        :wallet="props.wallet"
-        :cartCoupon="props.cartCoupon"
-        :cartTotal="props.cartTotal"
-        :alert="props.alert"
-        :users="props.users"
-        :orders="props.orders"
-        :notifications="props.notifications"
-        :dark="props.dark"
-        :companies="props.companies"
-    />
-
+    <Header :cart="props.cart" :cartCount="props.cartCount" :cartDiscount="props.cartDiscount" :wallet="props.wallet"
+        :cartCoupon="props.cartCoupon" :cartTotal="props.cartTotal" :alert="props.alert" :users="props.users"
+        :orders="props.orders" :notifications="props.notifications" :dark="props.dark" :companies="props.companies" />
     <div class="screen-overlay"></div>
-
     <main class="main-wrap rtl">
         <section class="content-main">
             <div class="row content-header">
                 <div class="d-flex col-sm-12 align-items-center">
-                    <div class="content-title card-title">
-                        <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
-                        <span v-else>پلن‌های اشتراک حسابداری</span>
-                    </div>
-                    <div style="margin-right:auto; text-align:left;">
-                        <Link :href="route('accountingSubscriptionAdmin.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد پ            <div class="card">
+                    <div class="content-title card-title"><span v-if="props.descriptions" v-html="props.descriptions.subject"></span><span v-else>پلن‌های اشتراک حسابداری</span></div>
+                    <div style="margin-right:auto; text-align:left;"><Link :href="route('accountingSubscriptionAdmin.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد پلن</Link></div>
+                </div>
+                <div class="col-sm-12"><div v-if="props.descriptions" v-html="props.descriptions.text"></div></div>
+            </div>
+
+            <div class="card">
                 <div class="card-body">
                     <h5 class="mb-4">پلن‌های ساخته‌شده</h5>
 
@@ -216,6 +161,8 @@ const submit = () => {
             </div>
         </section>
 
+
+        </section>
         <Footer :companies="props.companies" />
     </main>
 </template>
