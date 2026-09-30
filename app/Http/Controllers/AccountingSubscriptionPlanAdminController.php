@@ -47,7 +47,7 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'status' => ['required', 'integer', 'in:4,5'],
         ]);
 
-        $slug = $data['slug'] ?: IlluminateSupportStr::slug($data['name']);
+        $slug = $data['slug'] ?: \Illuminate\Support\Str::slug($data['name']);
 
         $baseSlug = $slug;
         $counter = 2;
