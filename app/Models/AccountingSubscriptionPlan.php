@@ -13,7 +13,7 @@ class AccountingSubscriptionPlan extends Model
         'price',
         'duration_days',
         'max_users',
-        'is_active',
+        'status',
     ];
 
     protected function casts(): array
@@ -22,7 +22,7 @@ class AccountingSubscriptionPlan extends Model
             'price' => 'integer',
             'duration_days' => 'integer',
             'max_users' => 'integer',
-            'is_active' => 'boolean',
+            'status' => 'integer',
         ];
     }
 }
