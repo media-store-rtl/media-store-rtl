@@ -166,6 +166,26 @@ class Cart extends Model
 
     public function removeFormCart($product,$oldCart,$cart)
     {
+        if ($product->model === 'App\\Models\\AccountingSubscriptionPlan') {
+            $index = (int) $product->id;
+
+            if (!array_key_exists($index, $this->products)) {
+                return false;
+            }
+
+            $item = $this->products[$index];
+            $this->price -= $item['product']->price;
+            $this->count -= $item['count'];
+            $this->discount -= $item['discount'];
+            $this->total -= $item['total'];
+            $this->tax -= $item['tax'];
+            $this->col -= $item['col'];
+            $this->payment -= $item['col'];
+            unset($this->products[$index]);
+            $this->products = array_values($this->products);
+
+            return true;
+        }
 
         $price = $this->products[$product->id]['total']/$this->products[$product->id]['count'];
         $count = $this->products[$product->id]['count'];
