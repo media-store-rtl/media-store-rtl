@@ -91,6 +91,8 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\DataBaseController;
+use App\Http\Controllers\AccountingSubscriptionPlanAdminController;
+use App\Http\Controllers\AccountingSubscriptionPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -249,6 +251,7 @@ Route::resource('/blog',BlogController::class);
 Route::resource('/form', FormController::class);
 Route::resource('/about', AboutController::class);
 Route::resource('/about-hesabdari', AboutHesabdariController::class);
+Route::get('/accounting-plan', [AccountingSubscriptionPlanController::class, 'index'])->name('accounting.plan');
 // Route::get('/artisan/{id}', function($id){artisan::call($id);});
 Route::resource('/project', ProjectController::class);
 Route::resource('/cafe-net',CafeController::class);
@@ -312,6 +315,8 @@ Route::prefix('users')->group(function()
         Route::resource('/commentAdmin',CommentAdminController::class);
         Route::resource('/discountAdmin', DiscountAdminController::class);
         Route::resource('/productAdmin',ProductAdminController::class);
+        Route::get('/accountingSubscriptionAdmin', [AccountingSubscriptionPlanAdminController::class, 'index'])->name('accountingSubscriptionAdmin.index');
+        Route::post('/accountingSubscriptionAdmin', [AccountingSubscriptionPlanAdminController::class, 'store'])->name('accountingSubscriptionAdmin.store');
         Route::resource('/tarahiAdmin', TarahiAdminController::class);
         Route::resource('/newsletterAdmin', NewsletterAdminController::class);
         Route::resource('/linkAdmin', LinkAdminController::class);
