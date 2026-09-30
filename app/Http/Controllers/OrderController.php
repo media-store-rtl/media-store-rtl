@@ -17,6 +17,7 @@ use App\Models\Company;
 use App\Models\Deposit;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\AccountingSubscriptionPlan;
 use App\Jobs\DepositJob;
 use App\Jobs\PaymentJob;
 use App\Jobs\DesignerJob;
@@ -28,6 +29,7 @@ use App\Jobs\OrderModirJob;
 use App\Models\ReqDesigner;
 use App\Jobs\OrderSellerJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Jobs\PaymentBayerJob;
 use App\Http\Utilities\Wallet;
 use Shetabit\Multipay\Invoice;
@@ -105,6 +107,11 @@ class OrderController extends Controller
         $users = $user->with('file')->with('profile')->find(auth()->user()->id);
         $wallet = Wallet::all($users);
         $companies = $company->first();
+
+        if ($request->dargah === 'wallet' && collect($cart->products)->contains(fn ($item) => $item['model'] === AccountingSubscriptionPlan::class)) {
+            return $this->purchaseAccountingSubscriptions($request, $cart, $wallet, $companies);
+        }
+
         // dd($request,$request->dargah,$request->get('wallet'));
         // $request->validate([
         //     'cartCount' => 'required',
@@ -923,5 +930,127 @@ class OrderController extends Controller
     {
         return abort(404);
     }
+
+    private function purchaseAccountingSubscriptions(Request $request, Cart $cart, $wallet, $companies)
+    {
+        if (count($cart->products) === 0) {
+            return redirect()->back();
+        }
+
+        foreach ($cart->products as $item) {
+            if ($item['model'] !== AccountingSubscriptionPlan::class) {
+                $request->session()->flash('alert', [
+                    'title' => 'سبد خرید!',
+                    'text' => 'پلن اشتراک را باید جداگانه خریداری کنید.',
+                    'icon' => 'error',
+                    'button' => 'ok',
+                ]);
+
+                return redirect()->back();
+            }
+
+            $plan = AccountingSubscriptionPlan::where('status', 4)->find($item['product']->id);
+
+            if (!$plan) {
+                $request->session()->flash('alert', [
+                    'title' => 'پلن اشتراک!',
+                    'text' => 'این پلن دیگر برای فروش فعال نیست.',
+                    'icon' => 'error',
+                    'button' => 'ok',
+                ]);
+
+                return redirect()->back();
+            }
+        }
+
+        if ($wallet < $cart->payment) {
+            $request->session()->flash('alert', [
+                'title' => 'خرید!',
+                'text' => 'موجودی کیف پول کافی نمی باشد.',
+                'icon' => 'error',
+                'button' => 'ok',
+            ]);
+
+            return redirect()->back();
+        }
+
+        $orders = DB::transaction(function () use ($request, $cart) {
+            $orders = OrderCreate::create(
+                auth()->user()->id,
+                $cart->price,
+                $cart->count,
+                $cart->discount,
+                $cart->coupon,
+                $cart->total,
+                $cart->tax,
+                $cart->col,
+                $cart->payment,
+                $cart->balance
+            );
+
+            $couponPerItem = $cart->count > 0 ? $cart->coupon / $cart->count : 0;
+
+            foreach ($cart->products as $item) {
+                $plan = AccountingSubscriptionPlan::findOrFail($item['product']->id);
+                $total = max(0, ($plan->price * $item['count']) - $item['discount'] - $couponPerItem);
+                $orderable = OrderableCreate::create(
+                    $orders->id,
+                    auth()->user()->id,
+                    $plan->price,
+                    $item['count'],
+                    $item['discount'],
+                    $couponPerItem,
+                    $total,
+                    0,
+                    0,
+                    $total,
+                    AccountingSubscriptionPlan::class,
+                    $plan->id
+                );
+
+                if (!$orderable) {
+                    throw new \RuntimeException('ثبت آیتم اشتراک انجام نشد.');
+                }
+            }
+
+            return $orders;
+        });
+
+        $payments = PaymentCreate::create(
+            auth()->user()->id,
+            'برداشت بابت خرید اشتراک حسابداری',
+            $cart->payment,
+            0,
+            0,
+            new Carbon,
+            4,
+            AccountingSubscriptionPlan::class,
+            $cart->products[0]['product']->id,
+            0,
+            0,
+            0,
+            null,
+            null
+        );
+
+        if ($payments) {
+            PaymentJob::dispatch($payments)->delay(now()->addMinute((int) $companies->job));
+        }
+
+        OrderJob::dispatch($orders, 'اشتراک حسابداری با موفقیت خریداری شد.')
+            ->delay(now()->addMinute((int) $companies->job));
+
+        $request->session()->remove('cart');
+
+        $request->session()->flash('alert', [
+            'title' => 'خرید اشتراک!',
+            'text' => 'اشتراک حسابداری با موفقیت خریداری شد.',
+            'icon' => 'success',
+            'button' => 'ok',
+        ]);
+
+        return redirect()->route('order.index');
+    }
+
 
 }
