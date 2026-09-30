@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingSubscriptionPlan extends Model
 {
     protected $fillable = [
-        'product_id',
         'name',
         'slug',
         'description',
@@ -25,10 +24,5 @@ class AccountingSubscriptionPlan extends Model
             'max_users' => 'integer',
             'is_active' => 'boolean',
         ];
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
     }
 }
