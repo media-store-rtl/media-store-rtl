@@ -10,14 +10,13 @@ return new class extends Migration
     {
         Schema::create('accounting_subscription_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->unique()->constrained('products')->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('price');
             $table->unsignedInteger('duration_days');
             $table->unsignedInteger('max_users');
-            $table->boolean('is_active')->default(false)->index();
+            $table->unsignedInteger('status')->default(5)->index();
             $table->timestamps();
         });
     }
