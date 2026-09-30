@@ -113,6 +113,44 @@ class CartController extends Controller
         }
         else
         {
+            if ($request->model === 'App\\Models\\AccountingSubscriptionPlan') {
+                $plan = \App\Models\AccountingSubscriptionPlan::where('status', 4)->findOrFail($request->id);
+
+                if (!Auth::check()) {
+                    $request->session()->flash('alert', [
+                        'text' => 'برای خرید باید وارد حساب کاربری خود شوید.',
+                        'icon' => 'error',
+                        'button' => 'ok'
+                    ]);
+
+                    return redirect()->back();
+                }
+
+                foreach ($cart->products as $value) {
+                    if ($value['model'] === 'App\\Models\\AccountingSubscriptionPlan'
+                        && (int) $value['product']->id === (int) $plan->id) {
+                        $request->session()->flash('alert', [
+                            'text' => 'این پلن در سبد خرید وجود دارد.',
+                            'icon' => 'error',
+                            'button' => 'ok'
+                        ]);
+
+                        return redirect()->back();
+                    }
+                }
+
+                $cart->addSubscriptionToCart($plan, $request);
+                $request->session()->put('cart', $cart);
+
+                $request->session()->flash('alert', [
+                    'text' => 'پلن اشتراک به سبد خرید اضافه شد.',
+                    'icon' => 'success',
+                    'button' => 'ok'
+                ]);
+
+                return redirect()->back();
+            }
+
             $users = auth()->user() ? $user->with('image')->with('profile')->with('roles')->with('identity')->find(auth()->user()->id):null;
 
             $product = $request->model == 'App\\Models\\ReqDesigner' ? 
