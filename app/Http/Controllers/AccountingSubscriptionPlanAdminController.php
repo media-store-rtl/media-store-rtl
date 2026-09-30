@@ -35,6 +35,45 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'companies' => $companies,'descriptions'=>$descriptions,'wallet'=>$wallet]) : abort(404);
     }
 
+    public function create(Request $request, User $user, AccountingSubscriptionPlan $plan, Company $company, Route $route, Page $page)
+    {
+        Gate::authorize('create', $plan);
+
+        $oldCart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
+        $cart = new Cart($oldCart);
+        $alert = $request->session()->has('alert') ? $request->session()->get('alert') : null;
+        $users = $user->with(['image' => fn ($q) => $q->where('status', 4)])
+            ->with('file')
+            ->with('profile')
+            ->with('roles')
+            ->find(auth()->user()->id);
+        $companies = $user->with('image')->first();
+        $descriptions = $route->where('name', $request->path())->first() && $route->where('name', $request->path())->first()->descriptions
+            ? $route->where('name', $request->path())->first()->descriptions->first()
+            : null;
+        $wallet = Wallet::all($users);
+
+        return Inertia::render('Users/Admin/AccountingSubscription/Create', [
+            'cart' => [
+                'products' => $cart->products,
+                'count' => $cart->count,
+                'price' => $cart->price,
+                'discount' => $cart->discount,
+                'coupon' => $cart->coupon,
+                'total' => $cart->total,
+                'tax' => $cart->tax,
+                'col' => $cart->col,
+                'payment' => $cart->payment,
+                'balance' => $cart->balance,
+            ],
+            'alert' => $alert,
+            'users' => $users,
+            'companies' => $companies,
+            'descriptions' => $descriptions,
+            'wallet' => $wallet,
+        ]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
