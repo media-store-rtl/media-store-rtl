@@ -423,6 +423,17 @@ onBeforeUnmount(() => {
                         </Link>
                     </div>
                 </li>
+                <li class="menu-item has-submenu" v-if="role.id == 3"  :class="[$page.url == '/users/accountingSubscriptionAdmin' ? 'active' : '']">
+                    <a class="menu-link" >
+                        <i class="icon material-icons md-card_membership"></i>
+                        <span class="text">مدیریت پلن اشتراک حسابداری</span>
+                    </a>
+                    <div class="submenu text-a-l  collapse multi-collapse" id="multiCollapseExample22">
+                        <Link :class="[$page.url == '/users/accountingSubscriptionAdmin' ? 'active' : '']" :href="route('accountingSubscriptionAdmin.index')">
+                        پلن‌های اشتراک
+                        </Link>
+                    </div>
+                </li>
                 <li class="menu-item has-submenu" v-if="role.id == 3"  :class="[$page.url == '/users/profileAdmin' ? 'active' : '',
                     $page.url == '/users/profileAdmin/' ? 'active' : '']">
                     <a class="menu-link" >
