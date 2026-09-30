@@ -11,8 +11,7 @@ class AccountingSubscriptionPlanController extends Controller
     public function index(): Response
     {
         return Inertia::render('Guest/accounting-plan', [
-            'plans' => AccountingSubscriptionPlan::where('is_active', true)
-                ->with('product')
+            'plans' => AccountingSubscriptionPlan::where('status', 4)
                 ->orderBy('price')
                 ->get(),
         ]);
