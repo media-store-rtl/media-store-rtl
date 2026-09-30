@@ -315,8 +315,7 @@ Route::prefix('users')->group(function()
         Route::resource('/commentAdmin',CommentAdminController::class);
         Route::resource('/discountAdmin', DiscountAdminController::class);
         Route::resource('/productAdmin',ProductAdminController::class);
-        Route::get('/accountingSubscriptionAdmin', [AccountingSubscriptionPlanAdminController::class, 'index'])->name('accountingSubscriptionAdmin.index');
-        Route::post('/accountingSubscriptionAdmin', [AccountingSubscriptionPlanAdminController::class, 'store'])->name('accountingSubscriptionAdmin.store');
+        Route::resource('/accountingSubscriptionAdmin', AccountingSubscriptionPlanAdminController::class);
         Route::resource('/tarahiAdmin', TarahiAdminController::class);
         Route::resource('/newsletterAdmin', NewsletterAdminController::class);
         Route::resource('/linkAdmin', LinkAdminController::class);
