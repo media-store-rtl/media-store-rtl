@@ -34,7 +34,10 @@ class Orderable extends Model
 
     public function orderable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->morphWith([
+            Product::class => ['menus', 'group', 'type', 'category', 'user', 'image', 'file'],
+            Tarahi::class => ['menus', 'group', 'type', 'category', 'user', 'image', 'file'],
+        ]);
     }
     public function user()
     {
