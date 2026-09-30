@@ -108,8 +108,19 @@ class OrderController extends Controller
         $wallet = Wallet::all($users);
         $companies = $company->first();
 
-        if ($request->dargah === 'wallet' && collect($cart->products)->contains(fn ($item) => $item['model'] === AccountingSubscriptionPlan::class)) {
-            return $this->purchaseAccountingSubscriptions($request, $cart, $wallet, $companies);
+        if (collect($cart->products)->contains(fn ($item) => $item['model'] === AccountingSubscriptionPlan::class)) {
+            if ($request->dargah === 'wallet') {
+                return $this->purchaseAccountingSubscriptions($request, $cart, $wallet, $companies);
+            }
+
+            $request->session()->flash('alert', [
+                'title' => 'پرداخت اشتراک!',
+                'text' => 'برای خرید اشتراک، ابتدا کیف پول خود را از درگاه بانکی شارژ کنید و سپس پرداخت را از طریق کیف پول انجام دهید.',
+                'icon' => 'info',
+                'button' => 'ok',
+            ]);
+
+            return redirect()->back();
         }
 
         // dd($request,$request->dargah,$request->get('wallet'));
