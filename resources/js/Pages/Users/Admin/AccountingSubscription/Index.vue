@@ -13,7 +13,7 @@ const getPageUrl = (baseUrl, pageNumber) => {
     if (typeof window !== 'undefined') {
         let queryString = window.location.search;
         queryString = queryString.replace(/(\?|&)page=\d+/, '');
-        return 'function raw() { [native code] }';
+        return `${baseUrl}?page=${page}${queryString ? '&' + queryString.substring(1) : ''}`;
     }
     return `${baseUrl}?page=${pageNumber}`;
 };
