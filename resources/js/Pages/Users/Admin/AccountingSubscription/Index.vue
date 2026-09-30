@@ -12,6 +12,15 @@ const props = defineProps({
     descriptions: Object,
     alert: Object,
     cart: Object,
+    cartNumber: Number,
+    cartPrice: Number,
+    cartCount: Number,
+    cartDiscount: Number,
+    cartCoupon: Number,
+    cartTotal: Number,
+    notifications: Object,
+    orders: Object,
+    dark: String,
 });
 
 const page = usePage();
@@ -38,10 +47,10 @@ const getPageUrl = (baseUrl, pageNumber) => {
     if (typeof window !== 'undefined') {
         let queryString = window.location.search;
         queryString = queryString.replace(/(\?|&)page=\d+/, '');
-        return \`${baseUrl}?page=${pageNumber}${queryString ? '&' + queryString.substring(1) : ''}\`;
+        return `${baseUrl}?page=${pageNumber}${queryString ? '&' + queryString.substring(1) : ''}`;
     }
 
-    return \`${baseUrl}?page=${pageNumber}\`;
+    return `${baseUrl}?page=${pageNumber}`;
 };
 
 const submit = () => {
@@ -60,9 +69,16 @@ const submit = () => {
 <template>
     <Header
         :cart="props.cart"
+        :cartCount="props.cartCount"
+        :cartDiscount="props.cartDiscount"
         :wallet="props.wallet"
+        :cartCoupon="props.cartCoupon"
+        :cartTotal="props.cartTotal"
         :alert="props.alert"
         :users="props.users"
+        :orders="props.orders"
+        :notifications="props.notifications"
+        :dark="props.dark"
         :companies="props.companies"
     />
 
