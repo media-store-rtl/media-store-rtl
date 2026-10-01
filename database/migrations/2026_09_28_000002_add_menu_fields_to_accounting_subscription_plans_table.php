@@ -9,6 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('accounting_subscription_plans', function (Blueprint $table) {
+            $table->unsignedInteger('status')->default(5)->index()->after('max_users');
+
             $table->unsignedBigInteger('group')->nullable()->index()->after('status');
             $table->unsignedBigInteger('type')->nullable()->index()->after('group');
             $table->unsignedBigInteger('category')->nullable()->index()->after('type');
@@ -18,7 +20,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('accounting_subscription_plans', function (Blueprint $table) {
-            $table->dropColumn(['group', 'type', 'category']);
+            $table->dropColumn(['category', 'type', 'group', 'status']);
         });
     }
 };
