@@ -8,7 +8,9 @@ class AccountingSubscriptionPlan extends Model
 {
     protected $fillable = [
         'name',
+        'name_en',
         'slug',
+        'tag',
         'description',
         'price',
         'duration_days',
