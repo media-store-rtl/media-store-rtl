@@ -1,5 +1,6 @@
 <script setup>
 import { computed, watch } from 'vue';
+import 'vue3-carousel/dist/carousel.css';
 import { useForm, usePage } from '@inertiajs/vue3';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
@@ -132,110 +133,90 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                         </div>
                     </section>
 
-                    <section class="section-padding pb-0">
-                        <div class="text-center mb-40">
-                            <h2>پلن‌های اشتراک حسابداری</h2>
-                            <p class="text-muted mb-0">
-                                پلن مناسب کسب‌وکارتان را انتخاب کنید و از امکانات حسابداری استفاده کنید.
-                            </p>
-                        </div>
-                    </section>
+                    <body id="tinymce" class="mce-content-body accounting-intro">
+                        <p><strong>پلن‌های اشتراک حسابداری – ساده، کاربردی و متناسب با نیاز کسب‌وکار</strong></p>
+                        <p>پلن‌های اشتراک حسابداری فروشگاه مدیا برای مدیریت بهتر امور مالی و استفاده از امکانات حسابداری طراحی شده‌اند. پلن مناسب خود را انتخاب کنید و با توجه به مدت اشتراک و تعداد کاربران، سرویس مورد نیازتان را تهیه کنید.</p>
+                        <p>📦 هر پلن شامل مشخصات شفاف درباره مدت اشتراک، تعداد کاربران و هزینه است تا بتوانید انتخاب دقیق‌تری داشته باشید.</p>
+                    </body>
 
                     <section v-if="props.plans.length" class="product-tabs section-padding position-relative">
                         <div class="section-title style-2">
                             <h3>پلن ها</h3>
+                            <ul class="nav nav-tabs links" id="myTab" role="tablist"></ul>
                         </div>
 
-                        <div class="tab-content">
+                        <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active">
                                 <div class="row product-grid-4">
-
                                     <div
-                                        v-for="plan in props.plans"
-                                        :key="plan.id"
+                                        v-for="(plan, index) in props.plans"
+                                        :key="plan.id || index"
                                         class="col-lg-1-5 col-md-4 col-12 col-sm-6"
                                     >
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
-                                                    <img
-                                                        v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)"
-                                                        class="default-img"
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                        :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
-                                                        :alt="plan.name"
-                                                    />
-                                                    <img
-                                                        v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)"
-                                                        class="hover-img"
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                        :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
-                                                        :alt="plan.name"
-                                                    />
+                                                    <template v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)">
+                                                        <img
+                                                            class="default-img"
+                                                            loading="lazy"
+                                                            decoding="async"
+                                                            :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
+                                                            :alt="plan.name"
+                                                        />
+                                                        <img
+                                                            class="hover-img"
+                                                            loading="lazy"
+                                                            decoding="async"
+                                                            :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
+                                                            :alt="plan.name"
+                                                        />
+                                                    </template>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="hot">فعال</span>
                                                 </div>
                                             </div>
 
                                             <div class="product-content-wrap">
                                                 <div class="product-category">
-                                                    اشتراک حسابداری
+                                                    <span>اشتراک حسابداری</span>
                                                 </div>
 
-                                                <h2>
-                                                    {{ plan.name }}
-                                                </h2>
+                                                <h2>{{ plan.name }}</h2>
 
-                                                <div class="product-price mb-10">
-                                                    <span>
-                                                        {{ Number(plan.price).toLocaleString('fa-IR') }} تومان
-                                                    </span>
+                                                <div class="plan-meta">
+                                                    <div class="plan-meta-row">
+                                                        <span class="font-small text-muted">مدت اشتراک</span>
+                                                        <strong>{{ Number(plan.duration_days).toLocaleString('fa-IR') }} روز</strong>
+                                                    </div>
+                                                    <div class="plan-meta-row">
+                                                        <span class="font-small text-muted">حداکثر کاربر</span>
+                                                        <strong>{{ Number(plan.max_users).toLocaleString('fa-IR') }} نفر</strong>
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-2">
-                                                    <span class="text-muted">مدت اشتراک:</span>
-                                                    <strong>
-                                                        {{ Number(plan.duration_days).toLocaleString('fa-IR') }} روز
-                                                    </strong>
+                                                <div v-if="plan.description" class="font-small text-muted plan-description" v-html="plan.description"></div>
+
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        <span>{{ Number(plan.price).toLocaleString('fa-IR') }}</span>
+                                                        <span class="font-small text-muted"> تومان</span>
+                                                    </div>
+                                                    <div class="add-cart">
+                                                        <button
+                                                            type="button"
+                                                            class="add"
+                                                            :disabled="form.processing"
+                                                            @click="buy(plan)"
+                                                        >
+                                                            <i class="fi-rs-shopping-bag-add mr-5"></i>خرید
+                                                        </button>
+                                                    </div>
                                                 </div>
-
-                                                <div class="mb-15">
-                                                    <span class="text-muted">حداکثر کاربر:</span>
-                                                    <strong>
-                                                        {{ Number(plan.max_users).toLocaleString('fa-IR') }} نفر
-                                                    </strong>
-                                                </div>
-
-                                                <div
-                                                    v-if="plan.description"
-                                                    class="mb-15 text-muted"
-                                                    v-html="plan.description"
-                                                ></div>
-
-                                                <div class="product-action-1 show">
-                                                    <button
-                                                        type="button"
-                                                        class="action-btn"
-                                                        :disabled="form.processing"
-                                                        @click="buy(plan)"
-                                                        aria-label="خرید اشتراک"
-                                                    >
-                                                        <i class="fi-rs-shopping-bag-add"></i>
-                                                    </button>
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    class="btn w-100 mt-10"
-                                                    :disabled="form.processing"
-                                                    @click="buy(plan)"
-                                                >
-                                                    خرید اشتراک
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -260,3 +241,45 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
         :path="props.path"
     />
 </template>
+
+<style>
+.accounting-intro {
+    direction: rtl;
+    line-height: 2;
+    margin: 25px 0 5px;
+}
+.accounting-intro p {
+    margin-bottom: 12px;
+}
+.plan-meta {
+    margin: 12px 0;
+}
+.plan-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #e5e5e5;
+}
+.plan-meta-row:last-child {
+    border-bottom: 0;
+}
+.plan-description {
+    line-height: 1.9;
+    min-height: 72px;
+    max-height: 110px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.product-card-bottom .add-cart button.add {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+.product-card-bottom .add-cart button.add:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+</style>
