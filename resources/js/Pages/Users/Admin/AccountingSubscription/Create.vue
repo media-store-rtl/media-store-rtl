@@ -115,7 +115,6 @@ const submit = () => {
                     </div>
                     <div class="content-title card-title" style="direction:rtl;">
                         <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
-                        <span v-else>ایجاد پلن اشتراک حسابداری</span>
                     </div>
                 </div>
                 <div class="col-sm-12">
