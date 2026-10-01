@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useForm, usePage, Link } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -11,10 +11,16 @@ const props = defineProps({
     descriptions: Object,
     alert: Object,
     cart: Object,
+    menus: {
+        type: Array,
+        default: () => [],
+    },
+    path: String,
 });
 
 const page = usePage();
 const errorBag = computed(() => page.props.errors || {});
+
 const form = useForm({
     name: '',
     slug: '',
@@ -23,7 +29,31 @@ const form = useForm({
     duration_days: 365,
     max_users: 5,
     status: 4,
+    group: null,
+    type: null,
+    category: null,
+    image: null,
 });
+
+const typeMenus = ref([]);
+const categoryMenus = ref([]);
+
+const menuList = computed(() => Array.isArray(props.menus) ? props.menus : []);
+
+const updateTypeMenus = () => {
+    typeMenus.value = form.group?.children || [];
+    form.type = null;
+    form.category = null;
+    categoryMenus.value = [];
+};
+
+const updateCategoryMenus = () => {
+    categoryMenus.value = form.type?.children || [];
+    form.category = null;
+};
+
+watch(() => form.group, updateTypeMenus);
+watch(() => form.type, updateCategoryMenus);
 
 const submit = () => {
     form.post(route('accountingSubscriptionAdmin.store'), {
@@ -54,7 +84,7 @@ const submit = () => {
                 </div>
             </div>
 
-            <form @submit.prevent="submit">
+            <form @submit.prevent="submit" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card mt-4">
@@ -66,31 +96,98 @@ const submit = () => {
                                         <input v-model="form.name" class="form-control" placeholder="مثلاً اشتراک یک‌ساله حسابداری">
                                         <small v-if="errorBag.name" class="text-danger">{{ errorBag.name }}</small>
                                     </div>
+
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Slug اختیاری</label>
                                         <input v-model="form.slug" class="form-control" placeholder="accounting-annual">
                                         <small v-if="errorBag.slug" class="text-danger">{{ errorBag.slug }}</small>
                                     </div>
+
                                     <div class="col-12 mb-3">
                                         <label class="form-label">توضیحات</label>
                                         <textarea v-model="form.description" class="form-control" rows="4"></textarea>
                                         <small v-if="errorBag.description" class="text-danger">{{ errorBag.description }}</small>
                                     </div>
+
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">قیمت (تومان)</label>
                                         <input v-model="form.price" type="number" min="0" class="form-control">
                                         <small v-if="errorBag.price" class="text-danger">{{ errorBag.price }}</small>
                                     </div>
+
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">مدت اشتراک (روز)</label>
                                         <input v-model="form.duration_days" type="number" min="1" class="form-control">
                                         <small v-if="errorBag.duration_days" class="text-danger">{{ errorBag.duration_days }}</small>
                                     </div>
+
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">حداکثر کاربر</label>
                                         <input v-model="form.max_users" type="number" min="1" class="form-control">
                                         <small v-if="errorBag.max_users" class="text-danger">{{ errorBag.max_users }}</small>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header"><h4>دسته‌بندی Menu</h4></div>
+                            <div class="card-body">
+                                <div class="row gx-2">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">گروه <span class="text-danger">*</span></label>
+                                        <select v-model="form.group" class="form-select">
+                                            <option :value="null" disabled>انتخاب نمایید</option>
+                                            <option v-for="menu in menuList" :key="menu.id" :value="menu">
+                                                {{ menu.name }}
+                                            </option>
+                                        </select>
+                                        <small v-if="errorBag['group.id']" class="text-danger">{{ errorBag['group.id'] }}</small>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">نوع <span class="text-danger">*</span></label>
+                                        <select v-model="form.type" class="form-select" :disabled="!form.group">
+                                            <option :value="null" disabled>ابتدا گروه را انتخاب کنید</option>
+                                            <option v-for="menu in typeMenus" :key="menu.id" :value="menu">
+                                                {{ menu.name }}
+                                            </option>
+                                        </select>
+                                        <small v-if="errorBag['type.id']" class="text-danger">{{ errorBag['type.id'] }}</small>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">دسته‌بندی</label>
+                                        <select v-model="form.category" class="form-select" :disabled="!form.type">
+                                            <option :value="null">بدون دسته‌بندی</option>
+                                            <option v-for="menu in categoryMenus" :key="menu.id" :value="menu">
+                                                {{ menu.name }}
+                                            </option>
+                                        </select>
+                                        <small v-if="errorBag['category.id']" class="text-danger">{{ errorBag['category.id'] }}</small>
+                                    </div>
+                                </div>
+
+                                <div v-if="menuList.length === 0" class="alert alert-warning mb-0">
+                                    برای این Route هنوز Menuای تعریف نشده است.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header"><h4>تصویر پلن</h4></div>
+                            <div class="card-body">
+                                <input class="form-control" type="file" @input="form.image = $event.target.files[0]" id="image" accept="image/*">
+                                <small v-if="errorBag.image" class="text-danger">{{ errorBag.image }}</small>
+                                <progress v-if="form.progress" class="mt-2" :value="form.progress.percentage" max="100">
+                                    {{ form.progress.percentage }}%
+                                </progress>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="row gx-2 align-items-end">
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">وضعیت</label>
                                         <select v-model="form.status" class="form-control">
@@ -99,10 +196,12 @@ const submit = () => {
                                         </select>
                                         <small v-if="errorBag.status" class="text-danger">{{ errorBag.status }}</small>
                                     </div>
+                                    <div class="col-md-8 mb-3 text-start">
+                                        <button class="btn btn-primary" :disabled="form.processing">
+                                            {{ form.processing ? 'در حال ثبت...' : 'ساخت پلن' }}
+                                        </button>
+                                    </div>
                                 </div>
-                                <button class="btn btn-primary" :disabled="form.processing">
-                                    {{ form.processing ? 'در حال ثبت...' : 'ساخت پلن' }}
-                                </button>
                             </div>
                         </div>
                     </div>
