@@ -174,7 +174,6 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                                                     </template>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
-                                                    <span class="hot">فعال</span>
                                                 </div>
                                             </div>
 
@@ -185,23 +184,22 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
 
                                                 <h2>{{ plan.name }}</h2>
 
-                                                <div class="plan-meta">
-                                                    <div class="plan-meta-row">
-                                                        <span class="font-small text-muted">مدت اشتراک</span>
-                                                        <strong>{{ Number(plan.duration_days).toLocaleString('fa-IR') }} روز</strong>
-                                                    </div>
-                                                    <div class="plan-meta-row">
-                                                        <span class="font-small text-muted">حداکثر کاربر</span>
-                                                        <strong>{{ Number(plan.max_users).toLocaleString('fa-IR') }} نفر</strong>
-                                                    </div>
+                                                <div>
+                                                    <span class="font-small text-muted">
+                                                        مدت اشتراک {{ Number(plan.duration_days).toLocaleString('fa-IR') }} روز
+                                                    </span>
                                                 </div>
-
-                                                <div v-if="plan.description" class="font-small text-muted plan-description" v-html="plan.description"></div>
-
+                                                <div>
+                                                    <span class="font-small text-muted">
+                                                        حداکثر {{ Number(plan.max_users).toLocaleString('fa-IR') }} کاربر
+                                                    </span>
+                                                </div>
+                                                <div v-if="plan.description">
+                                                    <span class="font-small text-muted plan-description" v-html="plan.description"></span>
+                                                </div>
                                                 <div class="product-card-bottom">
                                                     <div class="product-price">
                                                         <span>{{ Number(plan.price).toLocaleString('fa-IR') }}</span>
-                                                        <span class="font-small text-muted"> تومان</span>
                                                     </div>
                                                     <div class="add-cart">
                                                         <button
@@ -251,26 +249,11 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
 .accounting-intro p {
     margin-bottom: 12px;
 }
-.plan-meta {
-    margin: 12px 0;
-}
-.plan-meta-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 0;
-    border-bottom: 1px dashed #e5e5e5;
-}
-.plan-meta-row:last-child {
-    border-bottom: 0;
-}
 .plan-description {
     line-height: 1.9;
-    min-height: 72px;
-    max-height: 110px;
+    display: block;
+    max-height: 80px;
     overflow: hidden;
-    margin-bottom: 10px;
 }
 .product-card-bottom .add-cart button.add {
     border: 0;
