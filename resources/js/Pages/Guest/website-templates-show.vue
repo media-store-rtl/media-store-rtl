@@ -39,6 +39,33 @@ const seoProductSchema = computed(() => {
                 applicableCountry: 'IR',
                 returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
             },
+            shippingDetails: {
+                '@type': 'OfferShippingDetails',
+                shippingRate: {
+                    '@type': 'MonetaryAmount',
+                    value: 0,
+                    currency: 'IRR',
+                },
+                shippingDestination: {
+                    '@type': 'DefinedRegion',
+                    addressCountry: 'IR',
+                },
+                deliveryTime: {
+                    '@type': 'ShippingDeliveryTime',
+                    handlingTime: {
+                        '@type': 'QuantitativeValue',
+                        minValue: 0,
+                        maxValue: 0,
+                        unitCode: 'DAY',
+                    },
+                    transitTime: {
+                        '@type': 'QuantitativeValue',
+                        minValue: 0,
+                        maxValue: 0,
+                        unitCode: 'DAY',
+                    },
+                },
+            },
         } : undefined,
         aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
             '@type': 'AggregateRating',
