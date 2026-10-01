@@ -23,9 +23,9 @@ const form = useForm({
     duration_days: props.plan?.duration_days ?? 365,
     max_users: props.plan?.max_users ?? 5,
     status: props.plan?.status ?? 4,
-    group: props.plan?.group?.id ?? null,
-    type: props.plan?.type?.id ?? null,
-    category: props.plan?.category?.id ?? null,
+    group: null,
+    type: null,
+    category: null,
     image: null,
 });
 
@@ -37,25 +37,51 @@ const loadGroups = () => {
     groups.value = (props.menus || []).filter(item =>
         item.routes?.some(r => r.name === props.path)
     );
+
+    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group?.id)) || null;
     loadTypes(false);
 };
+
 const loadTypes = (reset = true) => {
-    if (reset) { form.type = null; form.category = null; categories.value = []; }
+    if (reset) {
+        form.type = null;
+        form.category = null;
+        categories.value = [];
+    }
+
     types.value = [];
-    const selected = groups.value.find(item => Number(item.id) === Number(form.group));
+    const selected = form.group;
+
     selected?.children?.forEach(child => {
-        if (child.routes?.some(r => r.name === props.path)) types.value.push(child);
+        if (child.routes?.some(r => r.name === props.path)) {
+            types.value.push(child);
+        }
     });
+
+    if (!reset) {
+        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type?.id)) || null;
+    }
+
     loadCategories(false);
 };
+
 const loadCategories = (reset = true) => {
     if (reset) form.category = null;
+
     categories.value = [];
-    const selected = types.value.find(item => Number(item.id) === Number(form.type));
+    const selected = form.type;
+
     selected?.children?.forEach(child => {
-        if (child.routes?.some(r => r.name === props.path)) categories.value.push(child);
+        if (child.routes?.some(r => r.name === props.path)) {
+            categories.value.push(child);
+        }
     });
+
+    if (!reset) {
+        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category?.id)) || null;
+    }
 };
+
 loadGroups();
 
 const submit = () => {
@@ -102,9 +128,9 @@ const submit = () => {
 <div class="col-lg-4"><div class="mt-4"><label class="form-label">حداکثر کاربر<span class="text-danger">*</span></label><input v-model.lazy="form.max_users" type="number" min="1" class="form-control" /><small v-if="errors.max_users" class="text-danger">{{ errors.max_users }}</small></div></div>
 </div>
 <div class="row gx-2">
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">گروه اشتراک<span class="text-danger">*</span></label><select v-model="form.group" @change="loadTypes()" class="form-select"><option v-for="item in groups" :key="item.id" :value="item.id">{{ item.name }}</option></select><small v-if="errors.group" class="text-danger">{{ errors.group }}</small></div></div>
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">نوع اشتراک<span class="text-danger">*</span></label><select v-model="form.type" @change="loadCategories()" class="form-select"><option v-for="item in types" :key="item.id" :value="item.id">{{ item.name }}</option></select><small v-if="errors.type" class="text-danger">{{ errors.type }}</small></div></div>
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">دسته‌بندی اشتراک</label><select v-model="form.category" class="form-select"><option :value="null">بدون دسته‌بندی</option><option v-for="item in categories" :key="item.id" :value="item.id">{{ item.name }}</option></select></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">گروه اشتراک<span class="text-danger">*</span></label><select v-model="form.group" @change="loadTypes()" class="form-select"><option v-for="item in groups" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.group" class="text-danger">{{ errors.group }}</small></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">نوع اشتراک<span class="text-danger">*</span></label><select v-model="form.type" @change="loadCategories()" class="form-select"><option v-for="item in types" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.type" class="text-danger">{{ errors.type }}</small></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">دسته‌بندی اشتراک</label><select v-model="form.category" class="form-select"><option :value="null">بدون دسته‌بندی</option><option v-for="item in categories" :key="item.id" :value="item">{{ item.name }}</option></select></div></div>
 <div class="col-lg-6"><div class="mt-4"><label class="form-label">وضعیت<span class="text-danger">*</span></label><select v-model="form.status" class="form-select"><option :value="4">فعال</option><option :value="5">غیرفعال</option></select></div></div>
 </div>
 <div class="mt-4"><label class="form-label">تصویر کاور</label>
