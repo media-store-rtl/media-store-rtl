@@ -69,8 +69,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
         ]);
     }
 
-    public function edit(Request $request, AccountingSubscriptionPlan $plan, User $user, Route $route)
+    public function edit(Request $request, AccountingSubscriptionPlan $accountingSubscriptionAdmin, User $user, Route $route)
     {
+        $plan = $accountingSubscriptionAdmin->load('image', 'group', 'type', 'category');
         Gate::authorize('update', $plan);
 
         $createRoute = $route->where('name', 'users/accountingSubscriptionAdmin/create')->first();
@@ -208,8 +209,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
         return back()->with('success', 'پلن اشتراک حسابداری با موفقیت ساخته شد.');
     }
 
-    public function update(Request $request, AccountingSubscriptionPlan $plan): RedirectResponse
+    public function update(Request $request, AccountingSubscriptionPlan $accountingSubscriptionAdmin): RedirectResponse
     {
+        $plan = $accountingSubscriptionAdmin;
         Gate::authorize('update', $plan);
 
         $data = $request->validate([
