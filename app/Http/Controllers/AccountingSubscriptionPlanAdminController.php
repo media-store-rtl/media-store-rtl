@@ -75,8 +75,40 @@ class AccountingSubscriptionPlanAdminController extends Controller
 
         $createRoute = $route->where('name', 'users/accountingSubscriptionAdmin/create')->first();
 
+        $plan->load('image', 'group', 'type', 'category');
+
+        $planData = [
+            'id' => $plan->id,
+            'name' => $plan->name,
+            'name_en' => $plan->name_en,
+            'slug' => $plan->slug,
+            'tag' => $plan->tag,
+            'description' => $plan->description,
+            'price' => $plan->price,
+            'duration_days' => $plan->duration_days,
+            'max_users' => $plan->max_users,
+            'status' => $plan->status,
+            'group' => $plan->group ? [
+                'id' => $plan->group->id,
+                'name' => $plan->group->name,
+            ] : null,
+            'type' => $plan->type ? [
+                'id' => $plan->type->id,
+                'name' => $plan->type->name,
+            ] : null,
+            'category' => $plan->category ? [
+                'id' => $plan->category->id,
+                'name' => $plan->category->name,
+            ] : null,
+            'image' => $plan->image ? [
+                'id' => $plan->image->id,
+                'url' => $plan->image->url,
+                'status' => $plan->image->status,
+            ] : null,
+        ];
+
         $data = $this->formData($request, $user, $route, 'Users/Admin/AccountingSubscription/Edit', [
-            'plan' => $plan->load('image', 'group', 'type', 'category'),
+            'plan' => $planData,
             'menus' => $createRoute && $createRoute->menus ? $createRoute->menus : collect(),
             'path' => $createRoute ? $createRoute->name : 'users/accountingSubscriptionAdmin/create',
         ]);
