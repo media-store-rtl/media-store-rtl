@@ -27,6 +27,13 @@ class Cart extends Model
         if(!is_null($cart))
         {
             $this->products = $cart->products;
+            foreach ($this->products as $index => $item) {
+                if (($item['model'] ?? null) === 'App\\Models\\AccountingSubscriptionPlan'
+                    && isset($item['product'])
+                    && $item['product'] instanceof AccountingSubscriptionPlan) {
+                    $this->products[$index]['product']->load('image');
+                }
+            }
             $this->count = $cart->count;
             $this->price = $cart->price;
             $this->discount = $cart->discount;
@@ -42,6 +49,7 @@ class Cart extends Model
 
     public function addSubscriptionToCart($plan, $request): void
     {
+        $plan->load('image');
         $count = 1;
         $discount = 0;
         $total = (int) $plan->price;
