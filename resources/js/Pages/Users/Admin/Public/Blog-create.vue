@@ -109,7 +109,7 @@ const type = () => {
     }
     // form.category = null,
         menu.value.forEach(element => {
-            if (form.type ==  element && element.children.length > 0) {
+            if (form.type ==  element && element.children.length > 0 ) {
                 element.children.forEach(child => {
                     if(child.routes.length > 0)
                     {
@@ -146,7 +146,6 @@ const type = () => {
     <section class="content-main">
         <div class="row content-header">
             <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
-                <div class="content-title card-title" style="direction:rtl;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
                 <div style="direction:rtl;">
                     <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                         <span v-if="form.processing">پردازش...</span>
@@ -154,6 +153,7 @@ const type = () => {
                         <span v-else >ایجاد</span>
                     </button>
                 </div>
+                <div class="content-title card-title" style="direction:rtl;" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
             </div>
             <div class="col-sm-12">
                 <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
