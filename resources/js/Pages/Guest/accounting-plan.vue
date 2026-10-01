@@ -156,22 +156,30 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
-                                                    <template v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)">
+                                                    <a
+                                                        href="#"
+                                                        @click.prevent
+                                                        v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)"
+                                                    >
                                                         <img
                                                             class="default-img"
                                                             loading="lazy"
                                                             decoding="async"
                                                             :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
-                                                            :alt="plan.name"
+                                                            width="300"
+                                                            height="300"
+                                                            alt=""
                                                         />
                                                         <img
                                                             class="hover-img"
                                                             loading="lazy"
                                                             decoding="async"
                                                             :src="$page.props.ziggy.url + '/storage/' + plan.image.url"
-                                                            :alt="plan.name"
+                                                            width="300"
+                                                            height="300"
+                                                            alt=""
                                                         />
-                                                    </template>
+                                                    </a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
                                                 </div>
