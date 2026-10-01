@@ -97,7 +97,7 @@ const submit = () => {
 <main class="main-wrap rtl">
 <section class="content-main">
 <div class="row content-header">
-    <div class="d-flex col-sm-12" style="direction:ltr;justify-content:space-between;align-items:center;">
+    <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
         <div class="d-flex align-items-center gap-2" style="direction:ltr;">
             <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                 {{ form.processing ? 'ارسال...' : 'ارسال' }}
