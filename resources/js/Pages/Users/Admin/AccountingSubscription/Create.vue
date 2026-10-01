@@ -267,18 +267,6 @@ const submit = () => {
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
-                                    <div class="mt-4">
-                                        <label class="form-label">وضعیت<span class="text-danger">*</span></label>
-                                        <div class="row gx-2">
-                                            <select v-model.lazy="form.status" class="form-select">
-                                                <option :value="4">فعال و قابل خرید</option>
-                                                <option :value="5">غیرفعال</option>
-                                            </select>
-                                        </div>
-                                        <small v-if="errorBag.status" class="text-danger">{{ errorBag.status }}</small>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
