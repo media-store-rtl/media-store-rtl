@@ -235,8 +235,8 @@ const submit = () => {
                                             <div class="mt-4">
                                                 <label class="form-label">دسته‌بندی اشتراک<span class="text-danger">*</span></label>
                                                 <select v-model.lazy="form.category" class="form-select">
-                                                    <option :value="null">بدون دسته‌بندی</option>
                                                     <option v-if="sections.length > 0 && form.type" v-for="(category, index) in sections" :key="index" :value="category">{{ category.name }}</option>
+                                                    <option v-else disabled>گزینه ای یافت نشد.</option>
                                                 </select>
                                                 <small v-if="errorBag.category" class="text-danger">{{ errorBag.category }}</small>
                                             </div>
