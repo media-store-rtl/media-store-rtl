@@ -540,7 +540,7 @@ const submitRemove = (id,model) => {
 													<div class="shopping-cart-img">
 														<a href="#">
                                                             <img v-if="product.product && product.product.image && product.product.image.status == 4 || 
-                                                                product.product && product.product.image && product.product.image.status == 5" :alt="product.product.nam" :src="$page.props.ziggy.url+'/storage/'+product.product.image.url" />
+                                                                product.product && product.product.image && product.product.image.status == 5" :alt="product.product.name" :src="$page.props.ziggy.url+'/storage/'+product.product.image.url" />
                                                             <img v-else :alt="product.product.nam" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="60" height="40" />
                                                         </a>
 													</div>
@@ -548,6 +548,7 @@ const submitRemove = (id,model) => {
 														<h4 v-if="product['model'] == 'App\\Models\\Product'"><Link href="#">{{ product.product.name }}</Link></h4>
                                                         <h4 v-if="product['model'] == 'App\\Models\\WebDesign'"><Link href="#">{{ product.product.name }}</Link></h4>
                                                         <h4 v-if="product['model'] == 'App\\Models\\Tarahi'"><Link href="#">{{ product.product.title }}</Link></h4>
+                                                        <h4 v-if="product['model'] == 'App\\Models\\AccountingSubscriptionPlan'"><Link href="#">{{ product.product.name }}</Link></h4>
                                                         <h4 v-if="product['model'] == 'App\\Models\\ReqDesigner'"><Link href="#">{{ 'ضمانت پروژه ' + product.product.tarahi_register.title }}</Link></h4>
 														<h4><span>{{(1).toLocaleString("fa-IR")}} × </span>{{ Number(product.product.price).toLocaleString("fa-IR") }}</h4>
 													</div>
@@ -791,6 +792,9 @@ const submitRemove = (id,model) => {
                                             <div class="shopping-cart-title">
                                                 <h4 v-if="product && product.product && product.product.tarahi_register">
                                                     <Link  :href="route('website-templates.show',[product.product.tarahi_register.slug])">{{ product.product.name }}</Link>
+                                                </h4>
+                                                <h4 v-if="product && product.product && product['model'] == 'App\\Models\\AccountingSubscriptionPlan'">
+                                                    <Link href="#">{{ product.product.name }}</Link>
                                                 </h4>
                                                 <h4 v-else>
                                                     <Link  :href="route('website-templates.show',[product.product.slug])">{{ product.product.name }}</Link>
