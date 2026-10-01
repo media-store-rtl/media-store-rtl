@@ -121,7 +121,7 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'type.id' => ['required', 'integer', 'exists:menus,id'],
             'category' => ['nullable', 'array'],
             'category.id' => ['nullable', 'integer', 'exists:menus,id'],
-            'image' => ['nullable', 'image', 'max:5120'],
+            'image' => ['required', 'image', 'max:5120'],
         ]);
 
         $slug = $data['slug'] ?: Str::slug($data['name']);
