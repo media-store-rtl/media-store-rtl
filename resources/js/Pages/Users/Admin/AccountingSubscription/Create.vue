@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useForm, usePage, Link } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
+import Editor from '@/Components/Editor.vue';
 
 const props = defineProps({
     users: Object,
@@ -23,7 +24,9 @@ const errorBag = computed(() => page.props.errors || {});
 
 const form = useForm({
     name: '',
+    name_en: '',
     slug: '',
+    tag: '',
     description: '',
     price: '',
     duration_days: 365,
@@ -141,11 +144,34 @@ const submit = () => {
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-4 me-1">
-                                                <label class="form-label">Slug</label>
+                                                <label class="form-label">نام انگلیسی<span class="text-danger">*</span></label>
+                                                <div class="row gx-2">
+                                                    <input v-model.lazy.trim="form.name_en" placeholder="اینجا تایپ کنید" type="text" class="form-control" />
+                                                </div>
+                                                <small v-if="errorBag.name_en" class="text-danger">{{ errorBag.name_en }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="row gx-2">
+                                        <div class="col-lg-6">
+                                            <div class="mt-4">
+                                                <label class="form-label">اسلاگ<span class="text-danger">*</span></label>
                                                 <div class="row gx-2">
                                                     <input v-model.lazy.trim="form.slug" placeholder="اینجا تایپ کنید" type="text" class="form-control" />
                                                 </div>
                                                 <small v-if="errorBag.slug" class="text-danger">{{ errorBag.slug }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mt-4">
+                                                <label class="form-label">تگ سئو: طول کارکتر بین ۱۲۰ تا ۱۶۰ کاراکتر و شامل کلمه کلیدی اصلی<span class="text-danger">*</span></label>
+                                                <div class="row gx-2">
+                                                    <textarea v-model.lazy.trim="form.tag" class="form-control" cols="30" rows="4" placeholder="اینجا تایپ کنید"></textarea>
+                                                </div>
+                                                <small v-if="errorBag.tag" class="text-danger">{{ errorBag.tag }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -220,9 +246,9 @@ const submit = () => {
 
                                 <div class="col-lg-12">
                                     <div class="mt-4">
-                                        <label class="form-label">توضیحات</label>
+                                        <label class="form-label">توضیحات<span class="text-danger">*</span></label>
                                         <div class="row gx-2">
-                                            <textarea v-model.lazy.trim="form.description" class="form-control" cols="30" rows="10" placeholder="اینجا تایپ کنید"></textarea>
+                                            <Editor v-model.lazy="form.description" />
                                         </div>
                                         <small v-if="errorBag.description" class="text-danger">{{ errorBag.description }}</small>
                                     </div>
@@ -230,7 +256,7 @@ const submit = () => {
 
                                 <div class="col-lg-12">
                                     <div class="mt-4">
-                                        <label class="form-label">تصویر پلن</label>
+                                        <label class="form-label">تصویر کاور<span class="text-danger">*</span></label>
                                         <div class="input-upload">
                                             <input class="form-control" type="file" @input="form.image = $event.target.files[0]" id="image" accept="image/*" />
                                             <progress v-if="form.progress" :value="form.progress.percentage" max="5">
