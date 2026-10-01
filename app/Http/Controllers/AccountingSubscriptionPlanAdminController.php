@@ -75,7 +75,7 @@ class AccountingSubscriptionPlanAdminController extends Controller
 
         $createRoute = $route->where('name', 'users/accountingSubscriptionAdmin/create')->first();
 
-        $plan->load('image', 'group', 'type', 'category');
+        $plan->load('image');
 
         $planData = [
             'id' => $plan->id,
@@ -88,18 +88,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'duration_days' => $plan->duration_days,
             'max_users' => $plan->max_users,
             'status' => $plan->status,
-            'group' => $plan->group ? [
-                'id' => $plan->group->id,
-                'name' => $plan->group->name,
-            ] : null,
-            'type' => $plan->type ? [
-                'id' => $plan->type->id,
-                'name' => $plan->type->name,
-            ] : null,
-            'category' => $plan->category ? [
-                'id' => $plan->category->id,
-                'name' => $plan->category->name,
-            ] : null,
+            'group_id' => (int) $plan->getRawOriginal('group'),
+            'type_id' => (int) $plan->getRawOriginal('type'),
+            'category_id' => $plan->getRawOriginal('category') !== null ? (int) $plan->getRawOriginal('category') : null,
             'image' => $plan->image ? [
                 'id' => $plan->image->id,
                 'url' => $plan->image->url,
