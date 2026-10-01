@@ -107,8 +107,10 @@ class AccountingSubscriptionPlanAdminController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:accounting_subscription_plans,slug'],
-            'description' => ['nullable', 'string'],
+            'name_en' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:accounting_subscription_plans,slug'],
+            'tag' => ['required', 'string', 'min:120', 'max:160'],
+            'description' => ['required', 'string'],
             'price' => ['required', 'integer', 'min:0'],
             'duration_days' => ['required', 'integer', 'min:1'],
             'max_users' => ['required', 'integer', 'min:1'],
@@ -132,7 +134,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
 
         $plan = AccountingSubscriptionPlan::create([
             'name' => $data['name'],
+            'name_en' => $data['name_en'],
             'slug' => $slug,
+            'tag' => $data['tag'],
             'description' => $data['description'] ?? null,
             'price' => $data['price'],
             'duration_days' => $data['duration_days'],
