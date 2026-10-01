@@ -18,12 +18,6 @@ const seoWebDesignSchema = computed(() => ({
     description: seoDescription.value,
     image: props.tarahis.image?.url ? [seoSiteUrl.value + '/storage/' + props.tarahis.image.url] : undefined,
     provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: seoSiteUrl.value },
-    offers: props.tarahis.price != null ? {
-        '@type': 'Offer',
-        url: seoSiteUrl.value + '/website-design/' + encodeURIComponent(props.tarahis.slug || ''),
-        priceCurrency: 'IRR',
-        price: Number(props.tarahis.price),
-    } : undefined,
     aggregateRating: props.tarahi_averageRating && props.tarahi_timesRated > 0 ? {
         '@type': 'AggregateRating',
         ratingValue: Number(props.tarahi_averageRating),
