@@ -23,9 +23,9 @@ const form = useForm({
     duration_days: props.plan?.duration_days ?? 365,
     max_users: props.plan?.max_users ?? 5,
     status: props.plan?.status ?? 4,
-    group: null,
-    type: null,
-    category: null,
+    group: props.plan?.group ?? null,
+    type: props.plan?.type ?? null,
+    category: props.plan?.category ?? null,
     image: null,
 });
 
@@ -38,7 +38,7 @@ const loadGroups = () => {
         item.routes?.some(r => r.name === props.path)
     );
 
-    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group?.id)) || null;
+    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group?.id)) || props.plan?.group || null;
     loadTypes(false);
 };
 
@@ -59,7 +59,7 @@ const loadTypes = (reset = true) => {
     });
 
     if (!reset) {
-        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type?.id)) || null;
+        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type?.id)) || props.plan?.type || null;
     }
 
     loadCategories(false);
@@ -78,7 +78,7 @@ const loadCategories = (reset = true) => {
     });
 
     if (!reset) {
-        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category?.id)) || null;
+        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category?.id)) || props.plan?.category || null;
     }
 };
 
