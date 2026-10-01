@@ -73,9 +73,12 @@ class AccountingSubscriptionPlanAdminController extends Controller
     {
         Gate::authorize('update', $plan);
 
+        $createRoute = $route->where('name', 'users/accountingSubscriptionAdmin/create')->first();
+
         $data = $this->formData($request, $user, $route, 'Users/Admin/AccountingSubscription/Edit', [
             'plan' => $plan->load('image', 'group', 'type', 'category'),
-            'path' => $request->path(),
+            'menus' => $createRoute && $createRoute->menus ? $createRoute->menus : collect(),
+            'path' => $createRoute ? $createRoute->name : 'users/accountingSubscriptionAdmin/create',
         ]);
 
         return $data;
