@@ -801,6 +801,7 @@ const submit = () => {
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\WebDesign'" href="">{{ product['product'].name }}</Link>
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\Tarahi'" href="">{{ 'پروژه ' + product['product'].title }}</Link>
                                             <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\ReqDesigner'" href="">{{  'ضمانت پروژه ' + product['product'].tarahi_register.title }}</Link>
+                                            <Link class='product-name mb-10 text-heading' v-if="product['model'] == 'App\\Models\\AccountingSubscriptionPlan'" href="">{{ product['product'].name }}</Link>
                                         </td>
                                         <td class="price" data-title="قیمت واحد">
                                             <h5 class="text-body" v-if="product['product'].price">{{ Number(product['product'].price).toLocaleString("fa-IR") }}  </h5>
