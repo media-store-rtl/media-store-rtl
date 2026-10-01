@@ -98,10 +98,16 @@ const submit = () => {
 <section class="content-main">
 <div class="row content-header">
     <div class="d-flex col-sm-12" style="direction:ltr;justify-content:space-between;align-items:center;">
-        <div style="direction:rtl;">
+        <div class="d-flex align-items-center gap-2" style="direction:ltr;">
             <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
-                {{ form.processing ? 'پردازش...' : 'ذخیره تغییرات' }}
+                {{ form.processing ? 'ارسال...' : 'ارسال' }}
             </button>
+            <div style="direction:rtl;">
+                <select v-model="form.status" class="form-select form-select-sm" style="min-width:120px;">
+                    <option :value="4">فعال</option>
+                    <option :value="5">غیرفعال</option>
+                </select>
+            </div>
         </div>
         <div class="content-title card-title" style="direction:rtl;">
             <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
@@ -131,7 +137,7 @@ const submit = () => {
 <div class="col-lg-6"><div class="mt-4"><label class="form-label">گروه اشتراک<span class="text-danger">*</span></label><select v-model="form.group" @change="loadTypes()" class="form-select"><option v-for="item in groups" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.group" class="text-danger">{{ errors.group }}</small></div></div>
 <div class="col-lg-6"><div class="mt-4"><label class="form-label">نوع اشتراک<span class="text-danger">*</span></label><select v-model="form.type" @change="loadCategories()" class="form-select"><option v-for="item in types" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.type" class="text-danger">{{ errors.type }}</small></div></div>
 <div class="col-lg-6"><div class="mt-4"><label class="form-label">دسته‌بندی اشتراک</label><select v-model="form.category" class="form-select"><option :value="null">بدون دسته‌بندی</option><option v-for="item in categories" :key="item.id" :value="item">{{ item.name }}</option></select></div></div>
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">وضعیت<span class="text-danger">*</span></label><select v-model="form.status" class="form-select"><option :value="4">فعال</option><option :value="5">غیرفعال</option></select></div></div>
+
 </div>
 <div class="mt-4"><label class="form-label">تصویر کاور</label>
 <div v-if="props.plan?.image?.url" class="mb-3"><img :src="$page.props.ziggy.url + '/storage/' + props.plan.image.url" alt="تصویر فعلی پلن" style="width:120px;height:120px;object-fit:cover;border-radius:8px;"></div>
