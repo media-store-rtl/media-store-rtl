@@ -13,7 +13,7 @@ const getPageUrl = (baseUrl, pageNumber) => {
     if (typeof window !== 'undefined') {
         let queryString = window.location.search;
         queryString = queryString.replace(/(\?|&)page=\d+/, '');
-        return `${baseUrl}?page=${page}${queryString ? '&' + queryString.substring(1) : ''}`;
+        return `${baseUrl}?page=${pageNumber}${queryString ? '&' + queryString.substring(1) : ''}`;
     }
     return `${baseUrl}?page=${pageNumber}`;
 };
@@ -61,7 +61,6 @@ const getPageUrl = (baseUrl, pageNumber) => {
                                         <span v-if="plan.status === 4" class="badge badge-pill badge-soft-success">فعال</span>
                                         <span v-else class="badge badge-pill badge-soft-secondary">غیرفعال</span>
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
@@ -142,8 +141,6 @@ const getPageUrl = (baseUrl, pageNumber) => {
             </div>
         </section>
 
-
-        </section>
         <Footer :companies="props.companies" />
     </main>
 </template>
