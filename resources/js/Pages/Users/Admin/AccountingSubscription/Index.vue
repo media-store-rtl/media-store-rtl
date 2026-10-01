@@ -92,6 +92,7 @@ const toggleMenu = (id) => {
                                                             <i class="material-icons md-more_horiz"></i>
                                                         </a>
                                                         <div v-if="openMenu === plan.id" class="dropdown-menu show" @click.stop>
+                                                            <Link :href="route('accountingSubscriptionAdmin.edit', plan.id)" class="dropdown-item">ویرایش پلن</Link>
                                                             <Link :href="route('accountingSubscriptionAdmin.create')" class="dropdown-item">ایجاد پلن جدید</Link>
                                                         </div>
                                                     </div>
