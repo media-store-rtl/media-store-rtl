@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useForm, usePage, Link } from '@inertiajs/vue3';
 import Header from '@/Pages/Users/Buyer/header.vue';
 import Footer from '@/Pages/Users/Buyer/footer.vue';
@@ -35,25 +35,57 @@ const form = useForm({
     image: null,
 });
 
-const typeMenus = ref([]);
-const categoryMenus = ref([]);
+const menus = ref([]);
+const menu = ref([]);
+const sections = ref([]);
 
-const menuList = computed(() => Array.isArray(props.menus) ? props.menus : []);
+if (props.menus && props.menus.length > 0) {
+    props.menus.forEach(element => {
+        if (element.sections?.length > 0 && element.routes?.length > 0) {
+            element.routes.forEach(route => {
+                if (route.name === props.path) {
+                    menus.value.push(element);
+                }
+            });
+        }
+    });
+}
 
-const updateTypeMenus = () => {
-    typeMenus.value = form.group?.children || [];
+const group = () => {
+    if (menu.value.length > 0) {
+        menu.value.splice(0);
+    }
+    sections.value.splice(0);
     form.type = null;
     form.category = null;
-    categoryMenus.value = [];
+
+    menus.value.forEach(element => {
+        if (form.group === element && element.children?.length > 0) {
+            element.children.forEach(child => {
+                if (child.routes?.some(route => route.name === props.path)) {
+                    menu.value.push(child);
+                }
+            });
+        }
+    });
 };
 
-const updateCategoryMenus = () => {
-    categoryMenus.value = form.type?.children || [];
+const type = () => {
+    if (sections.value.length > 0) {
+        sections.value.splice(0);
+    }
     form.category = null;
-};
 
-watch(() => form.group, updateTypeMenus);
-watch(() => form.type, updateCategoryMenus);
+    menu.value.forEach(element => {
+        if (form.type === element && element.children?.length > 0) {
+            element.children.forEach(child => {
+                if (child.routes?.some(route => route.name === props.path)) {
+                    sections.value.push(child);
+                }
+            });
+        }
+    });
+};
 
 const submit = () => {
     form.post(route('accountingSubscriptionAdmin.store'), {
@@ -70,13 +102,17 @@ const submit = () => {
     <main class="main-wrap rtl">
         <section class="content-main">
             <div class="row content-header">
-                <div class="d-flex col-sm-12 align-items-center">
-                    <div class="content-title card-title">
+                <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
+                    <div style="direction:rtl;">
+                        <button @click.prevent="submit" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
+                            <span v-if="form.processing">پردازش...</span>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
+                            <span v-else>ایجاد</span>
+                        </button>
+                    </div>
+                    <div class="content-title card-title" style="direction:rtl;">
                         <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
                         <span v-else>ایجاد پلن اشتراک حسابداری</span>
-                    </div>
-                    <div style="margin-right:auto; text-align:left;">
-                        <Link :href="route('accountingSubscriptionAdmin.index')" class="btn btn-light btn-sm rounded font-sm">بازگشت</Link>
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -131,45 +167,32 @@ const submit = () => {
                         </div>
 
                         <div class="card mt-4">
-                            <div class="card-header"><h4>دسته‌بندی Menu</h4></div>
+                            <div class="card-header">
+                                <h4>اطلاعات تکمیلی</h4>
+                            </div>
                             <div class="card-body">
                                 <div class="row gx-2">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">گروه <span class="text-danger">*</span></label>
-                                        <select v-model="form.group" class="form-select">
-                                            <option :value="null" disabled>انتخاب نمایید</option>
-                                            <option v-for="menu in menuList" :key="menu.id" :value="menu">
-                                                {{ menu.name }}
-                                            </option>
+                                    <div class="col-lg-6">
+                                        <label class="form-label">گروه اشتراک<span class="text-danger">*</span></label>
+                                        <select v-model.lazy="form.group" class="form-select" @change="group">
+                                            <option v-if="menus.length > 0" :value="menu" v-for="(menu, index) in menus" :key="index">{{ menu.name }}</option>
+                                            <option v-else disabled>گزینه ای یافت نشد.</option>
                                         </select>
-                                        <small v-if="errorBag['group.id']" class="text-danger">{{ errorBag['group.id'] }}</small>
                                     </div>
-
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">نوع <span class="text-danger">*</span></label>
-                                        <select v-model="form.type" class="form-select" :disabled="!form.group">
-                                            <option :value="null" disabled>ابتدا گروه را انتخاب کنید</option>
-                                            <option v-for="menu in typeMenus" :key="menu.id" :value="menu">
-                                                {{ menu.name }}
-                                            </option>
+                                    <div class="col-lg-6">
+                                        <label class="form-label">نوع اشتراک<span class="text-danger">*</span></label>
+                                        <select v-model.lazy="form.type" @change="type" class="form-select">
+                                            <option v-if="menu.length > 0 && form.group" v-for="(type, index) in menu" :key="index" :value="type">{{ type.name }}</option>
+                                            <option v-else disabled>گزینه ای یافت نشد.</option>
                                         </select>
-                                        <small v-if="errorBag['type.id']" class="text-danger">{{ errorBag['type.id'] }}</small>
                                     </div>
-
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">دسته‌بندی</label>
-                                        <select v-model="form.category" class="form-select" :disabled="!form.type">
+                                    <div class="col-lg-6 mt-4">
+                                        <label class="form-label">دسته‌بندی اشتراک</label>
+                                        <select v-model.lazy="form.category" class="form-select">
                                             <option :value="null">بدون دسته‌بندی</option>
-                                            <option v-for="menu in categoryMenus" :key="menu.id" :value="menu">
-                                                {{ menu.name }}
-                                            </option>
+                                            <option v-if="sections.length > 0 && form.type" v-for="(category, index) in sections" :key="index" :value="category">{{ category.name }}</option>
                                         </select>
-                                        <small v-if="errorBag['category.id']" class="text-danger">{{ errorBag['category.id'] }}</small>
                                     </div>
-                                </div>
-
-                                <div v-if="menuList.length === 0" class="alert alert-warning mb-0">
-                                    برای این Route هنوز Menuای تعریف نشده است.
                                 </div>
                             </div>
                         </div>
@@ -186,21 +209,17 @@ const submit = () => {
                         </div>
 
                         <div class="card mt-4">
+                            <div class="card-header">
+                                <h4>وضعیت</h4>
+                            </div>
                             <div class="card-body">
-                                <div class="row gx-2 align-items-end">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">وضعیت</label>
-                                        <select v-model="form.status" class="form-control">
-                                            <option :value="4">فعال و قابل خرید</option>
-                                            <option :value="5">غیرفعال</option>
-                                        </select>
-                                        <small v-if="errorBag.status" class="text-danger">{{ errorBag.status }}</small>
-                                    </div>
-                                    <div class="col-md-8 mb-3 text-start">
-                                        <button class="btn btn-primary" :disabled="form.processing">
-                                            {{ form.processing ? 'در حال ثبت...' : 'ساخت پلن' }}
-                                        </button>
-                                    </div>
+                                <div class="col-lg-6">
+                                    <label class="form-label">وضعیت</label>
+                                    <select v-model.lazy="form.status" class="form-select">
+                                        <option :value="4">فعال و قابل خرید</option>
+                                        <option :value="5">غیرفعال</option>
+                                    </select>
+                                    <small v-if="errorBag.status" class="text-danger">{{ errorBag.status }}</small>
                                 </div>
                             </div>
                         </div>
