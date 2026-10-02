@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Link;
 use App\Models\Order;
 use App\Models\Tarahi;
+use App\Models\AccountingSubscriptionPlan;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Model;
