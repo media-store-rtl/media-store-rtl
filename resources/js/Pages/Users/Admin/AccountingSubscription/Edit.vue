@@ -107,7 +107,6 @@ const submit = () => {
     <div class="d-flex col-sm-12 align-items-center" style="direction:rtl; justify-content:space-between;">
         <div class="content-title card-title">
             <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
-            <span v-else>ویرایش پلن اشتراک حسابداری</span>
         </div>
 
         <div class="d-flex align-items-center gap-2" style="direction:rtl;">
