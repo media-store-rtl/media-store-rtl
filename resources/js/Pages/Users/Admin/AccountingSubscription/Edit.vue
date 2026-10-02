@@ -6,26 +6,40 @@ import Footer from '@/Pages/Users/Buyer/footer.vue';
 import Editor from '@/Components/Editor.vue';
 
 const props = defineProps({
-    plan: Object, users: Object, wallet: Number, companies: Object,
-    descriptions: Object, alert: Object, cart: Object,
-    menus: { type: Array, default: () => [] }, path: String,
+    plan: Object,
+    users: Object,
+    wallet: Number,
+    companies: Object,
+    descriptions: Object,
+    alert: Object,
+    cart: Object,
+    menus: { type: Array, default: () => [] },
+    path: String,
 });
+
 const page = usePage();
 const errors = computed(() => page.props.errors || {});
 
+const plan = props.plan || {};
+
+const getId = (value) => {
+    if (value && typeof value === 'object') return value.id ?? null;
+    return value ?? null;
+};
+
 const form = useForm({
-    name: props.plan?.name ?? '',
-    name_en: props.plan?.name_en ?? '',
-    slug: props.plan?.slug ?? '',
-    tag: props.plan?.tag ?? '',
-    description: props.plan?.description ?? '',
-    price: props.plan?.price ?? '',
-    duration_days: props.plan?.duration_days ?? 365,
-    max_users: props.plan?.max_users ?? 5,
-    status: props.plan?.status ?? 4,
-    group: props.plan?.group ?? null,
-    type: props.plan?.type ?? null,
-    category: props.plan?.category ?? null,
+    name: plan.name ?? '',
+    name_en: plan.name_en ?? '',
+    slug: plan.slug ?? '',
+    tag: plan.tag ?? '',
+    description: plan.description ?? '',
+    price: plan.price ?? '',
+    duration_days: plan.duration_days ?? 365,
+    max_users: plan.max_users ?? 5,
+    status: plan.status ?? 4,
+    group: getId(plan.group),
+    type: getId(plan.type),
+    category: getId(plan.category),
     image: null,
     _method: 'put',
 });
@@ -36,10 +50,8 @@ const categories = ref([]);
 
 const loadGroups = () => {
     groups.value = (props.menus || []).filter(item =>
-        item.routes?.some(r => r.name === props.path)
+        item.routes?.some(route => route.name === props.path)
     );
-
-    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group)) || null;
     loadTypes(false);
 };
 
@@ -50,43 +62,37 @@ const loadTypes = (reset = true) => {
         categories.value = [];
     }
 
-    types.value = [];
-    const selected = form.group;
-
-    selected?.children?.forEach(child => {
-        if (child.routes?.some(r => r.name === props.path)) {
-            types.value.push(child);
-        }
-    });
+    const selectedGroup = groups.value.find(item => Number(item.id) === Number(form.group));
+    types.value = (selectedGroup?.children || []).filter(child =>
+        child.routes?.some(route => route.name === props.path)
+    );
 
     if (!reset) {
-        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type)) || null;
+        form.type = getId(plan.type);
     }
 
     loadCategories(false);
 };
 
 const loadCategories = (reset = true) => {
-    if (reset) form.category = null;
+    if (reset) {
+        form.category = null;
+    }
 
-    categories.value = [];
-    const selected = form.type;
-
-    selected?.children?.forEach(child => {
-        if (child.routes?.some(r => r.name === props.path)) {
-            categories.value.push(child);
-        }
-    });
+    const selectedType = types.value.find(item => Number(item.id) === Number(form.type));
+    categories.value = (selectedType?.children || []).filter(child =>
+        child.routes?.some(route => route.name === props.path)
+    );
 
     if (!reset) {
-        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category)) || null;
+        form.category = getId(plan.category);
     }
 };
 
 loadGroups();
 
 const submit = () => {
-    form.post(route('accountingSubscriptionAdmin.update', props.plan.id), {
+    form.post(route('accountingSubscriptionAdmin.update', plan.id), {
         preserveScroll: true,
         forceFormData: true,
     });
@@ -98,23 +104,27 @@ const submit = () => {
 <main class="main-wrap rtl">
 <section class="content-main">
 <div class="row content-header">
-    <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
-        <div class="d-flex align-items-center gap-2" style="direction:ltr; margin-right:auto;">
-            <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
-                {{ form.processing ? 'ارسال...' : 'ارسال' }}
-            </button>
-            <div style="direction:rtl;">
+    <div class="d-flex col-sm-12 align-items-center" style="direction:rtl; justify-content:space-between;">
+        <div class="content-title card-title">
+            <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
+            <span v-else>ویرایش پلن اشتراک حسابداری</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2" style="direction:rtl;">
+            <div>
                 <select v-model="form.status" class="form-select form-select-sm" style="min-width:120px;">
                     <option :value="4">فعال</option>
                     <option :value="5">غیرفعال</option>
                 </select>
             </div>
-        </div>
-        <div class="content-title card-title" style="direction:rtl;">
-            <span>ویرایش پلن اشتراک</span>
+            <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
+                {{ form.processing ? 'ارسال...' : 'ارسال' }}
+            </button>
         </div>
     </div>
-    <div class="col-sm-12"><div v-if="props.descriptions" v-html="props.descriptions.text"></div></div>
+    <div class="col-sm-12">
+        <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
+    </div>
 </div>
 
 <form @submit.prevent="submit" enctype="multipart/form-data">
@@ -134,9 +144,9 @@ const submit = () => {
 <div class="col-lg-4"><div class="mt-4"><label class="form-label">حداکثر کاربر<span class="text-danger">*</span></label><input v-model.lazy="form.max_users" type="number" min="1" class="form-control" /><small v-if="errors.max_users" class="text-danger">{{ errors.max_users }}</small></div></div>
 </div>
 <div class="row gx-2">
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">گروه اشتراک<span class="text-danger">*</span></label><select v-model="form.group" @change="loadTypes()" class="form-select"><option v-for="item in groups" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.group" class="text-danger">{{ errors.group }}</small></div></div>
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">نوع اشتراک<span class="text-danger">*</span></label><select v-model="form.type" @change="loadCategories()" class="form-select"><option v-for="item in types" :key="item.id" :value="item">{{ item.name }}</option></select><small v-if="errors.type" class="text-danger">{{ errors.type }}</small></div></div>
-<div class="col-lg-6"><div class="mt-4"><label class="form-label">دسته‌بندی اشتراک</label><select v-model="form.category" class="form-select"><option :value="null">بدون دسته‌بندی</option><option v-for="item in categories" :key="item.id" :value="item">{{ item.name }}</option></select></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">گروه اشتراک<span class="text-danger">*</span></label><select v-model="form.group" @change="loadTypes()" class="form-select"><option v-for="item in groups" :key="item.id" :value="item.id">{{ item.name }}</option></select><small v-if="errors.group" class="text-danger">{{ errors.group }}</small></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">نوع اشتراک<span class="text-danger">*</span></label><select v-model="form.type" @change="loadCategories()" class="form-select"><option v-for="item in types" :key="item.id" :value="item.id">{{ item.name }}</option></select><small v-if="errors.type" class="text-danger">{{ errors.type }}</small></div></div>
+<div class="col-lg-6"><div class="mt-4"><label class="form-label">دسته‌بندی اشتراک</label><select v-model="form.category" class="form-select"><option :value="null">بدون دسته‌بندی</option><option v-for="item in categories" :key="item.id" :value="item.id">{{ item.name }}</option></select></div></div>
 
 </div>
 <div class="mt-4"><label class="form-label">تصویر کاور</label>
