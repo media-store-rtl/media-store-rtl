@@ -1,6 +1,6 @@
 <script setup>
-import { computed,ref} from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import moment from "moment-jalaali";
 import fa from "moment/src/locale/fa";
 
@@ -93,30 +93,28 @@ const props = defineProps({users:Object,orders:Object,notifications:Object,compa
                                             </thead>
                                             <tbody>
                                                 <tr v-for="item,index in props.orders.sub_order" :key="index">
-                                                    <td >
+                                                    <td>
                                                         <span v-if="item.orderable_type == 'App\\Models\\Product'"> {{ item.orderable.name}} </span>
                                                         <span v-else-if="item.orderable_type == 'App\\Models\\Tarahi'"> {{ item.orderable.title}} </span>
                                                         <span v-else-if="item.orderable_type == 'App\\Models\\WebDesign'"> {{ item.orderable.name}} </span>
+                                                        <span v-else-if="item.orderable_type == 'App\\Models\\AccountingSubscriptionPlan'"> {{ item.orderable.name}} </span>
                                                     </td>
                                                     <td v-if="item.orderable_type == 'App\\Models\\Product'" class="text-center">{{ item.orderable.user.name_show }}</td>
                                                     <td v-else-if="item.orderable_type == 'App\\Models\\Tarahi'" class="text-center">{{ item.orderable.register_designer.user.name_show }}</td>
-                                                    <td v-if="item.orderable_type == 'App\\Models\\WebDesign'" class="text-center">{{ item.orderable.user.name_show }}</td>
+                                                    <td v-else-if="item.orderable_type == 'App\\Models\\WebDesign'" class="text-center">{{ item.orderable.user.name_show }}</td>
+                                                    <td v-else-if="item.orderable_type == 'App\\Models\\AccountingSubscriptionPlan'" class="text-center">اشتراک حسابداری</td>
                                                     <td class="text-center">{{ Number(item.price).toLocaleString("fa-IR") }} ریال</td>
                                                     <td class="text-center">{{ Number(item.count).toLocaleString("fa-IR") }} عدد</td>
                                                     <td class="text-center">{{ Number(item.total).toLocaleString("fa-IR") }} ریال</td>
                                                     <td class="text-center">{{ Number(item.discount).toLocaleString("fa-IR") }} ریال</td>
-                                                   <td class="text-center"  >
-                                                    <!-- <template v-for="role,index in item.orderable.user.roles" :key="index" > -->
-                                                        <span v-if=" item.comison == 0">{{ Number(item.tax).toLocaleString("fa-IR") }} ریال</span>
-                                                        <span v-else >{{ Number(0).toLocaleString("fa-IR") }} ریال</span>
-                                                    <!-- </template> -->
+                                                   <td class="text-center">
+                                                        <span v-if="item.comison == 0">{{ Number(item.tax).toLocaleString("fa-IR") }} ریال</span>
+                                                        <span v-else>{{ Number(0).toLocaleString("fa-IR") }} ریال</span>
                                                     </td>
-                                                    <td class="text-right" >
-                                                        <!-- <span v-if="item.comison  > 0"> {{ item.comison }}</span> -->
-                                                        <span v-if=" item.comison == 0">{{ Number(item.col).toLocaleString("fa-IR") }} ریال</span>
-                                                        <span v-if="item.comison > 0" >{{ (Number(item.col) + Number(item.comison) + Number(item.tax)).toLocaleString("fa-IR") }} ریال</span>
+                                                    <td class="text-right">
+                                                        <span v-if="item.comison == 0">{{ Number(item.col).toLocaleString("fa-IR") }} ریال</span>
+                                                        <span v-if="item.comison > 0">{{ (Number(item.col) + Number(item.comison) + Number(item.tax)).toLocaleString("fa-IR") }} ریال</span>
                                                     </td>
-                                                    <!-- <td class="text-right" v-eles-if="item.comison > 0" >{{ (item.col+item.comison+item.tax).toLocaleString("fa-IR") }} ریال</td> -->
                                                 </tr>
                                                 <tr>
                                                     <td colspan="7" class="text-end f-w-600">جمع</td>
@@ -157,7 +155,7 @@ const props = defineProps({users:Object,orders:Object,notifications:Object,compa
                                         <div class="col-md-6 text-end">
                                             <h6 class="mb-15">مبلغ قابل پرداخت</h6>
                                             <h3 class="mt-0 mb-0 text-brand">{{ Number(props.orders.col-props.orders.payment).toLocaleString("fa-IR") }} ریال</h3>
-                                            <p class="mb-0 text-muted" v-if=" props.orders.col == 0">بدون مالیات</p>
+                                            <p class="mb-0 text-muted" v-if="props.orders.col == 0">بدون مالیات</p>
                                         </div>
                                     </div>
                                     <div class="row text-center">
@@ -189,5 +187,4 @@ const props = defineProps({users:Object,orders:Object,notifications:Object,compa
 
 </template>
 <style>
-
 </style>
