@@ -43,7 +43,7 @@ const toggleMenu = (id) => {
         <section class="content-main">
             <div class="row content-header">
                 <div class="d-flex col-sm-12 align-items-center">
-                    <div class="content-title card-title">اشتراک حسابداری</div>
+                    <div class="content-title card-title">اشتراک</div>
                     <div style="margin-right:auto; text-align:left;">
                         <Link :href="route('accountingSubscriptionAdmin.create')" class="btn btn-primary btn-sm rounded font-sm">ایجاد</Link>
                     </div>
