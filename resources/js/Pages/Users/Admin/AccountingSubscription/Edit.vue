@@ -22,10 +22,9 @@ const errors = computed(() => page.props.errors || {});
 
 const plan = props.plan || {};
 
-const toId = (value) => {
-    if (value === null || value === undefined || value === '') return null;
-    const id = typeof value === 'object' ? value.id : value;
-    return id === null || id === undefined || id === '' ? null : Number(id);
+const getId = (value) => {
+    if (value && typeof value === 'object') return value.id ?? null;
+    return value ?? null;
 };
 
 const form = useForm({
@@ -37,27 +36,22 @@ const form = useForm({
     price: plan.price ?? '',
     duration_days: plan.duration_days ?? 365,
     max_users: plan.max_users ?? 5,
-    status: toId(plan.status) ?? 4,
-    group: toId(plan.group_id ?? plan.group),
-    type: toId(plan.type_id ?? plan.type),
-    category: toId(plan.category_id ?? plan.category),
+    status: plan.status ?? 4,
+    group: getId(plan.group),
+    type: getId(plan.type),
+    category: getId(plan.category),
     image: null,
+    _method: 'put',
 });
 
 const groups = ref([]);
 const types = ref([]);
 const categories = ref([]);
 
-const filterForPath = (items) => {
-    const filtered = (items || []).filter(item =>
-        item.routes?.some(itemRoute => itemRoute.name === props.path)
-    );
-
-    return filtered.length > 0 ? filtered : (items || []);
-};
-
 const loadGroups = () => {
-    groups.value = filterForPath(props.menus);
+    groups.value = (props.menus || []).filter(item =>
+        item.routes?.some(route => route.name === props.path)
+    );
     loadTypes(false);
 };
 
@@ -69,10 +63,12 @@ const loadTypes = (reset = true) => {
     }
 
     const selectedGroup = groups.value.find(item => Number(item.id) === Number(form.group));
-    types.value = filterForPath(selectedGroup?.children || []);
+    types.value = (selectedGroup?.children || []).filter(child =>
+        child.routes?.some(route => route.name === props.path)
+    );
 
-    if (!reset && form.type === null) {
-        form.type = toId(plan.type_id ?? plan.type);
+    if (!reset) {
+        form.type = getId(plan.type);
     }
 
     loadCategories(false);
@@ -84,22 +80,19 @@ const loadCategories = (reset = true) => {
     }
 
     const selectedType = types.value.find(item => Number(item.id) === Number(form.type));
-    categories.value = filterForPath(selectedType?.children || []);
+    categories.value = (selectedType?.children || []).filter(child =>
+        child.routes?.some(route => route.name === props.path)
+    );
 
-    if (!reset && form.category === null) {
-        form.category = toId(plan.category_id ?? plan.category);
+    if (!reset) {
+        form.category = getId(plan.category);
     }
 };
 
 loadGroups();
 
 const submit = () => {
-    form.transform(data => ({
-        ...data,
-        group: data.group ? { id: Number(data.group) } : null,
-        type: data.type ? { id: Number(data.type) } : null,
-        category: data.category ? { id: Number(data.category) } : null,
-    })).post(route('accountingSubscriptionAdmin.update', plan.id), {
+    form.post(route('accountingSubscriptionAdmin.update', plan.id), {
         preserveScroll: true,
         forceFormData: true,
     });
@@ -111,20 +104,22 @@ const submit = () => {
 <main class="main-wrap rtl">
 <section class="content-main">
 <div class="row content-header">
-    <div class="d-flex col-sm-12 align-items-center" style="direction:ltr; justify-content:space-between;">
+    <div class="d-flex col-sm-12 align-items-center" style="direction:rtl; justify-content:space-between;">
+        <div class="content-title card-title">
+            <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
+            <span v-else>ویرایش پلن اشتراک حسابداری</span>
+        </div>
+
         <div class="d-flex align-items-center gap-2" style="direction:rtl;">
-            <select v-model="form.status" class="form-select form-select-sm" style="min-width:120px;">
-                <option :value="4">فعال</option>
-                <option :value="5">غیرفعال</option>
-            </select>
+            <div>
+                <select v-model="form.status" class="form-select form-select-sm" style="min-width:120px;">
+                    <option :value="4">فعال</option>
+                    <option :value="5">غیرفعال</option>
+                </select>
+            </div>
             <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                 {{ form.processing ? 'ارسال...' : 'ارسال' }}
             </button>
-        </div>
-
-        <div class="content-title card-title" style="direction:rtl;">
-            <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
-            <span v-else>ویرایش پلن اشتراک حسابداری</span>
         </div>
     </div>
     <div class="col-sm-12">
@@ -155,13 +150,7 @@ const submit = () => {
 
 </div>
 <div class="mt-4"><label class="form-label">تصویر کاور</label>
-<div v-if="props.plan?.image?.url" class="mb-3">
-    <img
-        :src="$page.props.ziggy.url + '/storage/' + props.plan.image.url"
-        alt="تصویر فعلی پلن"
-        style="width:120px;height:120px;object-fit:cover;border-radius:8px;"
-    />
-</div>
+<div v-if="props.plan?.image?.url" class="mb-3"><img :src="$page.props.ziggy.url + '/storage/' + props.plan.image.url" alt="تصویر فعلی پلن" style="width:120px;height:120px;object-fit:cover;border-radius:8px;"></div>
 <input class="form-control" type="file" @input="form.image = $event.target.files[0]" accept="image/*" />
 <small class="text-muted d-block mt-2">اگر تصویر جدید انتخاب نکنید، تصویر فعلی حفظ می‌شود.</small><small v-if="errors.image" class="text-danger">{{ errors.image }}</small></div>
 <div class="mt-4"><label class="form-label">توضیحات<span class="text-danger">*</span></label><Editor v-model.lazy="form.description" /><small v-if="errors.description" class="text-danger">{{ errors.description }}</small></div>
