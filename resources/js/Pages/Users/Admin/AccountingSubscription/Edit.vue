@@ -27,6 +27,7 @@ const form = useForm({
     type: null,
     category: null,
     image: null,
+    _method: 'put',
 });
 
 const groups = ref([]);
@@ -38,7 +39,7 @@ const loadGroups = () => {
         item.routes?.some(r => r.name === props.path)
     );
 
-    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group_id)) || null;
+    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group?.id)) || null;
     loadTypes(false);
 };
 
@@ -59,7 +60,7 @@ const loadTypes = (reset = true) => {
     });
 
     if (!reset) {
-        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type_id)) || null;
+        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type?.id)) || null;
     }
 
     loadCategories(false);
@@ -78,14 +79,14 @@ const loadCategories = (reset = true) => {
     });
 
     if (!reset) {
-        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category_id)) || null;
+        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category?.id)) || null;
     }
 };
 
 loadGroups();
 
 const submit = () => {
-    form.put(route('accountingSubscriptionAdmin.update', props.plan.id), {
+    form.post(route('accountingSubscriptionAdmin.update', props.plan.id), {
         preserveScroll: true,
         forceFormData: true,
     });
