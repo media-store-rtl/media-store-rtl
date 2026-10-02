@@ -17,6 +17,7 @@ use App\Models\Company;
 use App\Models\Deposit;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\AccountingSubscription;
 use App\Models\AccountingSubscriptionPlan;
 use App\Jobs\DepositJob;
 use App\Jobs\PaymentJob;
@@ -30,6 +31,7 @@ use App\Models\ReqDesigner;
 use App\Jobs\OrderSellerJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Jobs\PaymentBayerJob;
 use App\Http\Utilities\Wallet;
 use Shetabit\Multipay\Invoice;
@@ -985,7 +987,7 @@ class OrderController extends Controller
             return redirect()->back();
         }
 
-        $orders = DB::transaction(function () use ($request, $cart) {
+        $purchase = DB::transaction(function () use ($cart) {
             $orders = OrderCreate::create(
                 auth()->user()->id,
                 $cart->price,
@@ -1000,10 +1002,17 @@ class OrderController extends Controller
             );
 
             $couponPerItem = $cart->count > 0 ? $cart->coupon / $cart->count : 0;
+            $subscriptions = [];
 
             foreach ($cart->products as $item) {
-                $plan = AccountingSubscriptionPlan::findOrFail($item['product']->id);
-                $total = max(0, ($plan->price * $item['count']) - $item['discount'] - $couponPerItem);
+                $plan = AccountingSubscriptionPlan::where('status', 4)
+                    ->findOrFail($item['product']->id);
+
+                $total = max(
+                    0,
+                    ($plan->price * $item['count']) - $item['discount'] - $couponPerItem
+                );
+
                 $orderable = OrderableCreate::create(
                     $orders->id,
                     auth()->user()->id,
@@ -1022,40 +1031,86 @@ class OrderController extends Controller
                 if (!$orderable) {
                     throw new \RuntimeException('ثبت آیتم اشتراک انجام نشد.');
                 }
+
+                for ($i = 0; $i < (int) $item['count']; $i++) {
+                    $now = Carbon::now();
+
+                    $subscription = AccountingSubscription::where('user_id', auth()->user()->id)
+                        ->where('accounting_subscription_plan_id', $plan->id)
+                        ->latest('expires_at')
+                        ->first();
+
+                    if ($subscription && $subscription->expires_at && $subscription->expires_at->isFuture()) {
+                        $startsAt = $subscription->starts_at;
+                        $expiresAt = $subscription->expires_at->copy()->addDays((int) $plan->duration_days);
+                    } else {
+                        $startsAt = $now;
+                        $expiresAt = $now->copy()->addDays((int) $plan->duration_days);
+                    }
+
+                    if ($subscription) {
+                        $subscription->update([
+                            'status' => 'active',
+                            'starts_at' => $startsAt,
+                            'expires_at' => $expiresAt,
+                        ]);
+                    } else {
+                        $subscription = AccountingSubscription::create([
+                            'user_id' => auth()->user()->id,
+                            'accounting_subscription_plan_id' => $plan->id,
+                            'external_subscription_id' => (string) Str::uuid(),
+                            'status' => 'active',
+                            'starts_at' => $startsAt,
+                            'expires_at' => $expiresAt,
+                        ]);
+                    }
+
+                    $subscriptions[] = $subscription;
+                }
             }
 
-            return $orders;
+            $payments = PaymentCreate::create(
+                auth()->user()->id,
+                'برداشت بابت خرید اشتراک حسابداری',
+                $cart->payment,
+                0,
+                0,
+                new Carbon,
+                4,
+                AccountingSubscriptionPlan::class,
+                $cart->products[0]['product']->id,
+                0,
+                0,
+                0,
+                null,
+                null
+            );
+
+            if (!$payments) {
+                throw new \RuntimeException('ثبت پرداخت اشتراک انجام نشد.');
+            }
+
+            return [
+                'order' => $orders,
+                'payment' => $payments,
+                'subscriptions' => $subscriptions,
+            ];
         });
 
-        $payments = PaymentCreate::create(
-            auth()->user()->id,
-            'برداشت بابت خرید اشتراک حسابداری',
-            $cart->payment,
-            0,
-            0,
-            new Carbon,
-            4,
-            AccountingSubscriptionPlan::class,
-            $cart->products[0]['product']->id,
-            0,
-            0,
-            0,
-            null,
-            null
-        );
+        if ($companies) {
+            $message = 'اشتراک حسابداری با موفقیت خریداری و فعال شد.';
+            PaymentJob::dispatch($purchase['payment'], $message)
+                ->delay(now()->addMinute((int) $companies->job));
 
-        if ($payments) {
-            PaymentJob::dispatch($payments)->delay(now()->addMinute((int) $companies->job));
+            OrderJob::dispatch($purchase['order'], $message)
+                ->delay(now()->addMinute((int) $companies->job));
         }
-
-        OrderJob::dispatch($orders, 'اشتراک حسابداری با موفقیت خریداری شد.')
-            ->delay(now()->addMinute((int) $companies->job));
 
         $request->session()->remove('cart');
 
         $request->session()->flash('alert', [
             'title' => 'خرید اشتراک!',
-            'text' => 'اشتراک حسابداری با موفقیت خریداری شد.',
+            'text' => 'اشتراک حسابداری با موفقیت خریداری و فعال شد.',
             'icon' => 'success',
             'button' => 'ok',
         ]);
