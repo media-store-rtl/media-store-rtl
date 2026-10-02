@@ -158,7 +158,7 @@ if (props.orders && props.orders.sub_order) {
                                     <br />
                                     <small class="text-muted">شناسه سفارش: {{props.orders.id}}</small>
                                 </div>
-                                <div class="col-lg-6 col-md-6 ms-auto text-md-start">
+                                <div class="col-lg-6 col-md-6 ms-auto text-md-start d-flex justify-content-start">
                                     <Link v-if="isAccountingSubscription" class="btn btn-primary ms-3" :href="route('factor.show',[props.orders.id])">فاکتور</Link>
                                     <template v-else v-for="(contrac,index) in contract" :key="index">
                                         <Link class="btn btn-primary ms-3" v-if="type == false || rouzekari < 2 || contrac && contrac.status == 4 " :href="route('factor.show',[props.orders.id])">فاکتور</Link>
