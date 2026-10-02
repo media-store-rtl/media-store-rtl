@@ -23,9 +23,9 @@ const form = useForm({
     duration_days: props.plan?.duration_days ?? 365,
     max_users: props.plan?.max_users ?? 5,
     status: props.plan?.status ?? 4,
-    group: null,
-    type: null,
-    category: null,
+    group: props.plan?.group ?? null,
+    type: props.plan?.type ?? null,
+    category: props.plan?.category ?? null,
     image: null,
     _method: 'put',
 });
@@ -39,7 +39,7 @@ const loadGroups = () => {
         item.routes?.some(r => r.name === props.path)
     );
 
-    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group?.id)) || null;
+    form.group = groups.value.find(item => Number(item.id) === Number(props.plan?.group)) || null;
     loadTypes(false);
 };
 
@@ -60,7 +60,7 @@ const loadTypes = (reset = true) => {
     });
 
     if (!reset) {
-        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type?.id)) || null;
+        form.type = types.value.find(item => Number(item.id) === Number(props.plan?.type)) || null;
     }
 
     loadCategories(false);
@@ -79,7 +79,7 @@ const loadCategories = (reset = true) => {
     });
 
     if (!reset) {
-        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category?.id)) || null;
+        form.category = categories.value.find(item => Number(item.id) === Number(props.plan?.category)) || null;
     }
 };
 
@@ -99,7 +99,7 @@ const submit = () => {
 <section class="content-main">
 <div class="row content-header">
     <div class="d-flex col-sm-12" style="direction:ltr; justify-content:space-between; align-items:center;">
-        <div class="d-flex align-items-center gap-2" style="direction:ltr; margin-left:auto;">
+        <div class="d-flex align-items-center gap-2" style="direction:ltr; margin-right:auto;">
             <button @click.prevent="submit" :disabled="form.processing" class="btn btn-md rounded font-sm hover-up">
                 {{ form.processing ? 'ارسال...' : 'ارسال' }}
             </button>
@@ -111,7 +111,7 @@ const submit = () => {
             </div>
         </div>
         <div class="content-title card-title" style="direction:rtl;">
-            <span>ویرایش پلن اشتراک حسابداری</span>
+            <span>ویرایش پلن اشتراک</span>
         </div>
     </div>
     <div class="col-sm-12"><div v-if="props.descriptions" v-html="props.descriptions.text"></div></div>
