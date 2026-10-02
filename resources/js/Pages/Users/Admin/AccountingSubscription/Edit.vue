@@ -37,9 +37,9 @@ const form = useForm({
     duration_days: plan.duration_days ?? 365,
     max_users: plan.max_users ?? 5,
     status: plan.status ?? 4,
-    group: getId(plan.group),
-    type: getId(plan.type),
-    category: getId(plan.category),
+    group: getId(plan.group_id),
+    type: getId(plan.type_id),
+    category: getId(plan.category_id),
     image: null,
     _method: 'put',
 });
@@ -68,7 +68,7 @@ const loadTypes = (reset = true) => {
     );
 
     if (!reset) {
-        form.type = getId(plan.type);
+        form.type = getId(plan.type_id);
     }
 
     loadCategories(false);
@@ -85,14 +85,19 @@ const loadCategories = (reset = true) => {
     );
 
     if (!reset) {
-        form.category = getId(plan.category);
+        form.category = getId(plan.category_id);
     }
 };
 
 loadGroups();
 
 const submit = () => {
-    form.post(route('accountingSubscriptionAdmin.update', plan.id), {
+    form.transform(data => ({
+        ...data,
+        group: data.group ? { id: Number(data.group) } : null,
+        type: data.type ? { id: Number(data.type) } : null,
+        category: data.category ? { id: Number(data.category) } : null,
+    })).post(route('accountingSubscriptionAdmin.update', plan.id), {
         preserveScroll: true,
         forceFormData: true,
     });
@@ -104,9 +109,10 @@ const submit = () => {
 <main class="main-wrap rtl">
 <section class="content-main">
 <div class="row content-header">
-    <div class="d-flex col-sm-12 align-items-center" style="direction:rtl; justify-content:space-between;">
+    <div class="d-flex col-sm-12 align-items-center" style="direction:ltr; justify-content:space-between;">
         <div class="content-title card-title">
             <span v-if="props.descriptions" v-html="props.descriptions.subject"></span>
+            <span v-else>ویرایش پلن اشتراک حسابداری</span>
         </div>
 
         <div class="d-flex align-items-center gap-2" style="direction:rtl;">
