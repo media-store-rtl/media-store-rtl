@@ -246,6 +246,7 @@ if (props.orders && props.orders.sub_order) {
                                                                             <span style="vertical-align: inherit;" v-if="order.orderable_type == 'App\\Models\\Product'">{{order.orderable.name}}</span>
                                                                             <span style="vertical-align: inherit;" v-else-if="order.orderable_type == 'App\\Models\\Tarahi'">{{order.orderable.title}}</span>
                                                                             <span style="vertical-align: inherit;" v-else-if="order.orderable_type == 'App\\Models\\WebDesign' ">{{ order.orderable.name}}</span>
+                                                                            <span style="vertical-align: inherit;" v-else-if="order.orderable_type == 'App\\Models\\AccountingSubscriptionPlan' ">{{ order.orderable.name}}</span>
                                                                         </span>
                                                                     </h6>
                                                                 </div>
