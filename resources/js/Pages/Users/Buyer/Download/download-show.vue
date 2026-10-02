@@ -16,6 +16,9 @@ const props = defineProps({
 
 const form =  useForm({id:null,link:null,order:null,model:null,contract:null,file:null,order_id:null,web_design_id:null});
 const contract = ref([]);
+const isAccountingSubscription = computed(() =>
+    props.orders?.sub_order?.some(order => order.orderable_type === 'App\\Models\\AccountingSubscriptionPlan') ?? false
+);
 
 
 
@@ -155,9 +158,12 @@ if (props.orders && props.orders.sub_order) {
                                     <br />
                                     <small class="text-muted">شناسه سفارش: {{props.orders.id}}</small>
                                 </div>
-                                <div class="col-lg-6 col-md-6 ms-auto text-md-start" v-for="(contrac,index) in contract" :key="index">
-                                    <Link class="btn btn-primary ms-3" v-if="type == false || rouzekari < 2 || contrac && contrac.status == 4 " :href="route('factor.show',[props.orders.id])">فاکتور</Link>
-                                    <button class="btn btn-primary" v-if="type == true && rouzekari > '1' && contrac  == null  || contrac && contrac.file && contrac.file.status !== '4' || contrac && contrac.status !== '4' " @click.prevent="submitIdentity" >قرار داد خام</button>
+                                <div class="col-lg-6 col-md-6 ms-auto text-md-start">
+                                    <Link v-if="isAccountingSubscription" class="btn btn-primary ms-3" :href="route('factor.show',[props.orders.id])">فاکتور</Link>
+                                    <template v-else v-for="(contrac,index) in contract" :key="index">
+                                        <Link class="btn btn-primary ms-3" v-if="type == false || rouzekari < 2 || contrac && contrac.status == 4 " :href="route('factor.show',[props.orders.id])">فاکتور</Link>
+                                        <button class="btn btn-primary" v-if="type == true && rouzekari > '1' && contrac  == null  || contrac && contrac.file && contrac.file.status !== '4' || contrac && contrac.status !== '4' " @click.prevent="submitIdentity" >قرار داد خام</button>
+                                    </template>
                                 </div>
                             </div>
                         </header>
@@ -237,7 +243,7 @@ if (props.orders && props.orders.sub_order) {
                                                         <template v-else>
                                                             <td >
                                                                 <div class="left">
-                                                                    <img v-if="order.orderable && order.orderable.image" :src="$page.props.ziggy.url +'/storage/' +order.orderable.image.url" class="img-sm img-thumbnail" :alt="order.orderable.name">
+                                                                    <img v-if="order.orderable && order.orderable.image && order.orderable.image.status == 4" :src="$page.props.ziggy.url +'/storage/' +order.orderable.image.url" class="img-sm img-thumbnail" :alt="order.orderable.name">
                                                                     <img v-else :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" class="img-sm img-thumbnail" :alt="order.orderable.name">
                                                                 </div>
                                                                 <div class="info">
@@ -251,11 +257,20 @@ if (props.orders && props.orders.sub_order) {
                                                                     </h6>
                                                                 </div>
                                                             </td>
-                                                            <td v-if="order.link !== null">{{order.link.link}}</td>
-                                                            <td v-if="order.link == null && order.orderable.group.name !== 'فرم' && order.orderable_type !== 'App\\Models\\Tarahi'">
-                                                                <input type="text" v-model.lazy.trim="form.link" style="width: 100%;" :placeholder="'لطفا آدرس دامنه وب سایت خود را وارد نمایید.مثال : '+route('index')">
-                                                            </td>
+                                                            <template v-if="order.orderable_type === 'App\\Models\\AccountingSubscriptionPlan'">
+                                                                <td></td>
+                                                            </template>
+                                                            <template v-else>
+                                                                <td v-if="order.link !== null">{{order.link.link}}</td>
+                                                                <td v-if="order.link == null && order.orderable.group.name !== 'فرم' && order.orderable_type !== 'App\\Models\\Tarahi'">
+                                                                    <input type="text" v-model.lazy.trim="form.link" style="width: 100%;" :placeholder="'لطفا آدرس دامنه وب سایت خود را وارد نمایید.مثال : '+route('index')">
+                                                                </td>
+                                                            </template>
                                                             <td class="d-flex ">
+                                                                <template v-if="order.orderable_type === 'App\\Models\\AccountingSubscriptionPlan'">
+                                                                    <a class="btn btn-primary" href="https://myme.ir" target="_blank" rel="noopener">ثبت دامنه</a>
+                                                                </template>
+                                                                <template v-else>
                                                                 <Link v-if="order.link == null && order.orderable_type !== 'App\\Models\\Tarahi' && order.orderable.group.name !== 'فرم'" class="btn btn-primary" @click.prevent="submitLink(order.id,order.order_id)"> ثبت دامنه</Link>
                                                                 <form  v-else class="col-lg-4 col-md-4 me-auto" :action="route('download.store')" method="POST" >
                                                                     <input type="hidden" name="_token" :value="token" />
@@ -263,6 +278,7 @@ if (props.orders && props.orders.sub_order) {
                                                                     <input type="hidden" name="model" :value="order.orderable_type">
                                                                     <button type="submit" class="form-control btn btn-sm btn-primary">دانلود</button>
                                                                 </form>
+                                                                </template>
                                                             </td>
                                                         </template>
                                                     </tr>
