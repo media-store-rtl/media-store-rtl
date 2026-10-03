@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Company;
 use App\Models\Menu;
 use App\Models\Namad;
+use App\Models\Rate;
 use App\Models\Route;
 use App\Models\Social;
 use App\Models\User;
@@ -39,6 +40,14 @@ class AccountingSubscriptionPlanController extends Controller
             ? $request->session()->get('alert')
             : null;
 
+        $planRatings = Rate::where('rateable_type', AccountingSubscriptionPlan::class)
+            ->where('rateable_id', $plan->id);
+
+        $planTimesRated = $planRatings->count();
+        $planAverageRating = $planTimesRated > 0
+            ? round((float) $planRatings->avg('rating'), 2)
+            : null;
+
         $currentRoute = $route->where('name', $request->path())->first();
 
         $menus = $currentRoute && $currentRoute->menus
@@ -64,6 +73,8 @@ class AccountingSubscriptionPlanController extends Controller
 
         return Inertia::render('Guest/accounting-plan-show', [
             'plan' => $plan,
+            'planAverageRating' => $planAverageRating,
+            'planTimesRated' => $planTimesRated,
             'menus' => $menus,
             'menu' => $menu,
             'path' => $request->path(),

@@ -1,16 +1,19 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import moment from 'moment-jalaali';
 import fa from 'moment/src/locale/fa';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import Seo from '@/Components/Seo.vue';
+import swal from 'sweetalert2';
 
 const page = usePage();
 
 const props = defineProps({
     plan: Object,
+    planAverageRating: Number,
+    planTimesRated: Number,
     users: Object,
     companies: Object,
     menus: Object,
@@ -44,6 +47,33 @@ const submitFavorite = () => {
     if (!props.users?.id) return;
     favoriteForm.post(route('favorite.store'), { preserveScroll: true });
 };
+
+watch(
+    () => props.alert,
+    (val) => {
+        if (!val) return;
+
+        if (val.title) {
+            swal.fire(val.title, val.text, val.icon);
+        } else {
+            swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', swal.stopTimer);
+                    toast.addEventListener('mouseleave', swal.resumeTimer);
+                },
+            }).fire({
+                title: val.text,
+                icon: val.icon,
+            });
+        }
+    },
+    { immediate: true }
+);
 
 const seoDescription = computed(() =>
     String(props.plan?.description || props.plan?.tag || props.plan?.name || '')
@@ -99,6 +129,20 @@ const seoDescription = computed(() =>
                                 <div class="detail-info pr-30 pl-30">
                                     <span class="stock-status in-stock">اشتراک حسابداری</span>
                                     <h2 class="title-detail">{{ props.plan.name }}</h2>
+
+                                    <div class="product-detail-rating" v-if="props.planAverageRating > 0 && props.planTimesRated > 0">
+                                        <div class="product-rate-cover text-end">
+                                            <div class="product-rate d-inline-block">
+                                                <div
+                                                    class="product-rating"
+                                                    :style="'width:' + props.planAverageRating * 20 + '%'"
+                                                ></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted">
+                                                ({{ props.planAverageRating }})
+                                            </span>
+                                        </div>
+                                    </div>
 
                                     <div class="clearfix product-price-cover">
                                         <div class="product-price primary-color float-left">
