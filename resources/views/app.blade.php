@@ -30,6 +30,13 @@
         @endif
 
         <style>
+            /* Ensure regular-straight UI icons render consistently across Inertia pages. */
+            i.fi-rs-check::before {
+                font-family: uicons-regular-straight !important;
+                font-style: normal;
+                font-weight: normal !important;
+                line-height: 1 !important;
+            }
             .product-cart-wrap .product-img-action-wrap .product-img > a {
                 aspect-ratio: auto;
             }
