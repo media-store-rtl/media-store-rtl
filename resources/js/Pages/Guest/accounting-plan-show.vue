@@ -266,6 +266,53 @@ const seoDescription = computed(() =>
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <div class="card mb-50 mt-30" >
+                            <div class="card-header text-bg-success">
+                               سایر اطلاعات 
+                            </div>
+                            <div class="card-body" >
+                               <div class="row ">
+                                 
+                                <div class="col-sm-4 d-flex justify-content-end">
+                                    <select  class="form-select" >
+                                        <option>
+                                        <span> عادی</span>
+                                        </option>
+                                        <!-- <option>
+                                            <span> مجوز ویژه</span>
+                                        </option> -->
+                                    </select>
+                                </div>
+                            </div>
+                                <ul class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <p>مجوز عادی : استفاده توسط یک اکانت در یک سال مالی </p>
+                                        <!-- <p>مجوز ویژه : استفاده توسط یک شخص در تعداد نامحدود پروژه </p>     -->
+                                    </div>
+                                <div class="list-group-item">
+                                    <p v-if="props.companies" >
+                                        <i class="fi-rs-check"></i>
+                                       دارای بک آپ گیری
+                                    </p>
+                                    
+                                    <p >
+                                        <i class="fi-rs-check"></i>
+                                       گزاشات جامع
+                                    </p>
+                                    <p v-if="props.companies" >
+                                        <i class="fi-rs-check"></i>
+                                       تایید توسط تیم حسابداری
+                                    </p>
+                                    
+                                    <p >
+                                        <i class="fi-rs-check"></i>
+                                       ورود اطلاعات از اکسل
+                                    </p>
+                                </div>
+                                </ul>
+                                
+                            </div>
+                        </div>
                     <div class="mb-50 mt-30">
                         <div class="card mt-3 mb-3">
                             <div class="card-header text-bg-success">
@@ -296,40 +343,8 @@ const seoDescription = computed(() =>
                         </div>
                     </div>
                     
-                    <div class="card mb-50 mt-30">
-                        <div class="card-header text-bg-success">
-                            سایر اطلاعات
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <div class="list-group-item">
-                                    <p>
-                                        <i class="fi-rs-check"></i>
-                                        نام پلن: {{ props.plan.name }}
-                                    </p>
-                                    <p v-if="props.plan.tag">
-                                        <i class="fi-rs-check"></i>
-                                        {{ props.plan.tag }}
-                                    </p>
-                                    <p>
-                                        <i class="fi-rs-check"></i>
-                                        مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                    </p>
-                                    <p>
-                                        <i class="fi-rs-check"></i>
-                                        حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                    </p>
-                                    <p>
-                                        <i class="fi-rs-check"></i>
-                                        مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان
-                                    </p>
-                                </div>
-                            </ul>
-                        </div>
-                    </div>
-
-                    
-                </div>            </div>    
+                </div>            
+            </div>    
         </div>
     </main>
 
