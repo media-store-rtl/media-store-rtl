@@ -62,8 +62,8 @@ class AccountingSubscriptionPlanController extends Controller
 
         $socials = $social->where('status', 4)->get();
 
-        return Inertia::render('Guest/accounting-plan', [
-            'plans' => [$plan],
+        return Inertia::render('Guest/accounting-plan-show', [
+            'plan' => $plan,
             'menus' => $menus,
             'menu' => $menu,
             'path' => $request->path(),
