@@ -111,7 +111,7 @@ const seoDescription = computed(() =>
                                                 @click="buy"
                                             >
                                                 <i class="fi-rs-shopping-cart"></i>
-                                                {{ form.processing ? 'در حال افزودن...' : 'خرید' }}
+                                                {{ form.processing ? 'در حال افزودن...' : 'جزئیات' }}
                                             </button>
                                         </div>
                                     </div>
