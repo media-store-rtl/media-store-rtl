@@ -252,6 +252,7 @@ Route::resource('/form', FormController::class);
 Route::resource('/about', AboutController::class);
 Route::resource('/about-hesabdari', AboutHesabdariController::class);
 Route::get('/accounting-plan', [AccountingSubscriptionPlanController::class, 'index'])->name('accounting.plan');
+Route::get('/accounting-plan/{slug}', [AccountingSubscriptionPlanController::class, 'show'])->name('accounting.plan.show');
 // Route::get('/artisan/{id}', function($id){artisan::call($id);});
 Route::resource('/project', ProjectController::class);
 Route::resource('/cafe-net',CafeController::class);
