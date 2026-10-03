@@ -102,7 +102,19 @@ const offcanvas_aside = () => {
 }
 
 
+const resetMobileScrollLock = () => {
+    document.body.classList.remove('offcanvas-active');
+    document.querySelectorAll('.screen-overlay').forEach((overlay) => {
+        overlay.classList.remove('show');
+    });
+    document.querySelectorAll('.navbar-aside').forEach((aside) => {
+        aside.classList.remove('show');
+    });
+};
+
 onMounted(() => {
+    // پاک کردن وضعیت باقی‌مانده منوی موبایل بعد از navigation با Inertia
+    resetMobileScrollLock();
     document.addEventListener('click', closeProfileMenu);
 
     const scriptClass = 'dynamic-script';
@@ -137,6 +149,8 @@ onMounted(() => {
 
 // موقع ترک این کامپوننت، همه فایل‌های اضافه‌شده رو حذف کن
 onBeforeUnmount(() => {
+    // مهم: هنگام رفتن به صفحه دیگر، قفل اسکرول روی body باقی نماند
+    resetMobileScrollLock();
     document.removeEventListener('click', closeProfileMenu);
     document.querySelectorAll('script.dynamic-script').forEach(script => {
         script.remove();
