@@ -233,17 +233,17 @@ const seoDescription = computed(() =>
 
                                     <div class="tab-pane fade" id="Vendor-info">
                                             <div class="vendor-logo d-flex mb-30">
-                                                <img v-if="props.plan.user && props.plan.user.image" :src="$page.props.ziggy.url + '/storage/' + props.plan.user.image.url" alt="" />
-                                                <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="" />
+                                                <img v-if="props.seller?.image?.url" :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url" alt="تصویر فروشنده" />
+                                                <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="تصویر پیش‌فرض فروشنده" />
                                                 <div class="vendor-name ml-15">
-                                                    <h6>
-                                                        <Link :href="route('profile.show', [props.plan.user.user_name])">{{ props.plan.user.name_show }}</Link>
+                                                    <h6 v-if="props.seller?.user_name">
+                                                        <Link :href="route('profile.show', [props.seller.user_name])">{{ props.seller.name_show || props.seller.user_name }}</Link>
                                                     </h6>
-                                                    <div class="product-rate-cover text-end" v-if="props.plan.ratings_avg_rating > 0 ">
+                                                    <div class="product-rate-cover text-end" v-if="props.seller?.ratings_avg_rating > 0 ">
                                                         <div class="product-rate d-inline-block">
-                                                            <div class="product-rating" :style="'width:' + props.plan.ratings_avg_rating * 20 + '%'"></div>
+                                                            <div class="product-rating" :style="'width:' + props.seller?.ratings_avg_rating * 20 + '%'"></div>
                                                         </div>
-                                                        <span class="font-small ml-5 text-muted"> ({{ props.plan.ratings_avg_rating }})</span>
+                                                        <span class="font-small ml-5 text-muted"> ({{ props.seller?.ratings_avg_rating }})</span>
                                                     </div>
                                                     <div class="product-rate-cover text-end" v-else>
                                                     <div class="product-rate d-inline-block">
