@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Favorite;
 
 class AccountingSubscriptionPlan extends Model
 {
@@ -65,5 +66,10 @@ class AccountingSubscriptionPlan extends Model
     public function category()
     {
         return $this->belongsTo(Menu::class, 'category', 'id');
+    }
+
+    public function favorite()
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 }

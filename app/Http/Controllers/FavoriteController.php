@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Support;
 use App\Models\Favorite;
 use App\Models\WebDesign;
+use App\Models\AccountingSubscriptionPlan;
 use App\Models\Tarahi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -167,6 +168,35 @@ class FavoriteController extends Controller
                 );
                 // dd($request->session()->get('_previous')['url']);
 
+            }
+            return redirect()->back();
+        }
+        else if 
+        ($request->type == 'App\Models\AccountingSubscriptionPlan')
+        {
+            $searches = $favorite->where('user_id',auth()->user()->id)->where('favoritable_type',$request->type)
+            ->where('favoritable_id',$request->id)->first();
+            if($searches)
+            {
+                $favorite->find($searches->id)->delete();
+                $request->session()->flash('alert', [
+                    'text'=> 'از لیست علاقه مندی حذف شد.',
+                    'icon'=> 'success',
+                    'button' => 'ok'
+                ]);
+            }
+            else
+            {
+                $favorite->create([
+                    'favoritable_type'=> AccountingSubscriptionPlan::class,
+                    'favoritable_id'=> $request->id,
+                    'user_id' => auth()->user()->id
+                ]);
+                $request->session()->flash('alert', [
+                    'text'=> 'به لیست علاقه مندی افزوده شد.',
+                    'icon'=> 'success',
+                    'button' => 'ok'
+                ]);
             }
             return redirect()->back();
         }

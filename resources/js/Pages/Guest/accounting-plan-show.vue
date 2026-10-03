@@ -21,6 +21,11 @@ const props = defineProps({
     alert: Object,
 });
 
+const favorite = computed(() => {
+    if (!props.users?.id || !Array.isArray(props.plan?.favorite)) return null;
+    return props.plan.favorite.find((item) => item.user_id === props.users.id) || null;
+});
+
 const form = useForm({
     id: props.plan?.id ?? null,
     model: 'App\\Models\\AccountingSubscriptionPlan',
@@ -28,6 +33,16 @@ const form = useForm({
 
 const buy = () => {
     form.post(route('cart.store'), { preserveScroll: true });
+};
+
+const favoriteForm = useForm({
+    id: props.plan?.id ?? null,
+    type: 'App\\Models\\AccountingSubscriptionPlan',
+});
+
+const submitFavorite = () => {
+    if (!props.users?.id) return;
+    favoriteForm.post(route('favorite.store'), { preserveScroll: true });
 };
 
 const seoDescription = computed(() =>
@@ -85,15 +100,6 @@ const seoDescription = computed(() =>
                                     <span class="stock-status in-stock">اشتراک حسابداری</span>
                                     <h2 class="title-detail">{{ props.plan.name }}</h2>
 
-                                    <div class="product-detail-rating">
-                                        <div class="product-rate-cover text-end">
-                                            <div class="product-rate d-inline-block">
-                                                <div class="product-rating" style="width: 0%"></div>
-                                            </div>
-                                            <span class="font-small ml-5 text-muted">(0.0000)</span>
-                                        </div>
-                                    </div>
-
                                     <div class="clearfix product-price-cover">
                                         <div class="product-price primary-color float-left">
                                             <span class="current-price text-brand">
@@ -132,6 +138,9 @@ const seoDescription = computed(() =>
                                                 <i class="fi-rs-shopping-cart"></i>
                                                 {{ form.processing ? 'در حال افزودن...' : 'خرید' }}
                                             </button>
+                                            <a aria-label="افزودن به علاقه‌مندی" class="action-btn hover-up" :class="favorite ? 'text-brand' : ''" href="" @click.prevent="submitFavorite">
+                                                <i class="fi-rs-heart"></i>
+                                            </a>
                                         </div>
                                     </div>
 
@@ -249,17 +258,24 @@ const seoDescription = computed(() =>
                                         <ul class="list-group list-group-flush">
                                             <div class="list-group-item">
                                                 <p>
-                                                    <span class="material-symbols-outlined">check</span>
-                                                    پلن اشتراک حسابداری
+                                                    <i class="fi-rs-check"></i>
+                                                    نام پلن: {{ props.plan.name }}
                                                 </p>
                                                 <p v-if="props.plan.tag">
-                                                    <span class="material-symbols-outlined">check</span>
+                                                    <i class="fi-rs-check"></i>
                                                     {{ props.plan.tag }}
                                                 </p>
                                                 <p>
-                                                    <span class="material-symbols-outlined">check</span>
-                                                    مبلغ اشتراک:
-                                                    {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان
+                                                    <i class="fi-rs-check"></i>
+                                                    مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                                </p>
+                                                <p>
+                                                    <i class="fi-rs-check"></i>
+                                                    حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                                </p>
+                                                <p>
+                                                    <i class="fi-rs-check"></i>
+                                                    مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان
                                                 </p>
                                             </div>
                                         </ul>
