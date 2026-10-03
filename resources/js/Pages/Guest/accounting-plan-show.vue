@@ -209,9 +209,9 @@ const seoDescription = computed(() =>
                                     </div>
                                 </div>
                             </div>
-                                </div>
-                            </div>
                         </div>
+                    </div>
+                
 
                         <div class="product-info">
                             <div class="tab-style3">
