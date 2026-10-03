@@ -236,8 +236,13 @@ const seoDescription = computed(() =>
                                                 <img v-if="props.seller?.image?.url" :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url" alt="تصویر فروشنده" />
                                                 <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="تصویر پیش‌فرض فروشنده" />
                                                 <div class="vendor-name ml-15">
-                                                    <h6 v-if="props.seller?.user_name">
-                                                        <Link :href="route('profile.show', [props.seller.user_name])">{{ props.seller.name_show || props.seller.user_name }}</Link>
+                                                    <h6>
+                                                        <Link v-if="props.seller?.user_name" :href="route('profile.show', [props.seller.user_name])">
+                                                            {{ props.seller.name_show || props.seller.user_name }}
+                                                        </Link>
+                                                        <span v-else>
+                                                            {{ props.seller?.name_show || props.seller?.name || 'فروشنده' }}
+                                                        </span>
                                                     </h6>
                                                     <div class="product-rate-cover text-end" v-if="props.seller?.ratings_avg_rating > 0 ">
                                                         <div class="product-rate d-inline-block">
@@ -268,7 +273,7 @@ const seoDescription = computed(() =>
                                                     <h4 class="mb-0">89%</h4>
                                                 </div> -->
                                             </div>
-                                            <p v-if="props.plan.user && props.plan.user.profile">{{ props.plan.user.profile.biography }}</p>
+                                            <p v-if="props.seller?.profile?.biography">{{ props.seller.profile.biography }}</p>
                                     </div>
                                 </div>
                             </div>
