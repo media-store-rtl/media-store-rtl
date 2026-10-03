@@ -178,6 +178,7 @@ class AccountingSubscriptionPlanAdminController extends Controller
         }
 
         $plan = AccountingSubscriptionPlan::create([
+            'user_id' => auth()->user()->id,
             'name' => $data['name'],
             'name_en' => $data['name_en'],
             'slug' => $slug,
