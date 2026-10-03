@@ -332,7 +332,7 @@ const seoDescription = computed(() =>
                                         </p>
                                         <p>
                                             <i class="fi-rs-check"></i>
-                                            <!-- مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان -->
+                                            مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} 
                                         </p>
                                     </div>
                                 </ul>
