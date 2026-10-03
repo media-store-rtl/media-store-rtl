@@ -706,21 +706,21 @@ const submitReply = (id) => {
                                     </div>
                                 <div class="list-group-item">
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                        خدمات  تحویل شده مدت 60 روز گارانتی رفع خطا دارد
                                     </p>
                                     
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         انجام فعالیت های طراحی مرتبط با موضوع و رعایت کیفیت و زمان بندی
                                     </p>
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         انتخاب نام دامنه با نظر کارفرما
                                     </p>
                                     
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         با قرارداد
                                     </p>
                                 </div>

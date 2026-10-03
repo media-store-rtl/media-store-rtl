@@ -750,21 +750,21 @@ const submitReply = (id) => {
                                     </div>
                                 <div class="list-group-item">
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                        پس از تایید کارفرما مبلغ به فریلنسر پروژه پرداخت میگردد
                                     </p>
                                     
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         انجام فعالیت های پروژه مرتبط با موضوع و رعایت کیفیت و زمان بندی
                                     </p>
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         درصورت بروز اختلاف ، داوری بصورت منصفانه توسط {{ props.companies.name_show }}
                                     </p>
                                     
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                        دسترسی دائم به فایل
                                     </p>
                                 </div>

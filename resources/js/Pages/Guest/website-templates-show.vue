@@ -849,24 +849,24 @@ const groupedTests = computed(() => {
                                     </div>
                                 <div class="list-group-item">
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         کیفیت توسط {{props.companies.name_show}} بررسی شده است
                                     </p>
                                     
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         بروز رسانی های آینده
                                     </p>
                                     <p v-if="props.companies" >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         در دسترس بودن فروشنده({{props.product.user.name_show}}) برای پاسخ به سوالات
                                     </p>
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         رفع اشکالات  گزارش شده
                                     </p>
                                     <p >
-                                        <span class="material-symbols-outlined">check</span>
+                                        <i class="fi-rs-check"></i>
                                         دسترسی دائم به فایل
                                     </p>
                                 </div>
