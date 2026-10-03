@@ -266,6 +266,36 @@ const seoDescription = computed(() =>
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <div class="mb-50 mt-30">
+                        <div class="card mt-3 mb-3">
+                            <div class="card-header text-bg-success">
+                                مشخصات پلن  
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex bd-highlight mt-3">
+                                    <div class="bd-highlight">
+                                        <h5 class="card-title">مدت اشتراک</h5>
+                                    </div>
+                                    <div class="ms-3 bd-highlight d-flex">
+                                        <p class="card-text">
+                                            {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex bd-highlight mt-3">
+                                    <div class="bd-highlight">
+                                        <h5 class="card-title">حداکثر کاربران</h5>
+                                    </div>
+                                    <div class="ms-3 bd-highlight d-flex">
+                                        <p class="card-text">
+                                            {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="card mb-50 mt-30">
                         <div class="card-header text-bg-success">
                             سایر اطلاعات
@@ -298,35 +328,7 @@ const seoDescription = computed(() =>
                         </div>
                     </div>
 
-                    <div class="mb-50 mt-30">
-                        <div class="card mt-3 mb-3">
-                            <div class="card-header text-bg-success">
-                                مشخصات اشتراک حسابداری
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex bd-highlight mt-3">
-                                    <div class="bd-highlight">
-                                        <h5 class="card-title">مدت اشتراک</h5>
-                                    </div>
-                                    <div class="ms-3 bd-highlight d-flex">
-                                        <p class="card-text">
-                                            {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex bd-highlight mt-3">
-                                    <div class="bd-highlight">
-                                        <h5 class="card-title">حداکثر کاربران</h5>
-                                    </div>
-                                    <div class="ms-3 bd-highlight d-flex">
-                                        <p class="card-text">
-                                            {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>            </div>    
         </div>
     </main>
