@@ -210,14 +210,12 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                                                         <span>{{ Number(plan.price).toLocaleString('fa-IR') }}</span>
                                                     </div>
                                                     <div class="add-cart">
-                                                        <button
-                                                            type="button"
+                                                        <Link
+                                                            :href="route('accounting.plan.show', plan.slug)"
                                                             class="add"
-                                                            :disabled="form.processing"
-                                                            @click="buy(plan)"
                                                         >
-                                                            <i class="fi-rs-shopping-bag-add mr-5"></i>خرید
-                                                        </button>
+                                                            <i class="fi-rs-eye mr-5"></i>نمایش جزئیات
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
