@@ -211,134 +211,133 @@ const seoDescription = computed(() =>
                             </div>
                         </div>
                     </div>
-                
+                </div>
 
-                        <div class="product-info">
-                            <div class="tab-style3">
-                                <ul class="nav nav-tabs text-uppercase">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="Description-tab" data-bs-toggle="tab" href="#Description">
-                                            توضیحات
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">
-                                            فروشنده
-                                        </a>
-                                    </li>
-                                </ul>
+                <div class="product-info">
+                    <div class="tab-style3">
+                        <ul class="nav nav-tabs text-uppercase">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="Description-tab" data-bs-toggle="tab" href="#Description">
+                                    توضیحات
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">
+                                    فروشنده
+                                </a>
+                            </li>
+                        </ul>
 
-                                <div class="tab-content shop_info_tab entry-main-content">
-                                    <div class="tab-pane fade show active" id="Description">
-                                        <div v-if="props.plan.description" v-html="props.plan.description"></div>
-                                        <p v-else>توضیحاتی برای این پلن ثبت نشده است.</p>
-                                    </div>
+                        <div class="tab-content shop_info_tab entry-main-content">
+                            <div class="tab-pane fade show active" id="Description">
+                                <div v-if="props.plan.description" v-html="props.plan.description"></div>
+                                <p v-else>توضیحاتی برای این پلن ثبت نشده است.</p>
+                            </div>
 
-                                    <div class="tab-pane fade" id="Vendor-info">
-                                        <div class="vendor-logo d-flex mb-30">
-                                            <img
-                                                v-if="props.seller && props.seller.image"
-                                                :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url"
-                                                :alt="props.seller.name_show"
-                                            />
-                                            <img
-                                                v-else
-                                                :src="$page.props.ziggy.url + '/storage/images/default-user.png'"
-                                                alt=""
-                                            />
-                                            <div class="vendor-name ml-15">
-                                                <h6>
-                                                    <Link
-                                                        v-if="props.seller"
-                                                        :href="route('profile.show', [props.seller.user_name])"
-                                                    >
-                                                        {{ props.seller.name_show }}
-                                                    </Link>
-                                                    <span v-else>فروشنده</span>
-                                                </h6>
-                                            </div>
-                                        </div>
-
-                                        <p v-if="props.seller && props.seller.profile">
-                                            {{ props.seller.profile.biography }}
-                                        </p>
+                            <div class="tab-pane fade" id="Vendor-info">
+                                <div class="vendor-logo d-flex mb-30">
+                                    <img
+                                        v-if="props.seller && props.seller.image"
+                                        :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url"
+                                        :alt="props.seller.name_show"
+                                    />
+                                    <img
+                                        v-else
+                                        :src="$page.props.ziggy.url + '/storage/images/default-user.png'"
+                                        alt=""
+                                    />
+                                    <div class="vendor-name ml-15">
+                                        <h6>
+                                            <Link
+                                                v-if="props.seller"
+                                                :href="route('profile.show', [props.seller.user_name])"
+                                            >
+                                                {{ props.seller.name_show }}
+                                            </Link>
+                                            <span v-else>فروشنده</span>
+                                        </h6>
                                     </div>
                                 </div>
+
+                                <p v-if="props.seller && props.seller.profile">
+                                    {{ props.seller.profile.biography }}
+                                </p>
                             </div>
                         </div>
-
-                        <div class="mt-30 text-center">
-                            <Link :href="route('accounting.plan')" class="btn btn-outline">
-                                بازگشت به پلن‌های اشتراک حسابداری
-                            </Link>
-                        </div>
                     </div>
+                </div>
+
+                <div class="mt-30 text-center">
+                    <Link :href="route('accounting.plan')" class="btn btn-outline">
+                        بازگشت به پلن‌های اشتراک حسابداری
+                    </Link>
                 </div>
                 <div class="col-sm-4">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="mb-30 mt-30">
-                            <div class="card mt-3 mb-3">
-                                <div class="card-header text-bg-success">مشخصات اشتراک حسابداری</div>
-                                <div class="card-body">
-                                    <div class="d-flex bd-highlight mt-3">
-                                        <div class="bd-highlight">
-                                            <h5 class="card-title">مدت اشتراک</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-30 mt-30">
+                                <div class="card mt-3 mb-3">
+                                    <div class="card-header text-bg-success">مشخصات اشتراک حسابداری</div>
+                                    <div class="card-body">
+                                        <div class="d-flex bd-highlight mt-3">
+                                            <div class="bd-highlight">
+                                                <h5 class="card-title">مدت اشتراک</h5>
+                                            </div>
+                                            <div class="ms-3 bd-highlight d-flex">
+                                                <p class="card-text">
+                                                    {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="ms-3 bd-highlight d-flex">
-                                            <p class="card-text">
-                                                {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex bd-highlight mt-3">
-                                        <div class="bd-highlight">
-                                            <h5 class="card-title">حداکثر کاربران</h5>
-                                        </div>
-                                        <div class="ms-3 bd-highlight d-flex">
-                                            <p class="card-text">
-                                                {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                            </p>
+                                        <div class="d-flex bd-highlight mt-3">
+                                            <div class="bd-highlight">
+                                                <h5 class="card-title">حداکثر کاربران</h5>
+                                            </div>
+                                            <div class="ms-3 bd-highlight d-flex">
+                                                <p class="card-text">
+                                                    {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-12">
-                        <div class="card mb-30">
-                            <div class="card-header text-bg-success">سایر اطلاعات</div>
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <div class="list-group-item">
-                                        <p>
-                                            <i class="fi-rs-check"></i>
-                                            نام پلن: {{ props.plan.name }}
-                                        </p>
-                                        <p v-if="props.plan.tag">
-                                            <i class="fi-rs-check"></i>
-                                            {{ props.plan.tag }}
-                                        </p>
-                                        <p>
-                                            <i class="fi-rs-check"></i>
-                                            مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                        </p>
-                                        <p>
-                                            <i class="fi-rs-check"></i>
-                                            حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                        </p>
-                                        <p>
-                                            <i class="fi-rs-check"></i>
-                                            مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} 
-                                        </p>
-                                    </div>
-                                </ul>
+                        <div class="col-12">
+                            <div class="card mb-30">
+                                <div class="card-header text-bg-success">سایر اطلاعات</div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <div class="list-group-item">
+                                            <p>
+                                                <i class="fi-rs-check"></i>
+                                                نام پلن: {{ props.plan.name }}
+                                            </p>
+                                            <p v-if="props.plan.tag">
+                                                <i class="fi-rs-check"></i>
+                                                {{ props.plan.tag }}
+                                            </p>
+                                            <p>
+                                                <i class="fi-rs-check"></i>
+                                                مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                            </p>
+                                            <p>
+                                                <i class="fi-rs-check"></i>
+                                                حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                            </p>
+                                            <p>
+                                                <i class="fi-rs-check"></i>
+                                                مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} 
+                                            </p>
+                                        </div>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>      
+                </div>  
+            </div>    
         </div>
     </main>
 
