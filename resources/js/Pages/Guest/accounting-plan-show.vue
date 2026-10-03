@@ -276,72 +276,71 @@ const seoDescription = computed(() =>
                         </div>
                     </div>
                 </div>
-
-                                            <div class="col-sm-4">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-30 mt-30">
-                                            <div class="card mt-3 mb-3">
-                                                <div class="card-header text-bg-success">مشخصات اشتراک حسابداری</div>
-                                                <div class="card-body">
-                                                    <div class="d-flex bd-highlight mt-3">
-                                                        <div class="bd-highlight">
-                                                            <h5 class="card-title">مدت اشتراک</h5>
-                                                        </div>
-                                                        <div class="ms-3 bd-highlight d-flex">
-                                                            <p class="card-text">
-                                                                {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex bd-highlight mt-3">
-                                                        <div class="bd-highlight">
-                                                            <h5 class="card-title">حداکثر کاربران</h5>
-                                                        </div>
-                                                        <div class="ms-3 bd-highlight d-flex">
-                                                            <p class="card-text">
-                                                                {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-30 mt-30">
+                            <div class="card mt-3 mb-3">
+                                <div class="card-header text-bg-success">مشخصات اشتراک حسابداری</div>
+                                <div class="card-body">
+                                    <div class="d-flex bd-highlight mt-3">
+                                        <div class="bd-highlight">
+                                            <h5 class="card-title">مدت اشتراک</h5>
+                                        </div>
+                                        <div class="ms-3 bd-highlight d-flex">
+                                            <p class="card-text">
+                                                {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                            </p>
                                         </div>
                                     </div>
-
-                                    <div class="col-12">
-                                        <div class="card mb-30">
-                                            <div class="card-header text-bg-success">سایر اطلاعات</div>
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush">
-                                                    <div class="list-group-item">
-                                                        <p>
-                                                            <i class="fi-rs-check"></i>
-                                                            نام پلن: {{ props.plan.name }}
-                                                        </p>
-                                                        <p v-if="props.plan.tag">
-                                                            <i class="fi-rs-check"></i>
-                                                            {{ props.plan.tag }}
-                                                        </p>
-                                                        <p>
-                                                            <i class="fi-rs-check"></i>
-                                                            مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
-                                                        </p>
-                                                        <p>
-                                                            <i class="fi-rs-check"></i>
-                                                            حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
-                                                        </p>
-                                                        <p>
-                                                            <i class="fi-rs-check"></i>
-                                                            مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان
-                                                        </p>
-                                                    </div>
-                                                </ul>
-                                            </div>
+                                    <div class="d-flex bd-highlight mt-3">
+                                        <div class="bd-highlight">
+                                            <h5 class="card-title">حداکثر کاربران</h5>
+                                        </div>
+                                        <div class="ms-3 bd-highlight d-flex">
+                                            <p class="card-text">
+                                                {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card mb-30">
+                            <div class="card-header text-bg-success">سایر اطلاعات</div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <p>
+                                            <i class="fi-rs-check"></i>
+                                            نام پلن: {{ props.plan.name }}
+                                        </p>
+                                        <p v-if="props.plan.tag">
+                                            <i class="fi-rs-check"></i>
+                                            {{ props.plan.tag }}
+                                        </p>
+                                        <p>
+                                            <i class="fi-rs-check"></i>
+                                            مدت اشتراک: {{ Number(props.plan.duration_days).toLocaleString('fa-IR') }} روز
+                                        </p>
+                                        <p>
+                                            <i class="fi-rs-check"></i>
+                                            حداکثر کاربران: {{ Number(props.plan.max_users).toLocaleString('fa-IR') }} نفر
+                                        </p>
+                                        <p>
+                                            <i class="fi-rs-check"></i>
+                                            مبلغ اشتراک: {{ Number(props.plan.price).toLocaleString('fa-IR') }} تومان
+                                        </p>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>      
             </div>
         </div>
     </main>
