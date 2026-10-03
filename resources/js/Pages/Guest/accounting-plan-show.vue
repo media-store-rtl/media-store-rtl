@@ -14,6 +14,7 @@ const props = defineProps({
     plan: Object,
     planAverageRating: Number,
     planTimesRated: Number,
+    seller: Object,
     users: Object,
     companies: Object,
     menus: Object,
@@ -234,9 +235,9 @@ const seoDescription = computed(() =>
                                     <div class="tab-pane fade" id="Vendor-info">
                                         <div class="vendor-logo d-flex mb-30">
                                             <img
-                                                v-if="props.plan.user && props.plan.user.image"
-                                                :src="$page.props.ziggy.url + '/storage/' + props.plan.user.image.url"
-                                                :alt="props.plan.user.name_show"
+                                                v-if="props.seller && props.seller.image"
+                                                :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url"
+                                                :alt="props.seller.name_show"
                                             />
                                             <img
                                                 v-else
@@ -256,8 +257,8 @@ const seoDescription = computed(() =>
                                             </div>
                                         </div>
 
-                                        <p v-if="props.plan.user && props.plan.user.profile">
-                                            {{ props.plan.user.profile.biography }}
+                                        <p v-if="props.seller && props.seller.profile">
+                                            {{ props.seller.profile.biography }}
                                         </p>
                                     </div>
                                 </div>

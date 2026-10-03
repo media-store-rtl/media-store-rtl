@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use willvincent\Rateable\Rateable;
 use App\Models\Favorite;
 
 class AccountingSubscriptionPlan extends Model
 {
+    use HasFactory, Rateable;
     protected $fillable = [
         'user_id',
         'name',

@@ -7,7 +7,6 @@ use App\Models\Cart;
 use App\Models\Company;
 use App\Models\Menu;
 use App\Models\Namad;
-use App\Models\Rate;
 use App\Models\Route;
 use App\Models\Social;
 use App\Models\User;
@@ -40,13 +39,9 @@ class AccountingSubscriptionPlanController extends Controller
             ? $request->session()->get('alert')
             : null;
 
-        $planRatings = Rate::where('rateable_type', AccountingSubscriptionPlan::class)
-            ->where('rateable_id', $plan->id);
-
-        $planTimesRated = $planRatings->count();
-        $planAverageRating = $planTimesRated > 0
-            ? round((float) $planRatings->avg('rating'), 2)
-            : null;
+        $planAverageRating = $plan->averageRating ? round($plan->averageRating, 2) : null;
+        $planTimesRated = $plan->timesRated() ? round($plan->timesRated()) : null;
+        $seller = $plan->user;
 
         $currentRoute = $route->where('name', $request->path())->first();
 
@@ -75,6 +70,7 @@ class AccountingSubscriptionPlanController extends Controller
             'plan' => $plan,
             'planAverageRating' => $planAverageRating,
             'planTimesRated' => $planTimesRated,
+            'seller' => $seller,
             'menus' => $menus,
             'menu' => $menu,
             'path' => $request->path(),
