@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingSubscriptionPlan extends Model
 {
     protected $fillable = [
+        'user_id',
         'name',
         'name_en',
         'slug',
@@ -32,6 +33,11 @@ class AccountingSubscriptionPlan extends Model
             'type' => 'integer',
             'category' => 'integer',
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function image()
