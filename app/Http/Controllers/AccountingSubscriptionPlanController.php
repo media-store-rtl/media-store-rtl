@@ -25,7 +25,7 @@ class AccountingSubscriptionPlanController extends Controller
         Namad $namad,
         Social $social
     ): Response {
-        $plan = AccountingSubscriptionPlan::with('image')
+        $plan = AccountingSubscriptionPlan::with(['image', 'user.image', 'user.profile'])
             ->where('slug', $slug)
             ->where('status', 4)
             ->firstOrFail();

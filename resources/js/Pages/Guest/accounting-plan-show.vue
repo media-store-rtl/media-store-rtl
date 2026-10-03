@@ -111,7 +111,7 @@ const seoDescription = computed(() =>
                                                 @click="buy"
                                             >
                                                 <i class="fi-rs-shopping-cart"></i>
-                                                {{ form.processing ? 'در حال افزودن...' : 'جزئیات' }}
+                                                {{ form.processing ? 'در حال افزودن...' : 'خرید' }}
                                             </button>
                                         </div>
                                     </div>
@@ -123,7 +123,10 @@ const seoDescription = computed(() =>
                             <div class="tab-style3">
                                 <ul class="nav nav-tabs text-uppercase">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="#Description">توضیحات</a>
+                                        <a class="nav-link active" id="Description-tab" data-bs-toggle="tab" href="#Description">توضیحات</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">فروشنده</a>
                                     </li>
                                 </ul>
 
@@ -131,6 +134,35 @@ const seoDescription = computed(() =>
                                     <div class="tab-pane fade show active" id="Description">
                                         <div v-if="props.plan.description" v-html="props.plan.description"></div>
                                         <p v-else>توضیحاتی برای این پلن ثبت نشده است.</p>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="Vendor-info">
+                                        <div class="vendor-logo d-flex mb-30">
+                                            <img
+                                                v-if="props.plan.user && props.plan.user.image"
+                                                :src="$page.props.ziggy.url + '/storage/' + props.plan.user.image.url"
+                                                :alt="props.plan.user.name_show"
+                                            />
+                                            <img
+                                                v-else
+                                                :src="$page.props.ziggy.url + '/storage/images/default-user.png'"
+                                                alt=""
+                                            />
+                                            <div class="vendor-name ml-15">
+                                                <h6>
+                                                    <Link
+                                                        v-if="props.plan.user"
+                                                        :href="route('profile.show', [props.plan.user.user_name])"
+                                                    >
+                                                        {{ props.plan.user.name_show }}
+                                                    </Link>
+                                                    <span v-else>فروشنده</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <p v-if="props.plan.user && props.plan.user.profile">
+                                            {{ props.plan.user.profile.biography }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
