@@ -25,7 +25,12 @@ class AccountingSubscriptionPlanController extends Controller
         Namad $namad,
         Social $social
     ): Response {
-        $plan = AccountingSubscriptionPlan::with(['image', 'user.image', 'user.profile', 'favorite'])
+        $plan = AccountingSubscriptionPlan::with([
+            'image',
+            'user.image',
+            'user.profile',
+            'favorite',
+        ])
             ->where('slug', $slug)
             ->where('status', 4)
             ->firstOrFail();
@@ -42,6 +47,13 @@ class AccountingSubscriptionPlanController extends Controller
         $planAverageRating = $plan->averageRating ? round($plan->averageRating, 2) : null;
         $planTimesRated = $plan->timesRated() ? round($plan->timesRated()) : null;
         $seller = $plan->user;
+
+        if ($seller) {
+            $seller->loadMissing(['image', 'profile']);
+            $seller->ratings_avg_rating = $seller->averageRating
+                ? round($seller->averageRating, 2)
+                : null;
+        }
 
         $currentRoute = $route->where('name', $request->path())->first();
 
