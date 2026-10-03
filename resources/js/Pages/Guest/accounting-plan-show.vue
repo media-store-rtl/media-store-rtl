@@ -232,33 +232,43 @@ const seoDescription = computed(() =>
                                     </div>
 
                                     <div class="tab-pane fade" id="Vendor-info">
-                                        <div class="vendor-logo d-flex mb-30">
-                                            <img
-                                                v-if="props.seller && props.seller.image"
-                                                :src="$page.props.ziggy.url + '/storage/' + props.seller.image.url"
-                                                :alt="props.seller.name_show"
-                                            />
-                                            <img
-                                                v-else
-                                                :src="$page.props.ziggy.url + '/storage/images/default-user.png'"
-                                                alt=""
-                                            />
-                                            <div class="vendor-name ml-15">
-                                                <h6>
-                                                    <Link
-                                                        v-if="props.seller"
-                                                        :href="route('profile.show', [props.seller.user_name])"
-                                                    >
-                                                        {{ props.seller.name_show }}
-                                                    </Link>
-                                                    <span v-else>فروشنده</span>
-                                                </h6>
+                                            <div class="vendor-logo d-flex mb-30">
+                                                <img v-if="props.plan.user && props.plan.user.image" :src="$page.props.ziggy.url + '/storage/' + props.plan.user.image.url" alt="" />
+                                                <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="" />
+                                                <div class="vendor-name ml-15">
+                                                    <h6>
+                                                        <Link :href="route('profile.show', [props.plan.user.user_name])">{{ props.plan.user.name_show }}</Link>
+                                                    </h6>
+                                                    <div class="product-rate-cover text-end" v-if="props.plan.ratings_avg_rating > 0 ">
+                                                        <div class="product-rate d-inline-block">
+                                                            <div class="product-rating" :style="'width:' + props.plan.ratings_avg_rating * 20 + '%'"></div>
+                                                        </div>
+                                                        <span class="font-small ml-5 text-muted"> ({{ props.plan.ratings_avg_rating }})</span>
+                                                    </div>
+                                                    <div class="product-rate-cover text-end" v-else>
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: 0%"></div>
+                                                    </div>
+                                                    <span class="font-small ml-5 text-muted"> (0.000)</span>
+                                                </div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <p v-if="props.seller && props.seller.profile">
-                                            {{ props.seller.profile.biography }}
-                                        </p>
+                                            <div class="d-flex mb-55">
+                                                <!-- <div class="mr-30">
+                                                    <p class="text-brand font-xs">Rating</p>
+                                                    <h4 class="mb-0">92%</h4>
+                                                </div>
+                                                <div class="mr-30">
+                                                    <p class="text-brand font-xs">ارسال به موقع</p>
+                                                    <h4 class="mb-0">100%</h4>
+                                                </div>
+                                                <div>
+                                                    <p class="text-brand font-xs">پاسخ چت</p>
+                                                    <h4 class="mb-0">89%</h4>
+                                                </div> -->
+                                            </div>
+                                            <p v-if="props.plan.user && props.plan.user.profile">{{ props.plan.user.profile.biography }}</p>
                                     </div>
                                 </div>
                             </div>
