@@ -156,9 +156,8 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
-                                                    <a
-                                                        href="#"
-                                                        @click.prevent
+                                                    <Link
+                                                        :href="route('accounting.plan.show', plan.slug)"
                                                         v-if="plan.image && (plan.image.status == 4 || plan.image.status == 5)"
                                                     >
                                                         <img
@@ -179,7 +178,7 @@ const descriptionSeo = 'مشاهده و خرید پلن‌های اشتراک ح
                                                             height="300"
                                                             alt=""
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
                                                 </div>
