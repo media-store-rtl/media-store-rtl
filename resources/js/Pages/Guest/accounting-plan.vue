@@ -1,7 +1,7 @@
 <script setup>
 import { computed, watch } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import Seo from '@/Components/Seo.vue';
