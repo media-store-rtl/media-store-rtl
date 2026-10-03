@@ -16,7 +16,7 @@ return new class extends Migration
         DB::statement("
             UPDATE accounting_subscription_plans AS plans
             INNER JOIN images
-                ON images.imageable_type = 'App\\\\Models\\\\AccountingSubscriptionPlan'
+                ON images.imageable_type = 'App\\Models\\AccountingSubscriptionPlan'
                 AND images.imageable_id = plans.id
                 AND images.status = 4
             SET plans.user_id = images.user_id
