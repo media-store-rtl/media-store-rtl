@@ -339,7 +339,6 @@ const seoDescription = computed(() =>
                     </div>
                 </div>
             </div>      
-            </div>
         </div>
     </main>
 
