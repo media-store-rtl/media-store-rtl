@@ -92,6 +92,7 @@ const toggleMenu = (id) => {
                                                         </a>
                                                         <div v-if="openMenu === plan.id" class="dropdown-menu show" @click.stop>
                                                             <Link :href="route('accountingSubscriptionAdmin.edit', plan.id)" class="dropdown-item">ویرایش پلن</Link>
+                                                            <a :href="route('accounting.plan.show', plan.slug)" target="_blank" rel="noopener" class="dropdown-item">نمایش عمومی</a>
                                                         </div>
                                                     </div>
                                                 </td>
