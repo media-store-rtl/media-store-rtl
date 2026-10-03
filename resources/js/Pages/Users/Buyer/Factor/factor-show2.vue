@@ -102,7 +102,7 @@ const props = defineProps({users:Object,orders:Object,notifications:Object,compa
                                                     <td v-if="item.orderable_type == 'App\\Models\\Product'" class="text-center">{{ item.orderable.user.name_show }}</td>
                                                     <td v-else-if="item.orderable_type == 'App\\Models\\Tarahi'" class="text-center">{{ item.orderable.register_designer.user.name_show }}</td>
                                                     <td v-else-if="item.orderable_type == 'App\\Models\\WebDesign'" class="text-center">{{ item.orderable.user.name_show }}</td>
-                                                    <td v-else-if="item.orderable_type == 'App\\Models\\AccountingSubscriptionPlan'" class="text-center">اشتراک حسابداری</td>
+                                                    <td v-else-if="item.orderable_type == 'App\\Models\\AccountingSubscriptionPlan'" class="text-center">{{ item.orderable.user ? item.orderable.user.name_show : 'فروشگاه مدیا' }}</td>
                                                     <td class="text-center">{{ Number(item.price).toLocaleString("fa-IR") }} ریال</td>
                                                     <td class="text-center">{{ Number(item.count).toLocaleString("fa-IR") }} عدد</td>
                                                     <td class="text-center">{{ Number(item.total).toLocaleString("fa-IR") }} ریال</td>
