@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted,ref,onBeforeUnmount } from 'vue';
+import { nextTick, onMounted, ref, onBeforeUnmount } from 'vue';
 import {  Link, useForm , router} from '@inertiajs/vue3';
 
 const formatJalaliDate = (value) => {
@@ -57,7 +57,24 @@ const closeMobileMenu = () => {
     document.querySelector('.mobile-header-wrapper-style')?.classList.remove('sidebar-visible');
 };
 
+const resetMobileMenuState = () => {
+    mobileMenuOpen.value = false;
+    document.body.classList.remove('mobile-menu-active');
+    document.querySelectorAll('.mobile-header-active, .mobile-header-wrapper-style').forEach((menu) => {
+        menu.classList.remove('sidebar-visible');
+    });
+    document.querySelectorAll('.mobile-menu li').forEach((item) => {
+        item.classList.remove('active');
+    });
+    document.querySelectorAll('.mobile-menu .dropdown').forEach((dropdown) => {
+        dropdown.style.display = 'none';
+    });
+};
+
 onMounted(() => {
+    resetMobileMenuState();
+    nextTick(() => resetMobileMenuState());
+
     const loader = document.getElementById('initial-loader');
     if (loader) {
         loader.style.opacity = '0';
@@ -190,8 +207,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    document.body.classList.remove('mobile-menu-active');
-    mobileMenuOpen.value = false;
+    resetMobileMenuState();
 });
 
 let swalPromise;
