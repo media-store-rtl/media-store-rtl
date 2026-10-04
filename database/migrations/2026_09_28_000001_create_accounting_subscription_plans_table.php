@@ -12,12 +12,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
+            $table->string('name_en');
             $table->string('slug')->unique();
+            $table->string('tag', 160);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('price');
             $table->unsignedInteger('duration_days');
             $table->unsignedInteger('max_users');
             $table->unsignedInteger('status')->default(5)->index();
+            $table->unsignedBigInteger('group')->nullable()->index();
+            $table->unsignedBigInteger('type')->nullable()->index();
+            $table->unsignedBigInteger('category')->nullable()->index();
             $table->timestamps();
         });
     }
