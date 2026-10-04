@@ -61,7 +61,7 @@ class AuthenticatedSessionController extends Controller
             'button' => 'ok',
         ]);
 
-        return redirect()->back();//->intended(route('dashboard.index', absolute: false));
+        return redirect()->route('dashboard.index');
     }
 
     /**
