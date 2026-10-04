@@ -268,7 +268,7 @@ if (props.orders && props.orders.sub_order) {
                                                             </template>
                                                             <td class="d-flex ">
                                                                 <template v-if="order.orderable_type === 'App\\Models\\AccountingSubscriptionPlan'">
-                                                                    <a class="btn btn-primary" :href="route('accounting.sso.start')">ورود به حسابداری</Link>
+                                                                    <a class="btn btn-primary" :href="route('accounting.sso.start')">ورود به حسابداری</a>
                                                                 </template>
                                                                 <template v-else>
                                                                 <Link v-if="order.link == null && order.orderable_type !== 'App\\Models\\Tarahi' && order.orderable.group.name !== 'فرم'" class="btn btn-primary" @click.prevent="submitLink(order.id,order.order_id)"> ثبت دامنه</Link>
