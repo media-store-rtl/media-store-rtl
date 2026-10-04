@@ -110,13 +110,6 @@ const resetMobileScrollLock = () => {
     document.querySelectorAll('.navbar-aside').forEach((aside) => {
         aside.classList.remove('show');
     });
-    document.querySelectorAll('.menu-item.has-submenu .submenu').forEach((submenu) => {
-        submenu.style.display = '';
-    });
-    offcanvas.value = '';
-    show.value = '';
-    profileMenu.value = false;
-    walletMenu.value = false;
 };
 
 onMounted(() => {
