@@ -1,6 +1,6 @@
 <script setup>
 
-import { nextTick, onMounted, ref, onBeforeUnmount } from 'vue';
+import { nextTick, onMounted, ref, onBeforeUnmount, watch } from 'vue';
 import {  Link, useForm , router} from '@inertiajs/vue3';
 
 const formatJalaliDate = (value) => {
@@ -56,6 +56,32 @@ const closeMobileMenu = () => {
     document.body.classList.remove('mobile-menu-active');
     document.querySelector('.mobile-header-wrapper-style')?.classList.remove('sidebar-visible');
 };
+
+const showAlert = (alert) => {
+    if (!alert) {
+        return;
+    }
+
+    swalPromise ??= import('sweetalert2');
+    swalPromise.then(({ default: swal }) => {
+        swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+        }).fire({
+            title: [alert.title, alert.text].filter(Boolean).join(' '),
+            icon: alert.icon || 'info',
+        });
+    });
+};
+
+watch(
+    () => props.alert,
+    (alert) => showAlert(alert),
+    { immediate: true }
+);
 
 const resetMobileMenuState = () => {
     mobileMenuOpen.value = false;
