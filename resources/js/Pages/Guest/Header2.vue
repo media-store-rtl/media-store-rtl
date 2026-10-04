@@ -57,6 +57,8 @@ const closeMobileMenu = () => {
     document.querySelector('.mobile-header-wrapper-style')?.classList.remove('sidebar-visible');
 };
 
+let swalPromise;
+
 const showAlert = (alert) => {
     if (!alert) {
         return;
@@ -235,8 +237,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
     resetMobileMenuState();
 });
-
-let swalPromise;
 
 const validate = async (text)=>{
     swalPromise ??= import('sweetalert2');
