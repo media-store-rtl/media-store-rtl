@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AccountingSubscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -56,6 +57,72 @@ class AccountingSsoController extends Controller
         return redirect()->away(
             $accountingUrl . '/sso/callback?token=' . rawurlencode($token)
         );
+    }
+
+    public function logout(Request $request)
+    {
+        $token = (string) $request->query('token');
+        $secret = (string) config('services.accounting.sso_secret');
+
+        if ($token === '' || $secret === '') {
+            abort(403);
+        }
+
+        $decoded = base64_decode(strtr($token, '-_', '+/'), true);
+
+        if ($decoded === false) {
+            abort(403);
+        }
+
+        $parts = explode('|', $decoded);
+
+        if (count($parts) !== 4) {
+            abort(403);
+        }
+
+        [$userId, $timestamp, $nonce, $signature] = $parts;
+
+        if (
+            ! ctype_digit($userId)
+            || ! ctype_digit($timestamp)
+            || $nonce === ''
+            || ! preg_match('/^[a-f0-9]{64}$/', $signature)
+        ) {
+            abort(403);
+        }
+
+        $timestamp = (int) $timestamp;
+
+        if (abs(now()->timestamp - $timestamp) > 120) {
+            abort(403);
+        }
+
+        $payload = $userId . '|' . $timestamp . '|' . $nonce;
+        $expected = hash_hmac('sha256', $payload, $secret);
+
+        if (! hash_equals($expected, $signature)) {
+            abort(403);
+        }
+
+        if (! Auth::check()) {
+            return redirect('/');
+        }
+
+        if ((int) Auth::id() !== (int) $userId) {
+            abort(403);
+        }
+
+        $cacheKey = 'accounting_sso_logout:' . hash('sha256', $token);
+
+        if (! Cache::add($cacheKey, true, now()->addMinutes(2))) {
+            return redirect('/');
+        }
+
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 
     public function exchange(Request $request)
