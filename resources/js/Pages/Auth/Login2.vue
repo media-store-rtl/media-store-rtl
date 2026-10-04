@@ -2,7 +2,7 @@
 
 import BreezeCheckbox from '@/Components/Checkbox.vue';
 import { computed, ref } from 'vue';
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage, router } from '@inertiajs/vue3';
 import Header from '@/Pages/Guest/Header2.vue';
 import Footer from '../Guest/Footer2.vue';
 import swal from 'sweetalert2';
@@ -43,7 +43,12 @@ const submit = () => {
   }
 
   form.post(route('login'), {
-    onSuccess: () => {},
+    onSuccess: (page) => {
+      const alert = page.props.alert;
+      if (alert) {
+        showToast(alert.icon || 'info', [alert.title, alert.text].filter(Boolean).join(' '));
+      }
+    },
     onError: () => {
       if (hasErrors.value) {
         showToast('error', 'ایمیل یا رمز عبور اشتباه است.');
