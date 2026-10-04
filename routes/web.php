@@ -112,6 +112,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/accounting/sso/start', [AccountingSsoController::class, 'start'])->name('accounting.sso.start');
 });
 
+Route::get('/accounting/sso/logout', [AccountingSsoController::class, 'logout'])
+    ->name('accounting.sso.logout');
+
 Route::post('/accounting/sso/exchange', [AccountingSsoController::class, 'exchange'])
     ->withoutMiddleware([VerifyCsrfToken::class])
     ->name('accounting.sso.exchange');
