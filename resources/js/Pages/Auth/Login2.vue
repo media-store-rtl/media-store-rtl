@@ -14,8 +14,6 @@ const props = defineProps({
 
 const errors = computed(() => usePage().props.errors);
 const hasErrors = computed(() => Object.keys(errors.value).length > 0);
-const alert = ref(props.alert);
-
 const form = useForm({
   email: '',
   password: '',
@@ -45,11 +43,7 @@ const submit = () => {
   }
 
   form.post(route('login'), {
-    onSuccess: () => {
-      if (usePage().props.alert) {
-        showToast(usePage().props.alert.icon, usePage().props.alert.title + ' ' + usePage().props.alert.text);
-      }
-    },
+    onSuccess: () => {},
     onError: () => {
       if (hasErrors.value) {
         showToast('error', 'ایمیل یا رمز عبور اشتباه است.');
@@ -57,12 +51,6 @@ const submit = () => {
     }
   });
 };
-
-if (alert.value) {
-  showToast(alert.value.icon, alert.value.title + ' ' + alert.value.text);
-  alert.value = null;
-}
-
 </script>
 
 <template>
