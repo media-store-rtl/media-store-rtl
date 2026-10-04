@@ -54,7 +54,13 @@ class AuthenticatedSessionController extends Controller
         $user->find(auth()->user()->id)->update(['status'=> 4]);
 
         $request->session()->regenerate();
-        
+        $request->session()->flash('alert', [
+            'title'  => 'ورود موفق!',
+            'text'   => 'با موفقیت وارد شدید.',
+            'icon'   => 'success',
+            'button' => 'ok',
+        ]);
+
         return redirect()->back();//->intended(route('dashboard.index', absolute: false));
     }
 
