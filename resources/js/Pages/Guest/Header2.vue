@@ -1,7 +1,7 @@
 <script setup>
 
 import { nextTick, onMounted, ref, onBeforeUnmount, watch } from 'vue';
-import {  Link, useForm , router} from '@inertiajs/vue3';
+import { Link, useForm, router, usePage } from '@inertiajs/vue3';
 
 const formatJalaliDate = (value) => {
     const parts = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
@@ -13,6 +13,8 @@ const formatJalaliDate = (value) => {
     const get = (type) => parts.find((part) => part.type === type)?.value ?? '';
     return get('year') + '/' + get('month') + '/' + get('day');
 };
+
+const page = usePage();
 
 const props = defineProps({
     canLogin: Boolean,canRegister: Boolean,laravelVersion: String,phpVersion: String,menu: Object,
@@ -80,7 +82,7 @@ const showAlert = (alert) => {
 };
 
 watch(
-    () => props.alert,
+    () => page.props.alert,
     (alert) => showAlert(alert),
     { immediate: true }
 );
