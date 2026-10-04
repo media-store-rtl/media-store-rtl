@@ -81,11 +81,13 @@ const showAlert = (alert) => {
     });
 };
 
-watch(
-    () => page.props.alert,
-    (alert) => showAlert(alert),
-    { immediate: true }
-);
+let removeAlertNavigateListener;
+
+onMounted(() => {
+    removeAlertNavigateListener = router.on('navigate', () => {
+        showAlert(page.props.alert);
+    });
+});
 
 const resetMobileMenuState = () => {
     mobileMenuOpen.value = false;
@@ -238,6 +240,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     resetMobileMenuState();
+    removeAlertNavigateListener?.();
 });
 
 const validate = async (text)=>{
