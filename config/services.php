@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'accounting' => [
+        'url' => env('ACCOUNTING_URL'),
+        'sso_secret' => env('ACCOUNTING_SSO_SECRET'),
+    ],
+
 ];
