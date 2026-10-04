@@ -112,7 +112,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/accounting/sso/start', [AccountingSsoController::class, 'start'])->name('accounting.sso.start');
 });
 
-Route::post('/accounting/sso/exchange', [AccountingSsoController::class, 'exchange'])->name('accounting.sso.exchange');
+Route::post('/accounting/sso/exchange', [AccountingSsoController::class, 'exchange'])
+    ->withoutMiddleware([VerifyCsrfToken::class])
+    ->name('accounting.sso.exchange');
 
 Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi, User $user) {
     $urls = [
