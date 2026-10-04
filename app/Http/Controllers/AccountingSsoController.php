@@ -68,7 +68,9 @@ class AccountingSsoController extends Controller
             abort(403);
         }
 
-        $decoded = base64_decode(strtr($token, '-_', '+/'), true);
+        $base64 = strtr($token, '-_', '+/');
+        $base64 .= str_repeat('=', (4 - strlen($base64) % 4) % 4);
+        $decoded = base64_decode($base64, true);
 
         if ($decoded === false) {
             abort(403);
