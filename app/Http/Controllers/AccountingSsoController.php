@@ -54,6 +54,10 @@ class AccountingSsoController extends Controller
             now()->addMinutes(2)
         );
 
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->away(
             $accountingUrl . '/sso/callback?token=' . rawurlencode($token)
         );
