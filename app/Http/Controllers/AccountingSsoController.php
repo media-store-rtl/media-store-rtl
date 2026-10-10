@@ -47,9 +47,11 @@ class AccountingSsoController extends Controller
                 'name' => (string) $request->user()->name_show,
                 'email' => (string) $request->user()->email,
                 'subscription_id' => (string) $subscription->external_subscription_id,
+                'subscription_status' => (string) $subscription->status,
+                'subscription_starts_at' => $subscription->starts_at?->toIso8601String(),
+                'subscription_expires_at' => $subscription->expires_at->toIso8601String(),
                 'plan_id' => (int) $subscription->accounting_subscription_plan_id,
                 'max_users' => (int) $subscription->plan->max_users,
-                'expires_at' => $subscription->expires_at->toIso8601String(),
             ],
             now()->addMinutes(2)
         );
