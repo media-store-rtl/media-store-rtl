@@ -78,14 +78,20 @@ const baseSchema = computed(() => [
   },
 ])
 
-const pageSchema = computed(() => ({
-  '@context': 'https://schema.org',
-  '@type': props.type === 'article' ? 'Article' : props.type === 'product' ? 'Product' : props.type === 'service' ? 'Service' : 'WebPage',
-  name: props.title,
-  description: props.description,
-  url: currentUrl.value,
-  inLanguage: 'fa-IR',
-}))
+const pageSchema = computed(() => {
+  // Product pages provide their own detailed Product schema via the schema prop.
+  // Avoid emitting a second, incomplete Product entity without offers or ratings.
+  if (props.type === 'product') return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': props.type === 'article' ? 'Article' : props.type === 'service' ? 'Service' : 'WebPage',
+    name: props.title,
+    description: props.description,
+    url: currentUrl.value,
+    inLanguage: 'fa-IR',
+  }
+})
 
 const breadcrumbSchema = computed(() => {
   let path = '/'
@@ -136,7 +142,7 @@ const breadcrumbSchema = computed(() => {
 
 const structuredData = computed(() => {
   const custom = props.schema ? (Array.isArray(props.schema) ? props.schema : [props.schema]) : []
-  return [...baseSchema.value, pageSchema.value, breadcrumbSchema.value, ...custom]
+  return [...baseSchema.value, ...(pageSchema.value ? [pageSchema.value] : []), breadcrumbSchema.value, ...custom]
 })
 
 useHead({
