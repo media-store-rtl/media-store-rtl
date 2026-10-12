@@ -134,6 +134,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         ['loc' => url('/privacy')],
         ['loc' => url('/terms-conditions')],
         ['loc' => url('/terms-seller')],
+        ['loc' => url('/accounting-plan')],
     ];
 
     $product->whereIn('status', [4, 5])
@@ -151,7 +152,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
 
     $blog->where('status', 4)
         ->whereNotNull('slug')
-        ->select(['slug', 'updated_at'])
+        ->select(['id', 'slug', 'updated_at'])
         ->chunkById(500, function ($blogs) use (&$urls) {
             foreach ($blogs as $item) {
                 $urls[] = [
@@ -165,7 +166,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
     $product->whereIn('status', [4, 5])
         ->whereHas('group', fn ($query) => $query->where('name', 'فرم'))
         ->whereNotNull('slug')
-        ->select(['slug', 'updated_at'])
+        ->select(['id', 'slug', 'updated_at'])
         ->chunkById(500, function ($products) use (&$urls) {
             foreach ($products as $item) {
                 $urls[] = [
@@ -215,7 +216,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
     $webDesign->where('status', 4)
         ->whereNotNull('slug')
         ->whereHas('group', fn ($query) => $query->where('name', 'پلن طراحی سایت'))
-        ->select(['slug', 'updated_at'])
+        ->select(['id', 'slug', 'updated_at'])
         ->chunkById(500, function ($items) use (&$urls) {
             foreach ($items as $item) {
                 $urls[] = [
@@ -233,7 +234,12 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
     foreach ($urls as $item) {
         $xml .= "  <url>\n";
         $xml .= '    <loc>' . e($item['loc']) . "</loc>\n";
-        $xml .= '    <lastmod>' . $item['lastmod']->toAtomString() . "</lastmod>\n";
+        if (!empty($item['lastmod'])) {
+            $lastmod = $item['lastmod'] instanceof \\DateTimeInterface
+                ? $item['lastmod']
+                : \\Illuminate\\Support\\Carbon::parse($item['lastmod']);
+            $xml .= '    <lastmod>' . $lastmod->toAtomString() . "</lastmod>\n";
+        }
         $xml .= "  </url>\n";
     }
 
