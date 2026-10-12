@@ -235,9 +235,9 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         $xml .= "  <url>\n";
         $xml .= '    <loc>' . e($item['loc']) . "</loc>\n";
         if (!empty($item['lastmod'])) {
-            $lastmod = $item['lastmod'] instanceof \\DateTimeInterface
+            $lastmod = $item['lastmod'] instanceof \DateTimeInterface
                 ? $item['lastmod']
-                : \\Illuminate\\Support\\Carbon::parse($item['lastmod']);
+                : \Illuminate\Support\Carbon::parse($item['lastmod']);
             $xml .= '    <lastmod>' . $lastmod->toAtomString() . "</lastmod>\n";
         }
         $xml .= "  </url>\n";
