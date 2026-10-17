@@ -1,7 +1,7 @@
 <script setup>
 
 const seoPage = usePage()
-const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
+const seoSiteUrl = computed(() => String(seoPage.props?.ziggy?.url || '').replace(/\/+$/, ''))
 
 const seoDescription = computed(() => {
     const text = String(props.product.text || props.product.tag || props.product.title || '')
@@ -23,7 +23,7 @@ const seoBlogSchema = computed(() => ({
     '@type': 'Article',
     headline: props.product.title,
     description: seoDescription.value,
-    image: blogImageUrl.value ? [seoSiteUrl.value + blogImageUrl.value] : undefined,
+    image: blogImageUrl.value ? [seoSiteUrl.value ? new URL(blogImageUrl.value, seoSiteUrl.value + '/').toString() : blogImageUrl.value] : undefined,
     datePublished: props.product.created_at,
     dateModified: props.product.updated_at || props.product.created_at,
     mainEntityOfPage: {
