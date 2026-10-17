@@ -24,6 +24,8 @@ jobs:
           coverage: none
       - name: Prepare Laravel environment
         run: cp .env.example .env
+      - name: Prepare Laravel cache directory
+        run: mkdir -p bootstrap/cache
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
       - name: Set up Node.js
