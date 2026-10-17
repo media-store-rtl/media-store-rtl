@@ -148,7 +148,7 @@ const breadcrumbSchema = computed(() => {
 
   if (segments.length && siteUrl.value) {
     segments.forEach((segment, index) => {
-      const itemUrl = siteUrl.value + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
+      const itemUrl = siteUrl.value + '/' + segments.slice(0, index + 1).join('/')
       items.push({
         '@type': 'ListItem',
         position: index + 2,
