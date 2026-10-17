@@ -30,7 +30,7 @@ const seoProductSchema = computed(() => {
         url: new URL('/website-templates/' + encodeURIComponent(props.product.slug || ''), seoSiteUrl.value + '/').toString(),
         offers: Number.isFinite(finalPrice) ? {
             '@type': 'Offer',
-            url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
+            url: new URL('/website-templates/' + encodeURIComponent(props.product.slug || ''), seoSiteUrl.value + '/').toString(),
             priceCurrency: 'IRR',
             price: finalPrice,
             availability: 'https://schema.org/InStock',
@@ -39,33 +39,7 @@ const seoProductSchema = computed(() => {
                 applicableCountry: 'IR',
                 returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
             },
-            shippingDetails: {
-                '@type': 'OfferShippingDetails',
-                shippingRate: {
-                    '@type': 'MonetaryAmount',
-                    value: 0,
-                    currency: 'IRR',
-                },
-                shippingDestination: {
-                    '@type': 'DefinedRegion',
-                    addressCountry: 'IR',
-                },
-                deliveryTime: {
-                    '@type': 'ShippingDeliveryTime',
-                    handlingTime: {
-                        '@type': 'QuantitativeValue',
-                        minValue: 0,
-                        maxValue: 0,
-                        unitCode: 'DAY',
-                    },
-                    transitTime: {
-                        '@type': 'QuantitativeValue',
-                        minValue: 0,
-                        maxValue: 0,
-                        unitCode: 'DAY',
-                    },
-                },
-            },
+
         } : undefined,
         aggregateRating: props.product_averageRating && props.product_usersRated > 0 ? {
             '@type': 'AggregateRating',
