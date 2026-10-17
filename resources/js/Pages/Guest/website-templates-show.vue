@@ -1,7 +1,7 @@
 <script setup>
 
 const seoPage = usePage()
-const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
+const seoSiteUrl = computed(() => String(seoPage.props?.ziggy?.url || '').replace(/\/+$/, ''))
 
 const seoDescription = computed(() => {
     const text = String(props.product.text || props.product.tag || props.product.name || '')
@@ -23,11 +23,11 @@ const seoProductSchema = computed(() => {
         '@type': 'Product',
         name: props.product.name,
         description: seoDescription.value,
-        image: props.product.image?.url ? [seoSiteUrl.value + '/storage/' + props.product.image.url] : undefined,
+        image: props.product.image?.url ? [new URL('/storage/' + String(props.product.image.url).replace(/^\/+/, ''), seoSiteUrl.value + '/').toString()] : undefined,
         sku: props.product.slug || undefined,
         category: props.product.category?.name ? String(props.product.category.name) : undefined,
         brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
-        url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
+        url: new URL('/website-templates/' + encodeURIComponent(props.product.slug || ''), seoSiteUrl.value + '/').toString(),
         offers: Number.isFinite(finalPrice) ? {
             '@type': 'Offer',
             url: seoSiteUrl.value + '/website-templates/' + encodeURIComponent(props.product.slug || ''),
