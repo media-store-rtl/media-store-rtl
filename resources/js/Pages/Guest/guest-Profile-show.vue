@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
 import { ref} from 'vue';
-import { useForm,Head,Link} from '@inertiajs/vue3';
+import { useForm, Link} from '@inertiajs/vue3';
 import Seo from '@/Components/Seo.vue';
 import { usePage } from '@inertiajs/vue3';
 
@@ -48,10 +48,17 @@ const getPageUrl = (baseUrl, page) => {
 
 const profileName = computed(() => props.user?.name_show || [props.user?.name, props.user?.lasst_name].filter(Boolean).join(' ') || props.user?.user_name || '');
 
-const titleSeo = props.user?.user_name || profileName.value;
-const descriptionSeo = String((props.user?.name || '') + ' ' + (props.user?.lasst_name || '') + '-' + (props.user?.profile?.biography || ''))
+const titleSeo = profileName.value
+    ? profileName.value + ' | پروفایل کاربر در فروشگاه مدیا'
+    : 'پروفایل کاربر | فروشگاه مدیا';
+
+const descriptionSeo = String(
+    [profileName.value, props.user?.profile?.biography]
+        .filter(Boolean)
+        .join(' - ') || 'مشاهده پروفایل، مهارت‌ها و محصولات منتشرشده این کاربر در فروشگاه مدیا.'
+)
     .replace(/<[^>]*>/g, ' ')
-    .replace(/\\s+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
     .slice(0, 160)
 
@@ -60,7 +67,7 @@ const seoProfileSchema = computed(() => ({
     '@type': 'ProfilePage',
     name: profileName.value,
     description: descriptionSeo,
-    url: page.props.ziggy.url + '/guest-profile/' + encodeURIComponent(props.user.user_name || props.user.id),
+    url: String(page.props?.ziggy?.url || '').replace(/\/$/, '') + '/guest-profile/' + encodeURIComponent(props.user.user_name || props.user.id),
     mainEntity: {
         '@type': 'Person',
         name: profileName.value,
