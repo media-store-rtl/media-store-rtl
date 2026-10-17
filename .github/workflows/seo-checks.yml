@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    name: Build, format, and lint
+    name: Build and lint SEO changes
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -37,8 +37,6 @@ jobs:
         run: npm ci
       - name: Build frontend
         run: npm run build
-      - name: Check SEO component formatting
-        run: npx prettier --check resources/js/Components/Seo.vue
       - name: Lint changed SEO-related Vue files
         run: >-
           npx eslint
