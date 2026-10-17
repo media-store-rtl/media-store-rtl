@@ -101,7 +101,7 @@ const baseSchema = computed(() => [
 
 const pageSchema = computed(() => {
   // Product pages provide a detailed Product schema through the schema prop.
-  if (props.type === 'product' || props.type === 'profile') return null
+  if (props.type === 'product' || props.type === 'profile' || (props.schema && ['article', 'service'].includes(props.type))) return null
 
   return {
     '@context': 'https://schema.org',
