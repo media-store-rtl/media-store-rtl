@@ -79,7 +79,6 @@ const seoProfileSchema = computed(() => ({
 </script>
 <template>
     <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" type="profile" :schema="seoProfileSchema" />
-     <Head title="index" /> 
     <Header :companies="props.companies" :results="props.results" :Quickview="props.Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu" />
         <main class="main">
             <div class="container mb-30">
