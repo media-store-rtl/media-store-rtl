@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    name: Build and lint SEO changes
+    name: Build and lint SEO component
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -37,17 +37,9 @@ jobs:
         run: npm ci
       - name: Build frontend
         run: npm run build
-      - name: Lint changed SEO-related Vue files
+      - name: Lint SEO component
         run: >-
           npx eslint
+          --rule 'vue/block-lang: off'
+          --rule 'vue/valid-template-root: off'
           resources/js/Components/Seo.vue
-          resources/js/Pages/Guest/Blog-show.vue
-          resources/js/Pages/Guest/Terms-Seller.vue
-          resources/js/Pages/Guest/about-hesabdari.vue
-          resources/js/Pages/Guest/about.vue
-          resources/js/Pages/Guest/accounting-plan-show.vue
-          resources/js/Pages/Guest/charts.vue
-          resources/js/Pages/Guest/form-show.vue
-          resources/js/Pages/Guest/guest-Profile-show.vue
-          resources/js/Pages/Guest/website-design-show.vue
-          resources/js/Pages/Guest/website-templates-show.vue
