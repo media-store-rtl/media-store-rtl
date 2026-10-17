@@ -1,7 +1,7 @@
 <script setup>
 
 const seoPage = usePage()
-const seoSiteUrl = computed(() => seoPage.props?.ziggy?.url || '')
+const seoSiteUrl = computed(() => String(seoPage.props?.ziggy?.url || '').replace(/\/+$/, ''))
 
 const seoDescription = computed(() => {
     const text = String(props.tarahis.text || props.tarahis.tag || props.tarahis.name || '')
@@ -16,7 +16,7 @@ const seoWebDesignSchema = computed(() => ({
     '@type': 'Service',
     name: props.tarahis.name,
     description: seoDescription.value,
-    image: props.tarahis.image?.url ? [seoSiteUrl.value + '/storage/' + props.tarahis.image.url] : undefined,
+    image: props.tarahis.image?.url ? [new URL('/storage/' + String(props.tarahis.image.url).replace(/^\/+/, ''), seoSiteUrl.value + '/').toString()] : undefined,
     provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: seoSiteUrl.value },
     aggregateRating: props.tarahi_averageRating && props.tarahi_timesRated > 0 ? {
         '@type': 'AggregateRating',
