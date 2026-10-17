@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import Seo from '@/Components/Seo.vue';
 import Header from './Header2.vue';
 import Footer from './Footer2.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import moment from "moment-jalaali";
 import fa from "moment/src/locale/fa";
 
@@ -53,7 +53,7 @@ const descriptionSeo ='نمودار زنده طلا (XAU/USD) با نمایش ل
 </script>
 <template >
     <Seo :title="titleSeo" :description="descriptionSeo" :noIndex="false" />
-     <Head title=" چارت طلا جهانی و دلارامریکا" /> 
+
     <Header :companies="props.companies" :results="props.results"  :menus="props.menus" :cart="props.cart" :menu="props.menu" />
     <main class="main pages" style="transform: none;">
 

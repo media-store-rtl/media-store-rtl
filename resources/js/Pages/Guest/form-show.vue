@@ -22,6 +22,7 @@ const props = defineProps({
 
 
 const page = usePage()
+const seoSiteUrl = computed(() => String(page.props?.ziggy?.url || '').replace(/\/+$/, ''))
 
 const seoDescription = computed(() => {
     const text = String(props.product.text || props.product.tag || props.product.name || '')
@@ -36,11 +37,11 @@ const seoProductSchema = computed(() => ({
     '@type': 'Product',
     name: props.product.name,
     description: seoDescription.value,
-    image: props.product.image?.url ? [page.props.ziggy.url + '/storage/' + props.product.image.url] : undefined,
+    image: props.product.image?.url ? [new URL('/storage/' + String(props.product.image.url).replace(/^\/+/, ''), seoSiteUrl.value + '/').toString()] : undefined,
     sku: props.product.slug || undefined,
     category: props.product.category?.name || 'فرم',
     brand: { '@type': 'Brand', name: 'فروشگاه مدیا' },
-    url: page.props.ziggy.url + '/form/' + encodeURIComponent(props.product.slug || ''),
+    url: new URL('/form/' + encodeURIComponent(props.product.slug || ''), seoSiteUrl.value + '/').toString(),
     offers: props.product.price != null ? {
         '@type': 'Offer',
         url: page.props.ziggy.url + '/form/' + encodeURIComponent(props.product.slug || ''),

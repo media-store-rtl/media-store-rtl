@@ -109,7 +109,7 @@ const submitQuickview = (result) =>{
 </script>
 <template>
     <Seo :title="'درباره حسابداری | فروشگاه مدیا'" :description="'معرفی خدمات حسابداری و امکانات مرتبط با مدیریت مالی و کسب‌وکار در فروشگاه مدیا.'" :noIndex="false" />
-     <Head title="index" /> 
+
     <Header :companies="props.companies"  :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu"
         @event-submit-quickview="submitQuickview" 
      />

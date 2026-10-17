@@ -1,0 +1,45 @@
+name: SEO branch checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [fix/profile-seo-metadata]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Build and lint SEO component
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          coverage: none
+      - name: Prepare Laravel environment
+        run: cp .env.example .env
+      - name: Prepare Laravel cache directory
+        run: mkdir -p bootstrap/cache
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Node dependencies
+        run: npm ci
+      - name: Build frontend
+        run: npm run build
+      - name: Lint SEO component
+        run: >-
+          npx eslint
+          --rule 'vue/block-lang: off'
+          --rule 'vue/valid-template-root: off'
+          resources/js/Components/Seo.vue

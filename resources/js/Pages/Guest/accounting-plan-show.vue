@@ -89,6 +89,7 @@ const seoDescription = computed(() =>
     <Seo
         :title="props.plan.name + ' | اشتراک حسابداری | فروشگاه مدیا'"
         :description="seoDescription"
+        :noIndex="false"
         :image="props.plan.image?.url ? '/storage/' + props.plan.image.url : '/storage/images/logo-2.png'"
         type="service"
     />

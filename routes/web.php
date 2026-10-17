@@ -8,6 +8,7 @@ use App\Models\Tarahi;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Blog;
+use App\Models\AccountingSubscriptionPlan;
 use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\BankController;
@@ -119,7 +120,7 @@ Route::post('/accounting/sso/exchange', [AccountingSsoController::class, 'exchan
     ->withoutMiddleware([VerifyCsrfToken::class])
     ->name('accounting.sso.exchange');
 
-Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi, User $user) {
+Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $webDesign, Tarahi $tarahi, User $user, AccountingSubscriptionPlan $accountingPlan) {
     $urls = [
         ['loc' => url('/')],
         ['loc' => url('/website-templates')],
@@ -135,6 +136,7 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         ['loc' => url('/terms-conditions')],
         ['loc' => url('/terms-seller')],
         ['loc' => url('/accounting-plan')],
+        ['loc' => url('/charts-xauusd')],
     ];
 
     $product->whereIn('status', [4, 5])
@@ -222,6 +224,18 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
                 $urls[] = [
                     'loc' => url('/website-design/' . rawurlencode($item->slug)),
                     'lastmod' => $item->updated_at ?? now(),
+                ];
+            }
+        });
+
+    $accountingPlan->where('status', 4)
+        ->whereNotNull('slug')
+        ->select(['id', 'slug', 'updated_at'])
+        ->chunkById(500, function ($plans) use (&$urls) {
+            foreach ($plans as $plan) {
+                $urls[] = [
+                    'loc' => url('/accounting-plan/' . rawurlencode($plan->slug)),
+                    'lastmod' => $plan->updated_at ?? now(),
                 ];
             }
         });
