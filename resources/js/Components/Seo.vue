@@ -39,25 +39,46 @@ const props = defineProps({
 })
 
 const page = usePage()
-const siteUrl = computed(() => page.props?.ziggy?.url || '')
+const siteUrl = computed(() => String(page.props?.ziggy?.url || '').trim().replace(/\/+$/, ''))
+const seoTitle = computed(() => String(props.title || 'فروشگاه مدیا | قالب سایت و محصولات دیجیتال')
+  .replace(/<[^>]*>/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim())
+const seoDescription = computed(() => String(props.description || 'فروشگاه مدیا؛ مرجع قالب سایت و محصولات دیجیتال برای راه‌اندازی و توسعه کسب‌وکار آنلاین.')
+  .replace(/<[^>]*>/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim()
+  .slice(0, 160))
+
 const currentUrl = computed(() => {
-  if (props.canonical) return props.canonical
-  const url = page.url || '/'
+  const rawUrl = props.canonical || page.url || '/'
   try {
-    const canonical = new URL(url, siteUrl.value || undefined)
+    const canonical = siteUrl.value
+      ? new URL(rawUrl, siteUrl.value + '/')
+      : new URL(rawUrl)
     canonical.search = ''
     canonical.hash = ''
     return canonical.toString()
   } catch {
-    return url.split('?')[0].split('#')[0]
+    // A relative fallback is preferable to emitting a malformed URL.
+    return String(rawUrl).split('?')[0].split('#')[0]
   }
 })
+
 const imageUrl = computed(() => {
   if (!props.image) return ''
   try {
-    return new URL(props.image, siteUrl.value || undefined).toString()
+    return siteUrl.value ? new URL(props.image, siteUrl.value + '/').toString() : props.image
   } catch {
     return props.image
+  }
+})
+
+const siteLogoUrl = computed(() => {
+  try {
+    return siteUrl.value ? new URL('/storage/images/logo-2.png', siteUrl.value + '/').toString() : ''
+  } catch {
+    return ''
   }
 })
 
@@ -66,28 +87,27 @@ const baseSchema = computed(() => [
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'فروشگاه مدیا',
-    url: siteUrl.value,
+    url: siteUrl.value || undefined,
     inLanguage: 'fa-IR',
   },
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'فروشگاه مدیا',
-    url: siteUrl.value,
-    logo: imageUrl.value,
+    url: siteUrl.value || undefined,
+    logo: siteLogoUrl.value || undefined,
   },
 ])
 
 const pageSchema = computed(() => {
-  // Product pages provide their own detailed Product schema via the schema prop.
-  // Avoid emitting a second, incomplete Product entity without offers or ratings.
-  if (props.type === 'product') return null
+  // Product pages provide a detailed Product schema through the schema prop.
+  if (props.type === 'product' || props.type === 'profile') return null
 
   return {
     '@context': 'https://schema.org',
     '@type': props.type === 'article' ? 'Article' : props.type === 'service' ? 'Service' : 'WebPage',
-    name: props.title,
-    description: props.description,
+    name: seoTitle.value,
+    description: seoDescription.value,
     url: currentUrl.value,
     inLanguage: 'fa-IR',
   }
@@ -96,10 +116,11 @@ const pageSchema = computed(() => {
 const breadcrumbSchema = computed(() => {
   let path = '/'
   try {
-    path = new URL(currentUrl.value, siteUrl.value || undefined).pathname
+    path = new URL(currentUrl.value, siteUrl.value ? siteUrl.value + '/' : undefined).pathname
   } catch {
     path = currentUrl.value.split('?')[0].split('#')[0]
   }
+
   const segments = path.split('/').filter(Boolean)
   const labels = {
     'website-templates': 'قالب‌های آماده سایت',
@@ -109,6 +130,8 @@ const breadcrumbSchema = computed(() => {
     'cafe-net': 'خدمات آنلاین',
     'form': 'فرم‌های آماده',
     'accounting': 'حسابداری',
+    'accounting-plan': 'پلن‌های اشتراک حسابداری',
+    'guest-profile': 'پروفایل کاربر',
     'about': 'درباره ما',
     'about-hesabdari': 'درباره حسابداری',
     'faq': 'سوالات متداول',
@@ -120,19 +143,21 @@ const breadcrumbSchema = computed(() => {
     '@type': 'ListItem',
     position: 1,
     name: 'فروشگاه مدیا',
-    item: siteUrl.value,
+    item: siteUrl.value || undefined,
   }]
-  if (segments.length) {
+
+  if (segments.length && siteUrl.value) {
     segments.forEach((segment, index) => {
-      const itemUrl = siteUrl.value.replace(/\/$/, '') + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
+      const itemUrl = siteUrl.value + '/' + segments.slice(0, index + 1).map(encodeURIComponent).join('/')
       items.push({
         '@type': 'ListItem',
         position: index + 2,
-        name: index === segments.length - 1 ? props.title : (labels[segment] || segment),
+        name: index === segments.length - 1 ? seoTitle.value : (labels[segment] || segment),
         item: itemUrl,
       })
     })
   }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -146,7 +171,7 @@ const structuredData = computed(() => {
 })
 
 useHead({
-  title: () => props.title,
+  title: () => seoTitle.value,
   link: [
     {
       rel: 'canonical',
@@ -154,22 +179,22 @@ useHead({
     },
   ],
   meta: [
-    { name: 'description', content: () => props.description },
+    { name: 'description', content: () => seoDescription.value },
     ...(props.keywords ? [{ name: 'keywords', content: () => props.keywords }] : []),
     {
       name: 'robots',
       content: () => props.noIndex ? 'noindex, nofollow' : 'index, follow',
     },
-    { property: 'og:title', content: () => props.title },
-    { property: 'og:description', content: () => props.description },
-    { property: 'og:type', content: props.type },
+    { property: 'og:title', content: () => seoTitle.value },
+    { property: 'og:description', content: () => seoDescription.value },
+    { property: 'og:type', content: props.type === 'article' ? 'article' : 'website' },
     { property: 'og:url', content: currentUrl },
     { property: 'og:site_name', content: 'فروشگاه مدیا' },
     { property: 'og:locale', content: 'fa_IR' },
     { property: 'og:image', content: imageUrl },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: () => props.title },
-    { name: 'twitter:description', content: () => props.description },
+    { name: 'twitter:title', content: () => seoTitle.value },
+    { name: 'twitter:description', content: () => seoDescription.value },
     { name: 'twitter:image', content: imageUrl },
   ],
   script: [
