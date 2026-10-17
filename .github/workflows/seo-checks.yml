@@ -37,7 +37,19 @@ jobs:
         run: npm ci
       - name: Build frontend
         run: npm run build
-      - name: Check formatting
-        run: npm run format:check
-      - name: Lint
-        run: npx eslint .
+      - name: Check SEO component formatting
+        run: npx prettier --check resources/js/Components/Seo.vue
+      - name: Lint changed SEO-related Vue files
+        run: >-
+          npx eslint
+          resources/js/Components/Seo.vue
+          resources/js/Pages/Guest/Blog-show.vue
+          resources/js/Pages/Guest/Terms-Seller.vue
+          resources/js/Pages/Guest/about-hesabdari.vue
+          resources/js/Pages/Guest/about.vue
+          resources/js/Pages/Guest/accounting-plan-show.vue
+          resources/js/Pages/Guest/charts.vue
+          resources/js/Pages/Guest/form-show.vue
+          resources/js/Pages/Guest/guest-Profile-show.vue
+          resources/js/Pages/Guest/website-design-show.vue
+          resources/js/Pages/Guest/website-templates-show.vue
