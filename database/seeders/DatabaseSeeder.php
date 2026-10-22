@@ -26,6 +26,5 @@ class DatabaseSeeder extends Seeder
         RoleUser::factory(1)->create();
         Identity::factory(1)->create();
         Profile::factory(1)->create();
-        $this->call(TaxCompliance1405BlogSeeder::class);
     }
 }
