@@ -15,7 +15,9 @@
         <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 
         <link rel="stylesheet" href="{{ asset('assets/css/vendors/bootstrap.rtl.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}">
+        {{-- Icons are non-critical for first paint; load their stylesheet without blocking the initial render. --}}
+        <link rel="preload" as="style" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/css/vendors/uicons-regular-straight.css') }}"></noscript>
         <link rel="preload" as="style" href="{{ asset('assets/css/plugins/slick.css') }}" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="{{ asset('assets/css/plugins/slick.css') }}"></noscript>
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
@@ -30,6 +32,35 @@
         @endif
 
         <style>
+            /* Show useful feedback while the client-side Inertia app boots. */
+            #initial-loader {
+                position: fixed;
+                inset: 0;
+                z-index: 99999;
+                display: grid;
+                place-content: center;
+                gap: 12px;
+                background: #fff;
+                color: #374151;
+                text-align: center;
+                font: 14px/1.6 system-ui, sans-serif;
+                transition: opacity .2s ease;
+            }
+            #initial-loader .loader-spinner {
+                width: 32px;
+                height: 32px;
+                margin: 0 auto;
+                border: 3px solid #e5e7eb;
+                border-top-color: #16a34a;
+                border-radius: 50%;
+                animation: initial-loader-spin .75s linear infinite;
+            }
+            @keyframes initial-loader-spin {
+                to { transform: rotate(360deg); }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                #initial-loader .loader-spinner { animation-duration: 1.8s; }
+            }
             /* Ensure regular-straight UI icons render consistently across Inertia pages. */
             i.fi-rs-check::before {
                 font-family: uicons-regular-straight !important;
@@ -55,6 +86,10 @@
         @inertiaHead
     </head>
     <body>
+        <div id="initial-loader" role="status" aria-live="polite">
+            <span class="loader-spinner" aria-hidden="true"></span>
+            <span>در حال بارگذاری فروشگاه مدیا…</span>
+        </div>
         @inertia
     </body>
 </html>
