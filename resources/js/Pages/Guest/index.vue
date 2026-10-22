@@ -5,7 +5,6 @@ import Footer from './Footer2.vue';
 import Header from './Header2.vue';
 import Seo from '@/Components/Seo.vue';
 import { useForm, usePage,Link} from '@inertiajs/vue3';
-import swal from 'sweetalert2';
 
 const errors = computed(() => usePage().props.errors);
 
@@ -49,8 +48,15 @@ const submitWeb = (id) => {
   form.post(route('cart.store'));
 };
 
-watch(() => props.alert, (val) => {
+let swalPromise;
+const loadSwal = () => {
+  swalPromise ??= import('sweetalert2').then(({ default: swal }) => swal);
+  return swalPromise;
+};
+
+watch(() => props.alert, async (val) => {
   if (val) {
+    const swal = await loadSwal();
     if (val.title) {
       swal.fire(val.title, val.text, val.icon);
     } else {
@@ -72,13 +78,14 @@ watch(() => props.alert, (val) => {
   }
 });
 
-watch(errors, (newErrors) => {
+watch(errors, async (newErrors) => {
   const errorMessages = Object.values(newErrors)
     .flat()
     .map(msg => `${msg}<br>`)
     .join('')
 
   if (errorMessages) {
+    const swal = await loadSwal();
     swal.mixin({
       toast: true,
       position: 'top-end',
