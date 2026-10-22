@@ -114,7 +114,7 @@ HTML;
 
         $blog->menus()->syncWithoutDetaching([$group->id, $type->id]);
 
-        $svgPath = 'images/tax-compliance-1405.svg';
+        $svgPath = '/images/tax-compliance-1405.svg';
         Storage::disk('local')->put($svgPath, $this->coverSvg());
 
         Image::query()->updateOrCreate(
@@ -126,17 +126,21 @@ HTML;
     private function coverSvg(): string
     {
         return <<<'SVG'
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
-<defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#243b53"/></linearGradient><linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#e8eef5"/></linearGradient></defs>
-<rect width="1600" height="900" fill="url(#b)"/><circle cx="1400" cy="140" r="230" fill="#fff" opacity=".06"/><circle cx="150" cy="780" r="280" fill="#fff" opacity=".05"/>
-<rect x="170" y="155" width="1260" height="590" rx="34" fill="url(#c)"/>
-<rect x="245" y="235" width="310" height="385" rx="22" fill="#d8e1ea"/><rect x="285" y="275" width="230" height="42" rx="10" fill="#fff"/><rect x="285" y="345" width="190" height="20" rx="10" fill="#aebdcb"/><rect x="285" y="385" width="210" height="20" rx="10" fill="#aebdcb"/><rect x="285" y="425" width="160" height="20" rx="10" fill="#aebdcb"/>
-<rect x="285" y="485" width="230" height="90" rx="14" fill="#fff"/><path d="M325 545 L365 505 L405 530 L465 470" fill="none" stroke="#243b53" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="625" y="325" font-family="Tahoma,Arial,sans-serif" font-size="62" font-weight="700" fill="#101827">تکالیف مالیاتی و بیمه‌ای</text>
-<text x="625" y="405" font-family="Tahoma,Arial,sans-serif" font-size="48" fill="#243b53">بنگاه‌های اقتصادی در ایران</text>
-<text x="625" y="490" font-family="Tahoma,Arial,sans-serif" font-size="58" font-weight="700" fill="#101827">سال ۱۴۰۵</text>
-<text x="625" y="570" font-family="Arial,sans-serif" font-size="30" letter-spacing="2" fill="#52606d">TAX • VAT • E-INVOICE • SOCIAL SECURITY</text>
-<rect x="625" y="625" width="410" height="6" rx="3" fill="#243b53" opacity=".25"/><text x="625" y="680" font-family="Tahoma,Arial,sans-serif" font-size="26" fill="#52606d">راهنمای عملی کنترل و کاهش ریسک جرائم</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#284b63"/></linearGradient><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#e8eef5"/></linearGradient></defs>
+<rect width="300" height="300" rx="22" fill="url(#bg)"/>
+<circle cx="270" cy="28" r="64" fill="#fff" opacity=".06"/><circle cx="18" cy="280" r="75" fill="#fff" opacity=".05"/>
+<rect x="18" y="18" width="264" height="264" rx="18" fill="url(#paper)"/>
+<rect x="34" y="36" width="232" height="5" rx="2.5" fill="#d5a84f"/>
+<g text-anchor="middle" font-family="Tahoma,Arial,sans-serif" fill="#101827">
+<text x="150" y="86" font-size="20" font-weight="700">تکالیف مالیاتی</text>
+<text x="150" y="115" font-size="18" font-weight="700">و بیمه‌ای</text>
+<text x="150" y="143" font-size="13" fill="#284b63">بنگاه‌های اقتصادی ایران</text>
+</g>
+<rect x="42" y="160" width="216" height="57" rx="10" fill="#dce5ec"/>
+<g stroke="#284b63" stroke-width="4" stroke-linecap="round" fill="none"><path d="M58 202l22-19 19 9 24-24 18 12"/><path d="M161 198h75"/><path d="M161 183h55"/></g>
+<rect x="42" y="229" width="216" height="34" rx="9" fill="#243b53"/>
+<text x="150" y="251" font-family="Tahoma,Arial,sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">سال ۱۴۰۵</text>
 </svg>
 SVG;
     }
