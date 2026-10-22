@@ -102,12 +102,19 @@ else
 
 };
 
-// فقط در محیط مرورگر
+// یکسان‌سازی مسیر تصاویر بلاگ؛ تصاویر داخل public/images نباید از /storage بارگذاری شوند.
 const blogImageUrl = (blog) => {
     const url = String(blog?.image?.url || '').trim()
     if (!url) return ''
-    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//') || url.startsWith('/')) return url
-    return '/storage/' + url
+    if (/^(https?:)?\/\//i.test(url)) return url
+
+    const cleanPath = url.replace(/^\/+/, '')
+    const path = cleanPath.startsWith('images/')
+        ? '/' + cleanPath
+        : '/' + cleanPath.replace(/^storage\/+/, 'storage/')
+
+    const baseUrl = String(usePage().props?.ziggy?.url || '').replace(/\/+$/, '')
+    return baseUrl ? new URL(path, baseUrl + '/').toString() : path
 }
 
 const getPageUrl = (baseUrl, page) => {
@@ -183,7 +190,7 @@ const getPageUrl = (baseUrl, page) => {
                                         <div class="post-thumb" >
                                             <Link :href="route('blog.show',[blog.slug])" >
 
-                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url + blogImageUrl(blog)" width="300" height="300" class="border-radius-15" :alt="blog.name">
+                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="blogImageUrl(blog)" width="300" height="300" class="border-radius-15" :alt="blog.name">
                                                 <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" class="border-radius-15" :alt="props.companies.name">
                                             </Link>
                                             <div class="entry-meta">
