@@ -380,7 +380,7 @@ if (props.discounts.data) {
                     <div class="tab-pane fade show active">
                         <div class="row product-grid-4">
                             <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="(result,index) in props.blogs" :key="index">
-                                <div class="product-cart-wrap mb-30 wow animate__animated animate__fadeIn">
+                                <div class="product-cart-wrap blog-card-wrap mb-30 wow animate__animated animate__fadeIn">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link :href="route('blog.show',[result.slug])" v-if="result.image && (result.image.status == 4 || result.image.status == 5)">
@@ -463,5 +463,5 @@ if (props.discounts.data) {
 .product-cart-wrap .add-cart{flex:0 0 auto}
 .product-cart-wrap .add-cart .add{display:inline-flex;align-items:center;justify-content:center;min-width:82px;border-radius:10px;padding:9px 13px;background:#3bb77e;color:#fff!important;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 5px 13px rgba(59,183,126,.22);transition:transform .2s ease,background .2s ease}
 .product-cart-wrap .add-cart .add:hover{background:#2fa66e;transform:translateY(-1px)}
-@media(max-width:575px){.product-cart-wrap .product-content-wrap{min-height:225px;padding:13px 13px 15px}.product-cart-wrap h2{font-size:15px;line-height:1.7;min-height:51px;max-height:51px}.product-cart-wrap .product-price>span:first-child{font-size:17px}.product-cart-wrap .add-cart .add{min-width:74px;padding:8px 10px;font-size:12px}}
+.blog-card-wrap .product-img-action-wrap{aspect-ratio:1/1;overflow:hidden}\n.blog-card-wrap .product-img{width:100%;height:100%;aspect-ratio:1/1}\n.blog-card-wrap .product-img>a{width:100%;height:100%;flex:1 1 100%}\n.blog-card-wrap .product-img img{width:100%;height:100%;object-fit:contain!important;object-position:center}\n@media(max-width:575px){.product-cart-wrap .product-content-wrap{min-height:225px;padding:13px 13px 15px}.product-cart-wrap h2{font-size:15px;line-height:1.7;min-height:51px;max-height:51px}.product-cart-wrap .product-price>span:first-child{font-size:17px}.product-cart-wrap .add-cart .add{min-width:74px;padding:8px 10px;font-size:12px}}
 </style>
