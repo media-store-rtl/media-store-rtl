@@ -114,12 +114,13 @@ HTML;
 
         $blog->menus()->syncWithoutDetaching([$group->id, $type->id]);
 
-        $svgPath = '/images/tax-compliance-1405.svg';
-        Storage::disk('local')->put($svgPath, $this->coverSvg());
+        // Store a copy on Laravel's public disk so legacy /storage/images URLs work too.
+        $svgPath = 'images/tax-compliance-1405.svg';
+        Storage::disk('public')->put($svgPath, $this->coverSvg());
 
         Image::query()->updateOrCreate(
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
-            ['user_id' => $user->id, 'url' => $svgPath, 'status' => 4]
+            ['user_id' => $user->id, 'url' => '/' . $svgPath, 'status' => 4]
         );
     }
 
