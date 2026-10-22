@@ -5,4 +5,5 @@ deployment:
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm ci'
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && npm run build:ssr'
     - /bin/bash -lc 'cd /home/mediast1/repositories/media-store-rtl && /bin/tar --exclude=.git --exclude=node_modules --exclude=storage --exclude=public/storage --exclude=public/storage_old --exclude=.env -cf - . | /bin/tar -C /home/mediast1 -xf -'
+    - /bin/bash -lc 'mkdir -p /home/mediast1/public/storage/images && cp /home/mediast1/public/images/tax-compliance-1405.svg /home/mediast1/public/storage/images/tax-compliance-1405.svg && chmod 644 /home/mediast1/public/storage/images/tax-compliance-1405.svg'
     - /bin/bash -lc 'cd /home/mediast1 && php artisan optimize:clear && php artisan optimize'
