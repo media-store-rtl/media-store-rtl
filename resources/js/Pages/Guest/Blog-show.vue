@@ -14,8 +14,14 @@ const seoDescription = computed(() => {
 const blogImageUrl = computed(() => {
     const url = String(props.product.image?.url || '').trim()
     if (!url) return ''
-    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//') || url.startsWith('/')) return url
-    return '/storage/' + url
+    if (/^(https?:)?\/\//i.test(url)) return url
+
+    const cleanPath = url.replace(/^\/+/, '')
+    const path = cleanPath.startsWith('images/')
+        ? '/' + cleanPath
+        : '/' + cleanPath.replace(/^storage\/+/, 'storage/')
+
+    return seoSiteUrl.value ? new URL(path, seoSiteUrl.value + '/').toString() : path
 })
 
 const seoBlogSchema = computed(() => ({
@@ -322,7 +328,7 @@ if (props.product && props.product.menus && props.product.menus.length > 0) {
                                 </div>
                             </div>
                             <figure class="single-thumbnail">
-                                <img style="margin: auto;" v-if="props.product && props.product.image && props.product.image.status == 4" :src="$page.props.ziggy.url + blogImageUrl" :alt="props.product.title">
+                                <img style="margin: auto;" v-if="props.product && props.product.image && props.product.image.status == 4" :src="blogImageUrl" :alt="props.product.title">
                             </figure>
                             <div class="single-content">
                                 <div class="row">
