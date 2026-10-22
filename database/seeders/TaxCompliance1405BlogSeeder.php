@@ -7,7 +7,6 @@ use App\Models\Image;
 use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class TaxCompliance1405BlogSeeder extends Seeder
 {
@@ -114,13 +113,10 @@ HTML;
 
         $blog->menus()->syncWithoutDetaching([$group->id, $type->id]);
 
-        // Store a copy on Laravel's public disk so legacy /storage/images URLs work too.
-        $svgPath = 'images/tax-compliance-1405.svg';
-        Storage::disk('public')->put($svgPath, $this->coverSvg());
-
+        // The SVG is committed under public/images; reference it directly, not via /storage.
         Image::query()->updateOrCreate(
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
-            ['user_id' => $user->id, 'url' => '/' . $svgPath, 'status' => 4]
+            ['user_id' => $user->id, 'url' => '/images/tax-compliance-1405.svg', 'status' => 4]
         );
     }
 
