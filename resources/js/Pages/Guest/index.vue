@@ -35,15 +35,15 @@ onMounted(() => {
 const imageUrl = (image) => {
   const rawUrl = String(image?.url || '').trim();
   if (!rawUrl) return '';
-  if (/^(https?:)?\\/\\//i.test(rawUrl)) return rawUrl;
+  if (/^(https?:)?\/\//i.test(rawUrl)) return rawUrl;
 
-  const cleanPath = rawUrl.replace(/^\\/+/, '');
-  const baseUrl = String(usePage().props?.ziggy?.url || '').replace(/\\/+$/, '');
+  const cleanPath = rawUrl.replace(/^\/+/, '');
+  const baseUrl = String(usePage().props?.ziggy?.url || '').replace(/\/+$/, '');
 
   // This cover is committed under public/images, not storage/app/public/images.
   const publicImagePath = cleanPath === 'images/tax-compliance-1405.svg'
     ? '/images/tax-compliance-1405.svg'
-    : (rawUrl.startsWith('/') && cleanPath.startsWith('images/') ? '/' + cleanPath : '/storage/' + cleanPath.replace(/^storage\\/+/, ''));
+    : (rawUrl.startsWith('/') && cleanPath.startsWith('images/') ? '/' + cleanPath : '/storage/' + cleanPath.replace(/^storage\/+/, ''));
 
   return baseUrl + publicImagePath;
 };
