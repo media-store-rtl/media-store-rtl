@@ -183,8 +183,8 @@ const getPageUrl = (baseUrl, page) => {
                                         <div class="post-thumb" >
                                             <Link :href="route('blog.show',[blog.slug])" >
 
-                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url + blogImageUrl(blog)" width="300" height="200" class="border-radius-15" :alt="blog.name">
-                                                <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="200" class="border-radius-15" :alt="props.companies.name">
+                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url + blogImageUrl(blog)" width="300" height="300" class="border-radius-15" :alt="blog.name">
+                                                <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" class="border-radius-15" :alt="props.companies.name">
                                             </Link>
                                             <div class="entry-meta">
                                                 <!-- <a class="entry-meta meta-2" href="blog-category-grid.html"><i class="fi-rs-heart"></i></a> -->
@@ -219,8 +219,8 @@ const getPageUrl = (baseUrl, page) => {
                                         <div class="post-thumb" >
                                             <Link :href="route('blog.show',[blog.slug])" v-if="blog.type">
 
-                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+blog.image.url" width="300" height="200" class="border-radius-15" :alt="blog.name">
-                                                <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="200" class="border-radius-15" :alt="props.companies.name">
+                                                <img v-if="blog.image && blog.image.status == 4" loading="lazy" decoding="async" :src="$page.props.ziggy.url + blogImageUrl(blog)" width="300" height="300" class="border-radius-15" :alt="blog.name">
+                                                <img v-else-if="props.companies" loading="lazy" decoding="async" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" width="300" height="300" class="border-radius-15" :alt="props.companies.name">
                                             </Link>
                                             <div class="entry-meta">
                                                 <!-- <a class="entry-meta meta-2" href="blog-category-grid.html"><i class="fi-rs-heart"></i></a> -->
