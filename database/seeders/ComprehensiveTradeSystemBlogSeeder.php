@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\\Seeders;
+namespace Database\Seeders;
 
-use App\\Models\\Blog;
-use App\\Models\\Image;
-use App\\Models\\Menu;
-use App\\Models\\User;
-use Illuminate\\Database\\Seeder;
+use App\Models\Blog;
+use App\Models\Image;
+use App\Models\Menu;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ComprehensiveTradeSystemBlogSeeder extends Seeder
 {
@@ -22,14 +22,14 @@ class ComprehensiveTradeSystemBlogSeeder extends Seeder
             ->get();
 
         if ($groups->isEmpty()) {
-            throw new \\RuntimeException('No blog group menu was found.');
+            throw new \RuntimeException('No blog group menu was found.');
         }
 
         $group = $groups->first();
         $type = $group->children->first();
 
         if (!$type) {
-            throw new \\RuntimeException('No blog article type was found under the selected group.');
+            throw new \RuntimeException('No blog article type was found under the selected group.');
         }
 
         $title = 'راهنمای سامانه جامع تجارت ایران؛ اشخاص مشمول، کالاها، تکالیف و ضمانت اجراها';
