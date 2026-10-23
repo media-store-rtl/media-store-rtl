@@ -40,6 +40,21 @@
 - **مشاهده آزمون‌ها:** ساختار tests شامل آزمون‌های احراز هویت و تنظیمات و چند آزمون نمونه است؛ پوشش سفارش، پرداخت، اقساط و SSO در این مرور اولیه تأیید نشده است.
 - **گام بعدی:** بازبینی دقیق کنترل دسترسی و جریان‌های سفارش/پرداخت/SSO، سپس اجرای آزمون‌های هدفمند در محیط مناسب.
 
+### 2026-10-23 — رفع مشکل دسترسی تصاویر Storage در cPanel
+- **هدف:** رفع پاسخ HTTP 403 برای تصویر وبلاگ در مسیر /storage/images/.
+- **محیط:** دامنه https://web2022.ir؛ مخزن در /home/mediast1/repositories/media-store-rtl؛ مسیر وب واقعی /home/mediast1/public و /home/mediast1/public_html یک لینک به آن است.
+- **علت تأییدشده:** لینک زنده /home/mediast1/public/storage به مسیر قدیمی /home/mediast1/storage/app/public اشاره می‌کرد، در حالی که فایل‌ها در /home/mediast1/repositories/media-store-rtl/storage/app/public قرار داشتند. اصلاح repositories/media-store-rtl/public/storage به‌تنهایی مشکل سایت زنده را حل نکرد، چون دامنه از /home/mediast1/public سرویس می‌شود.
+- **تغییر اعمال‌شده روی سرور:** لینک زنده /home/mediast1/public/storage اصلاح شد تا به /home/mediast1/repositories/media-store-rtl/storage/app/public اشاره کند. این تغییر دستی روی سرور انجام شد؛ به‌خودی‌خود در Git ثبت نشده است.
+- **آزمون اجراشده:** اجرای curl روی https://web2022.ir/storage/images/samaneh-jame-anbarha.svg پس از اصلاح، HTTP 200 برگرداند و کاربر تأیید کرد تصویر در مرورگر نمایش داده شد.
+- **تصاویر مرتبط:** tax-compliance-1405.svg، samaneh-jame-tejarat.svg و samaneh-jame-anbarha.svg در storage/app/public/images/ قرار دارند. فقط samaneh-jame-anbarha.svg با HTTP 200 تأیید شده؛ دو URL دیگر هنوز جداگانه تأیید نشده‌اند.
+- **نکته نگهداری:** اگر دوباره 403/404 رخ داد، ابتدا هر دو لینک را بررسی کنید:
+  ```bash
+  readlink /home/mediast1/repositories/media-store-rtl/public/storage
+  readlink /home/mediast1/public/storage
+  ```
+  مقصد مورد انتظار برای لینک زنده /home/mediast1/public/storage برابر /home/mediast1/repositories/media-store-rtl/storage/app/public است. از chmod 777 استفاده نکنید؛ مسیر document root، مقصد symlink، مجوز عبور از پوشه‌ها و محدودیت‌های هاست را بررسی کنید.
+- **آزمون‌ها/محدودیت‌ها:** این کار عیب‌یابی استقرار بود؛ آزمون‌های PHPUnit/Pest اجرا نشدند. وضعیت دسترسی دو تصویر دیگر هنوز باید بررسی شود.
+- **ارجاع:** این رخداد در PROJECT_PROGRESS.md ثبت شده است؛ PR مستندات جداگانه قبلی شماره 16 بود.
 ## قالب ثبت کارهای بعدی
 - **تاریخ:**
 - **هدف:**
