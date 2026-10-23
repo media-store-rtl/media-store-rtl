@@ -29,6 +29,9 @@ jobs:
           extensions: mbstring, pdo_sqlite, sqlite3, bcmath, gd, intl, xml, curl, zip
           coverage: none
 
+      - name: Prepare Laravel cache directory
+        run: mkdir -p bootstrap/cache
+
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
 
