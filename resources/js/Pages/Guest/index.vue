@@ -40,9 +40,9 @@ const imageUrl = (image) => {
   const cleanPath = rawUrl.replace(/^\/+/, '');
   const baseUrl = String(usePage().props?.ziggy?.url || '').replace(/\/+$/, '');
 
-  // This cover is committed under public/images, not storage/app/public/images.
+  // Legacy blog cover paths must resolve through Laravel's public storage symlink.
   const publicImagePath = cleanPath === 'images/tax-compliance-1405.svg'
-    ? '/images/tax-compliance-1405.svg'
+    ? '/storage/images/tax-compliance-1405.svg'
     : (rawUrl.startsWith('/') && cleanPath.startsWith('images/') ? '/' + cleanPath : '/storage/' + cleanPath.replace(/^storage\/+/, ''));
 
   return baseUrl + publicImagePath;
