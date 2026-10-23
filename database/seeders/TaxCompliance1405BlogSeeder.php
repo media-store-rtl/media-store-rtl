@@ -113,10 +113,10 @@ HTML;
 
         $blog->menus()->syncWithoutDetaching([$group->id, $type->id]);
 
-        // The SVG is committed under public/images; reference it directly, not via /storage.
+        // Store the image under storage/app/public/images so it is served via /storage/images.
         Image::query()->updateOrCreate(
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
-            ['user_id' => $user->id, 'url' => '/images/tax-compliance-1405.svg', 'status' => 4]
+            ['user_id' => $user->id, 'url' => 'images/tax-compliance-1405.svg', 'status' => 4]
         );
     }
 

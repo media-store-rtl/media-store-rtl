@@ -146,7 +146,7 @@ HTML;
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
             [
                 'user_id' => $user->id,
-                'url' => '/images/samaneh-jame-anbarha.svg',
+                'url' => 'images/samaneh-jame-anbarha.svg',
                 'status' => 4,
             ]
         );

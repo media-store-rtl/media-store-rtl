@@ -143,7 +143,7 @@ HTML;
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
             [
                 'user_id' => $user->id,
-                'url' => '/images/samaneh-jame-tejarat.svg',
+                'url' => 'images/samaneh-jame-tejarat.svg',
                 'status' => 4,
             ]
         );
