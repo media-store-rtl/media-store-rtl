@@ -117,7 +117,6 @@ HTML;
                 'title_en' => 'Iran Comprehensive Warehouses System: Registration, Inventory and Legal Duties',
                 'group' => $group->id,
                 'type' => $type->id,
-                'category' => 'راهنمای کسب‌وکار',
                 'text' => $html,
                 'status' => 4,
                 'tag' => 'سامانه جامع انبارها, شناسه انبار, قبض انبار, حواله انبار, سامانه جامع تجارت, موجودی کالا',
