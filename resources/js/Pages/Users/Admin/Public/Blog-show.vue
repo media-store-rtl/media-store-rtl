@@ -193,7 +193,7 @@ const type = () => {
         <div class="row content-header">
             <div class="d-flex col-sm-12">
                 <div class="content-title card-title" v-if="props.descriptions" v-html="props.descriptions.subject"></div>
-                <td class="d-flex ms-auto">
+                <div class="d-flex ms-auto align-items-center gap-2">
                     <select v-model.lazy="form.status" class="form-select">
                             <option value="0">ثبت</option>
                             <option value="1">انتظار</option>
@@ -206,7 +206,7 @@ const type = () => {
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="form.processing"></span>
                         <span v-else >ویرایش</span>
                     </button>
-                </td>
+                </div>
             </div>
             <div class="col-sm-12">
                 <div v-if="props.descriptions" v-html="props.descriptions.text"></div>
