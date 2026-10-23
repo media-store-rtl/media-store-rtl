@@ -37,9 +37,9 @@ const form = useForm({
     duration_days: plan.duration_days ?? 365,
     max_users: plan.max_users ?? 5,
     status: plan.status ?? 4,
-    group: getId(plan.group),
-    type: getId(plan.type),
-    category: getId(plan.category),
+    group: getId(plan.group_id),
+    type: getId(plan.type_id),
+    category: getId(plan.category_id),
     image: null,
     _method: 'put',
 });
@@ -68,7 +68,7 @@ const loadTypes = (reset = true) => {
     );
 
     if (!reset) {
-        form.type = getId(plan.type);
+        form.type = getId(plan.type_id);
     }
 
     loadCategories(false);
@@ -85,7 +85,7 @@ const loadCategories = (reset = true) => {
     );
 
     if (!reset) {
-        form.category = getId(plan.category);
+        form.category = getId(plan.category_id);
     }
 };
 
