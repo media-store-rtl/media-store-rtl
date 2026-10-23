@@ -1,0 +1,36 @@
+name: Warehouse blog seeder test
+
+on:
+  pull_request:
+    paths:
+      - 'database/seeders/ComprehensiveWarehouseSystemBlogSeeder.php'
+      - 'tests/Feature/ComprehensiveWarehouseSystemBlogSeederTest.php'
+      - 'database/migrations/**'
+      - 'app/Models/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/warehouse-seeder-test.yml'
+  push:
+    branches:
+      - main
+      - 'fix/warehouse-blog-category-selection'
+
+jobs:
+  warehouse-seeder-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_sqlite, sqlite3, bcmath, gd, intl, xml, curl, zip
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run the warehouse blog seeder feature tests
+        run: php artisan test --filter=ComprehensiveWarehouseSystemBlogSeederTest
