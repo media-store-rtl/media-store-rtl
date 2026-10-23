@@ -80,10 +80,21 @@ class BlogAdminController extends Controller
         Gate::authorize('create', $blog);
         // dd($request);
         $request->validate([
-            'title_en'=>'required|max:255',
+            'title_en' => 'required|max:255',
             'title' => 'required|max:255',
-            'text'=>'required',
+            'text' => 'required',
+            'group.id' => 'required|integer|exists:menus,id',
+            'type.id' => 'required|integer|exists:menus,id',
         ]);
+
+        $groupId = $request->input('group.id');
+        $typeId = $request->input('type.id');
+
+        if (! Menu::whereKey($typeId)->where('parent_id', $groupId)->exists()) {
+            return back()->withErrors([
+                'type' => 'نوع مقاله انتخاب‌شده متعلق به گروه انتخاب‌شده نیست.',
+            ])->withInput();
+        }
 
         if ($request->id)
         {
@@ -93,15 +104,15 @@ class BlogAdminController extends Controller
                 'slug'=>$request->slug,
                 'title' => $request->title,
                 'text'=>$request->text,
-                'group' => $request->group['id'],
-                'type' => $request->type['id'],
+                'group' => $groupId,
+                'type' => $typeId,
                 'status' => $request->status,
                 'tag' => $request->tag,
             ]);
 
             if($blogs)
             {
-                $categories = Menu::whereIn('id', [$request->group['id'], $request->type['id']])->get();
+                $categories = Menu::whereIn('id', [$groupId, $typeId])->get();
                 $blog->find($request->id)->menus()->sync($categories);
 
                 $blogs = $blog->with('image')->find($request->id);
@@ -176,14 +187,14 @@ class BlogAdminController extends Controller
                         'slug'=>$request->title,
                         'title' => $request->title,
                         'text'=>$request->text,
-                        'group' => $request->group['id'],
-                        'type' => $request->type['id'],
+                        'group' => $groupId,
+                        'type' => $typeId,
                         'tag'=>$request->tag,
                     ]);
 
                     if($blogs)
                     {
-                        $categories = Menu::whereIn('id', [$request->group['id'], $request->type['id']])->get();
+                        $categories = Menu::whereIn('id', [$groupId, $typeId])->get();
                         $blogs->menus()->attach($categories);
 
                         $images = $request->file('image')?$request->file('image')->store('images'):null;
