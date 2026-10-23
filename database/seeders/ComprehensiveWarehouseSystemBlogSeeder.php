@@ -16,8 +16,9 @@ class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
 
         $groups = Menu::query()
             ->whereNull('parent_id')
-            ->where('name', 'blogs')
-            ->with('children')
+            ->whereHas('sections', fn ($q) => $q->where('name', 'blogs'))
+            ->with(['children' => fn ($q) => $q->whereHas('sections', fn ($s) => $s->where('name', 'blogs'))])
+            ->orderBy('id')
             ->get();
 
         if ($groups->isEmpty() || $groups->first()->children->isEmpty()) {
