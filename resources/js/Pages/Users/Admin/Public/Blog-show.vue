@@ -74,8 +74,7 @@ if (props.menus && props.menus.length > 0) {
 
                         if(section.name == 'blogs' )
                         {
-                            menus.value.push(element),
-                            form.group = element
+                            menus.value.push(element)
 
                         }
                     });
@@ -85,6 +84,10 @@ if (props.menus && props.menus.length > 0) {
     });
 }
 
+// Restore the saved group by ID; serialized menu objects are not reference-equal.
+form.group = menus.value.find(element =>
+    String(element.id) === String(props.blog.group?.id ?? props.blog.group)
+) ?? null;
 
 const menu = ref([]);
 if (menus.value.length > 0) {
@@ -105,7 +108,9 @@ if (menus.value.length > 0) {
                                     {
 
                                         menu.value.push(child)
-                                        form.type = child
+                                        if (String(child.id) === String(props.blog.type?.id ?? props.blog.type)) {
+                                            form.type = child
+                                        }
                                     }
                                    
                                 });
@@ -120,10 +125,11 @@ if (menus.value.length > 0) {
 const sections = ref([]);
 
 const group = () => {
+    form.type = null;
+    sections.value.splice(0);
     if (menu.value.length > 0) {
         menu.value.splice(0)
     }
-    // form.type = null,
     menus.value.forEach(element => {
         if (form.group == element && element.children.length > 0 ) {
 
