@@ -161,12 +161,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'duration_days' => ['required', 'integer', 'min:1'],
             'max_users' => ['required', 'integer', 'min:1'],
             'status' => ['required', 'integer', 'in:4,5'],
-            'group' => ['required', 'array'],
-            'group.id' => ['required', 'integer', 'exists:menus,id'],
-            'type' => ['required', 'array'],
-            'type.id' => ['required', 'integer', 'exists:menus,id'],
-            'category' => ['nullable', 'array'],
-            'category.id' => ['nullable', 'integer', 'exists:menus,id'],
+            'group' => ['required', 'integer', 'exists:menus,id'],
+            'type' => ['required', 'integer', 'exists:menus,id'],
+            'category' => ['nullable', 'integer', 'exists:menus,id'],
             'image' => ['required', 'image', 'max:5120'],
         ]);
 
@@ -188,12 +185,12 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'duration_days' => $data['duration_days'],
             'max_users' => $data['max_users'],
             'status' => $data['status'],
-            'group' => $data['group']['id'],
-            'type' => $data['type']['id'],
-            'category' => $data['category']['id'] ?? null,
+            'group' => $data['group'],
+            'type' => $data['type'],
+            'category' => $data['category'] ?? null,
         ]);
 
-        $menuIds = array_filter([$data['group']['id'], $data['type']['id'], $data['category']['id'] ?? null]);
+        $menuIds = array_values(array_filter([$data['group'], $data['type'], $data['category'] ?? null]));
         $plan->menus()->sync(Menu::whereIn('id', $menuIds)->get());
 
         if ($request->hasFile('image')) {
@@ -225,12 +222,9 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'duration_days' => ['required', 'integer', 'min:1'],
             'max_users' => ['required', 'integer', 'min:1'],
             'status' => ['required', 'integer', 'in:4,5'],
-            'group' => ['required', 'array'],
-            'group.id' => ['required', 'integer', 'exists:menus,id'],
-            'type' => ['required', 'array'],
-            'type.id' => ['required', 'integer', 'exists:menus,id'],
-            'category' => ['nullable', 'array'],
-            'category.id' => ['nullable', 'integer', 'exists:menus,id'],
+            'group' => ['required', 'integer', 'exists:menus,id'],
+            'type' => ['required', 'integer', 'exists:menus,id'],
+            'category' => ['nullable', 'integer', 'exists:menus,id'],
             'image' => ['nullable', 'image', 'max:5120'],
         ]);
 
@@ -244,12 +238,12 @@ class AccountingSubscriptionPlanAdminController extends Controller
             'duration_days' => $data['duration_days'],
             'max_users' => $data['max_users'],
             'status' => $data['status'],
-            'group' => $data['group']['id'],
-            'type' => $data['type']['id'],
-            'category' => $data['category']['id'] ?? null,
+            'group' => $data['group'],
+            'type' => $data['type'],
+            'category' => $data['category'] ?? null,
         ]);
 
-        $menuIds = array_filter([$data['group']['id'], $data['type']['id'], $data['category']['id'] ?? null]);
+        $menuIds = array_values(array_filter([$data['group'], $data['type'], $data['category'] ?? null]));
         $plan->menus()->sync(Menu::whereIn('id', $menuIds)->get());
 
         if ($request->hasFile('image')) {
