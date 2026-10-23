@@ -18,7 +18,7 @@ const blogImageUrl = computed(() => {
 
     const cleanPath = url.replace(/^\/+/, '')
     const path = cleanPath.startsWith('images/')
-        ? '/' + cleanPath
+        ? '/storage/' + cleanPath
         : '/' + cleanPath.replace(/^storage\/+/, 'storage/')
 
     return seoSiteUrl.value ? new URL(path, seoSiteUrl.value + '/').toString() : path
