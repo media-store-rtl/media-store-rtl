@@ -92,8 +92,7 @@ class TaxCompliance1405BlogSeeder extends Seeder
 <p><strong>پیمانکار ← قرارداد ← بررسی ماده ۳۸ ← کسر و پرداخت‌های قانونی ← مفاصاحساب ← تسویه</strong></p>
 
 <h2>جمع‌بندی</h2>
-<p>بهترین روش کاهش ریسک مالیاتی و بیمه‌ای، ایجاد کنترل‌های کوچک و مستمر است. اگر اطلاعات فروش، حسابداری، بانک، سامانه مؤدیان، ارزش افزوده، حقوق و بیمه هر ماه با یکدیگر تطبیق داده شوند، بسیاری از اختلافات قبل از رسیدگی شناسایی می‌شوند.</p>
-<p><strong>تذکر:</strong> این مطلب آموزشی است و جایگزین مشاوره تخصصی یا آخرین بخشنامه‌های سازمان امور مالیاتی و سازمان تأمین اجتماعی نیست. برای تصمیم‌های اجرایی، وضعیت دقیق مؤدی، نوع فعالیت، معافیت‌ها و مقررات جاری باید جداگانه بررسی شود.</p>
+<p>بهترین روش کاهش ریسک مالیاتی و بیمه‌ای، ایجاد کنترل‌های کوچک و مستمر است. اگر اطلاعات فروش، حسابداری، بانک، سامانه مؤدیان، ارزش افزوده، حقوق و بیمه هر ماه با یکدیگر تطبیق داده شوند، بسیاری از خطاها پیش از رسیدگی قابل شناسایی و اصلاح خواهند بود.</p>
 </div>
 HTML;
 
@@ -116,7 +115,7 @@ HTML;
         // Store the image under storage/app/public/images so it is served via /storage/images.
         Image::query()->updateOrCreate(
             ['imageable_type' => Blog::class, 'imageable_id' => $blog->id],
-            ['user_id' => $user->id, 'url' => 'images/tax-compliance-1405.svg', 'status' => 4]
+            ['user_id' => $user->id, 'url' => '/storage/images/tax-compliance-1405.svg', 'status' => 4]
         );
     }
 
@@ -138,7 +137,6 @@ HTML;
 <g stroke="#284b63" stroke-width="4" stroke-linecap="round" fill="none"><path d="M58 202l22-19 19 9 24-24 18 12"/><path d="M161 198h75"/><path d="M161 183h55"/></g>
 <rect x="42" y="229" width="216" height="34" rx="9" fill="#243b53"/>
 <text x="150" y="251" font-family="Tahoma,Arial,sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">سال ۱۴۰۵</text>
-</svg>
 SVG;
     }
 }
