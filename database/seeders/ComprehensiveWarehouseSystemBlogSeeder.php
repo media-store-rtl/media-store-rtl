@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\\Seeders;
+namespace Database\Seeders;
 
-use App\\Models\\Blog;
-use App\\Models\\Image;
-use App\\Models\\Menu;
-use App\\Models\\User;
-use Illuminate\\Database\\Seeder;
+use App\Models\Blog;
+use App\Models\Image;
+use App\Models\Menu;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
 {
@@ -23,12 +23,12 @@ class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
 
         $group = $groups->first(fn ($item) => $item->name === 'راهنمای کاربردی');
         if (!$group) {
-            throw new \\RuntimeException('The "راهنمای کاربردی" blog group was not found.');
+            throw new \RuntimeException('The "راهنمای کاربردی" blog group was not found.');
         }
 
         $type = $group->children->first(fn ($item) => $item->name === 'آموزشی');
         if (!$type) {
-            throw new \\RuntimeException('The "آموزشی" blog type was not found.');
+            throw new \RuntimeException('The "آموزشی" blog type was not found.');
         }
 
         // Keep the existing slug so the current public article URL is updated in place.
