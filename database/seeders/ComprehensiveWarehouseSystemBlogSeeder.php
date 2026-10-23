@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\\Seeders;
+namespace Database\Seeders;
 
-use App\\Models\\Blog;
-use App\\Models\\Image;
-use App\\Models\\Menu;
-use App\\Models\\User;
-use Illuminate\\Database\\Seeder;
+use App\Models\Blog;
+use App\Models\Image;
+use App\Models\Menu;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
 {
@@ -22,7 +22,7 @@ class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
             ->get();
 
         if ($groups->isEmpty() || $groups->first()->children->isEmpty()) {
-            throw new \\RuntimeException('Blog menu groups or blog types were not found.');
+            throw new \RuntimeException('Blog menu groups or blog types were not found.');
         }
 
         $group = $groups->first();
