@@ -1,0 +1,59 @@
+name: Warehouse blog seeder test
+
+on:
+  pull_request:
+    paths:
+      - 'database/seeders/ComprehensiveWarehouseSystemBlogSeeder.php'
+      - 'tests/Feature/ComprehensiveWarehouseSystemBlogSeederTest.php'
+      - 'database/migrations/**'
+      - 'app/Models/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/warehouse-seeder-test.yml'
+  push:
+    branches:
+      - main
+      - 'fix/warehouse-blog-category-selection'
+
+jobs:
+  warehouse-seeder-test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: laravel_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -ppassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: laravel_test
+      DB_USERNAME: root
+      DB_PASSWORD: password
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, pdo_sqlite, sqlite3, bcmath, gd, intl, xml, curl, zip
+          coverage: none
+
+      - name: Prepare Laravel cache directory
+        run: mkdir -p bootstrap/cache
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run the warehouse blog seeder feature tests
+        run: php artisan test --filter=ComprehensiveWarehouseSystemBlogSeederTest

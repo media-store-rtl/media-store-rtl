@@ -21,12 +21,22 @@ class ComprehensiveWarehouseSystemBlogSeeder extends Seeder
             ->orderBy('id')
             ->get();
 
-        if ($groups->isEmpty() || $groups->first()->children->isEmpty()) {
-            throw new \RuntimeException('Blog menu groups or blog types were not found.');
+        $group = $groups->first(
+            fn ($item) => $item->name === 'راهنمای کاربردی'
+        );
+
+        if (!$group) {
+            throw new \RuntimeException('The "راهنمای کاربردی" blog group was not found.');
         }
 
-        $group = $groups->first();
-        $type = $group->children->first();
+        $type = $group->children->first(
+            fn ($item) => $item->name === 'آموزشی'
+        );
+
+        if (!$type) {
+            throw new \RuntimeException('The "آموزشی" blog type was not found.');
+        }
+
         $slug = 'samaneh-jame-anbarha-guide';
 
         $html = <<<'HTML'
