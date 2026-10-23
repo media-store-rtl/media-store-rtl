@@ -1,21 +1,21 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\\Feature;
 
-use App\Models\Blog;
-use App\Models\Image;
-use App\Models\Menu;
-use App\Models\User;
-use Database\Seeders\ComprehensiveWarehouseSystemBlogSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-use Tests\TestCase;
+use App\\Models\\Blog;
+use App\\Models\\Image;
+use App\\Models\\Menu;
+use App\\Models\\User;
+use Database\\Seeders\\ComprehensiveWarehouseSystemBlogSeeder;
+use Illuminate\\Foundation\\Testing\\RefreshDatabase;
+use Illuminate\\Support\\Facades\\DB;
+use Tests\\TestCase;
 
 class ComprehensiveWarehouseSystemBlogSeederTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_creates_the_warehouse_article_in_the_expected_blog_category_with_an_image(): void
+    public function test_it_creates_the_trade_system_article_in_the_expected_blog_category_with_an_image(): void
     {
         $user = User::factory()->create();
 
@@ -48,10 +48,13 @@ class ComprehensiveWarehouseSystemBlogSeederTest extends TestCase
 
         $blog = Blog::query()->where('slug', 'samaneh-jame-anbarha-guide')->firstOrFail();
 
+        $this->assertSame('بررسی سامانه جامع تجارت ایران؛ مبانی قانونی، اشخاص مشمول، کالاهای مشمول و ضمانت اجراها', $blog->title);
         $this->assertSame($group->id, (int) $blog->group);
         $this->assertSame($type->id, (int) $blog->type);
         $this->assertSame(4, (int) $blog->status);
-        $this->assertStringContainsString('سامانه جامع انبارها', $blog->text);
+        $this->assertStringContainsString('سامانه جامع تجارت ایران', $blog->text);
+        $this->assertStringContainsString('شناسه رهگیری', $blog->text);
+        $this->assertStringNotContainsString('سامانه جامع انبارها و مراکز نگهداری کالا برای شناسایی محل‌های نگهداری کالا', $blog->text);
 
         $this->assertDatabaseHas('images', [
             'imageable_type' => Blog::class,
@@ -109,6 +112,7 @@ class ComprehensiveWarehouseSystemBlogSeederTest extends TestCase
 
         $this->assertSame(1, Blog::query()->where('slug', 'samaneh-jame-anbarha-guide')->count());
         $blog = Blog::query()->where('slug', 'samaneh-jame-anbarha-guide')->firstOrFail();
+        $this->assertSame('بررسی سامانه جامع تجارت ایران؛ مبانی قانونی، اشخاص مشمول، کالاهای مشمول و ضمانت اجراها', $blog->title);
         $this->assertSame(1, Image::query()
             ->where('imageable_type', Blog::class)
             ->where('imageable_id', $blog->id)
