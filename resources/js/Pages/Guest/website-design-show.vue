@@ -299,7 +299,7 @@ const submitReply = (id) => {
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="detail-info pr-30 pl-30">
                                         <span class="stock-status out-stock" v-if="props.tarahis.discount"> تخفیف </span>
-                                        <h2 class="title-detail">{{  props.tarahis.name }}</h2>
+                                        <h1 class="title-detail">{{  props.tarahis.name }}</h1>
                                         <div class="product-detail-rating">
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
@@ -414,7 +414,7 @@ const submitReply = (id) => {
                                         </div>
                                         <div class="tab-pane fade" id="Vendor-info">
                                             <div class="vendor-logo d-flex mb-30">
-                                                <img v-if="props.tarahis.user && props.tarahis.user.image" :src="$page.props.ziggy.url + '/storage/' + props.tarahis.user.image.url" alt="" />
+                                                <img v-if="props.tarahis.user && props.tarahis.user.image" :src="$page.props.ziggy.url + '/storage/' + props.tarahis.user.image.url"  :alt="'تصویر پروفایل مجری ' + (props.tarahis.user.name || '')" />
                                                 <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="" />
                                                 <div class="vendor-name ml-15">
                                                     <h6>
