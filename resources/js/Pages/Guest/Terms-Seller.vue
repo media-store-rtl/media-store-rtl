@@ -27,7 +27,7 @@ const props = defineProps({
                                 <div class="col-lg-9">
                                     <div class="single-page pr-30 mb-lg-0 mb-sm-5">
                                         <div class="single-header style-2">
-                                            <h2>{{ props.pages.title }}</h2>
+                                            <h1>{{ props.pages.title }}</h1>
                                             <div class="entry-meta meta-1 meta-3 font-xs mt-15 mb-15">
                                                 <span class="post-by">توسط <Link :href="route('profile.show',[props.pages.user.user_name])">{{ props.pages.user.name_show }}</Link></span>
                                                 <span class="post-on has-dot">تاریخ {{ moment(props.pages.created_at).locale("fa", fa).format('jYYYY/jM/jD') }}</span>

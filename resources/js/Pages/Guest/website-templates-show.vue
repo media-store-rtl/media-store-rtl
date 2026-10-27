@@ -391,7 +391,7 @@ const groupedTests = computed(() => {
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="detail-info pr-30 pl-30">
                                         <span class="stock-status out-stock" v-if="props.product.discount"> تخفیف </span>
-                                        <h2 class="title-detail">{{ props.product.name }}</h2>
+                                        <h1 class="title-detail">{{ props.product.name }}</h1>
                                         <div class="product-detail-rating">
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">

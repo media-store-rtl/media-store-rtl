@@ -124,11 +124,11 @@ const submitQuickview = (result) =>{
                     <div class="col-xl-10 col-lg-12 m-auto">
                         <section class="row align-items-center mb-50">
                             <div class="col-lg-6">
-                                <img  v-if="props.companies" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4" />
+                                <img  v-if="props.companies" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url"  :alt="'خدمات حسابداری و حسابرسی ' + (props.companies?.name_show || '')" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4" />
                             </div>
                             <div class="col-lg-6">
                                 <div class="pr-25">
-                                    <h2 class="mb-30" v-if="props.companies"> به {{ props.companies.name_show }} خوش آمدید </h2>
+                                    <h1 class="mb-30" v-if="props.companies"> به {{ props.companies.name_show }} خوش آمدید </h1>
                                     <p class="mb-25" v-if="props.companies">
                                     {{ props.companies.name_show }} یک مجموعه تخصصی در حوزه خدمات حسابداری و حسابرسی است که با هدف ارتقای شفافیت مالی، نظم‌بخشی به امور مالی و بهبود فرآیندهای مدیریتی راه‌اندازی شده است.
                                     </p>
@@ -227,7 +227,7 @@ const submitQuickview = (result) =>{
                                 </div>
                                 <div class="col-lg-5">
                                     <h4 class="mb-20 text-muted">عملکرد و تجربه ما</h4>
-                                    <h1 class="heading-1 mb-40">همراه مطمئن شما در امور مالی و حسابرسی</h1>
+                                    <h2 class="heading-1 mb-40">همراه مطمئن شما در امور مالی و حسابرسی</h2>
 
                                     <p class="mb-30" v-if="props.companies">
                                         {{ props.companies.name_show }} مجموعه‌ای تخصصی در زمینه خدمات حسابداری، حسابرسی و مشاوره مالیاتی است که با هدف ایجاد شفافیت مالی و ارتقای سلامت اقتصادی کسب‌وکارها فعالیت می‌کند.
