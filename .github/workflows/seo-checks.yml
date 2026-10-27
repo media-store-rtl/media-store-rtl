@@ -37,9 +37,13 @@ jobs:
         run: npm ci
       - name: Build frontend
         run: npm run build
-      - name: Lint SEO component
+      - name: Lint SEO-related Vue files
         run: >-
           npx eslint
           --rule 'vue/block-lang: off'
           --rule 'vue/valid-template-root: off'
           resources/js/Components/Seo.vue
+          resources/js/Pages/Guest/Terms-Seller.vue
+          resources/js/Pages/Guest/about-hesabdari.vue
+          resources/js/Pages/Guest/website-design-show.vue
+          resources/js/Pages/Guest/website-templates-show.vue
