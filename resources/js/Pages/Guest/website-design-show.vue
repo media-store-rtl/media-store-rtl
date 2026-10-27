@@ -414,7 +414,7 @@ const submitReply = (id) => {
                                         </div>
                                         <div class="tab-pane fade" id="Vendor-info">
                                             <div class="vendor-logo d-flex mb-30">
-                                                <img v-if="props.tarahis.user && props.tarahis.user.image" :src="$page.props.ziggy.url + '/storage/' + props.tarahis.user.image.url"  :alt="'تصویر پروفایل مجری ' + (props.tarahis.user.name || '')" />
+                                                <img v-if="props.tarahis.user && props.tarahis.user.image" :src="$page.props.ziggy.url + '/storage/' + props.tarahis.user.image.url"  :alt="'تصویر پروفایل مجری ' + (props.tarahis.user.name_show || props.tarahis.user.user_name || 'طراحی سایت')" />
                                                 <img v-else :src="$page.props.ziggy.url + '/storage/images/default-user.png'" alt="" />
                                                 <div class="vendor-name ml-15">
                                                     <h6>
