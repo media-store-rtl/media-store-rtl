@@ -753,30 +753,26 @@ const submitReply = (id) => {
                                 
                             </div>
                         </div>
-                        <div class="mb-50 mb-50 mt-30">  
-                            <div class="card mt-3 mb-3">
-                                <div class="card-header text-bg-success">
-                                    مشخصات خدمات:
+                        <div class="mb-50 mt-30">
+                            <div class="card border-0 shadow-sm mt-3 mb-3">
+                                <div class="card-header text-bg-success py-3">
+                                    <h5 class="mb-0">مشخصات خدمات</h5>
                                 </div>
-                                <div class="card-body">
-                                    <div class="d-flex bd-highlight mt-3" >
-                                        <div class="bd-highlight">
-                                            <h5 class="card-title">صفحات </h5>
+                                <div class="card-body p-3 p-md-4">
+                                    <dl class="row g-0 mb-0">
+                                        <div class="col-12 row align-items-start py-3 border-bottom">
+                                            <dt class="col-sm-4 mb-2 mb-sm-0 text-muted">صفحات</dt>
+                                            <dd class="col-sm-8 mb-0 text-break fw-semibold">
+                                                {{ props.tarahis.pages || '—' }}
+                                            </dd>
                                         </div>
-                                        <div class="ms-3 bd-highlight d-flex">   
-                                            <p class="card-text">{{ props.tarahis.pages}},</p>
+                                        <div class="col-12 row align-items-start py-3">
+                                            <dt class="col-sm-4 mb-2 mb-sm-0 text-muted">امکانات</dt>
+                                            <dd class="col-sm-8 mb-0 text-break">
+                                                {{ props.tarahis.basic || '—' }}
+                                            </dd>
                                         </div>
-                                    </div>
-                                    <div class="d-flex bd-highlight mt-3">
-                                        <div class="bd-highlight">
-                                            <h5 class="card-title">امکانات</h5>
-                                        </div>
-                                        <div class="ms-3 bd-highlight d-flex">
-                                            
-                                                <p class="card-text">{{ props.tarahis.basic}},</p>
-                                           
-                                        </div>
-                                    </div>
+                                    </dl>
                                 </div>
                             </div>
                         </div>
