@@ -38,7 +38,7 @@ class EmailVerificationPromptController extends Controller
                 'cart'=>[ 'products' => $cart->products,'count' => $cart->count,'price' => $cart->price,'discount'=> $cart->discount,'coupon' => $cart->coupon,'total' => $cart->total,
                 'tax'=> $cart->tax,'col'=>$cart->col,'payment'=>$cart->payment,'balance'=>$cart->balance],'alert'=>$alert,'users' => $users,
                 'notifications'=> $notifications,'companies'=>$companies,'descriptions'=>$descriptions,
-                'roles'=>$roles,'path'=>$request->path(),'wallet'=>$walletو
+                'roles'=>$roles,'path'=>$request->path(),'wallet'=>$wallet
         ]);
     }
 }
