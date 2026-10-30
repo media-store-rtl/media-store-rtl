@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\\Feature;
+namespace Tests\Feature;
 
-use App\\Models\\Blog;
-use App\\Models\\Image;
-use App\\Models\\Menu;
-use App\\Models\\User;
-use Database\\Seeders\\ComprehensiveWarehouseSystemBlogSeeder;
-use Illuminate\\Foundation\\Testing\\RefreshDatabase;
-use Illuminate\\Support\\Facades\\DB;
-use Tests\\TestCase;
+use App\Models\Blog;
+use App\Models\Image;
+use App\Models\Menu;
+use App\Models\User;
+use Database\Seeders\ComprehensiveWarehouseSystemBlogSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class ComprehensiveWarehouseSystemBlogSeederTest extends TestCase
 {
