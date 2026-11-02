@@ -19,7 +19,13 @@ const siteUrl = computed(() => String(page.props?.ziggy?.url || '').trim().repla
 const isCafeProduct = computed(() => String(page.url || '').split('?')[0].startsWith('/cafe-net/'))
 const tarahis = computed(() => page.props?.tarahis || null)
 
-const seoTitle = computed(() => String(props.title || 'فروشگاه مدیا | قالب سایت و محصولات دیجیتال').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim())
+// Online service pages have their real Persian title in tarahis.name.
+// Do not let an English slug/name fall through into the document title.
+const seoTitle = computed(() => String(
+  (isCafeProduct.value && tarahis.value?.name)
+    ? tarahis.value.name
+    : (props.title || 'فروشگاه مدیا | قالب سایت و محصولات دیجیتال')
+).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim())
 const seoDescription = computed(() => String(props.description || 'فروشگاه مدیا؛ مرجع قالب سایت و محصولات دیجیتال برای راه‌اندازی و توسعه کسب‌وکار آنلاین.').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160))
 const effectiveKeywords = computed(() => String(props.keywords || tarahis.value?.tag || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim())
 
