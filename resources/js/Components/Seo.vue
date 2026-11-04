@@ -68,19 +68,19 @@ const pageSchema = computed(() => {
   return { '@context': 'https://schema.org', '@type': props.type === 'article' ? 'Article' : props.type === 'service' ? 'Service' : 'WebPage', name: seoTitle.value, description: seoDescription.value, url: currentUrl.value, inLanguage: 'fa-IR' }
 })
 
-const cafeProductSchema = computed(() => {
+const cafeServiceSchema = computed(() => {
   const product = tarahis.value
   if (!isCafeProduct.value || !product) return null
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'Service',
     name: String(product.name || product.title || seoTitle.value).trim(),
     description: seoDescription.value,
     url: currentUrl.value,
     image: imageUrl.value || undefined,
-    sku: product.id ? String(product.id) : undefined,
-    offers: product.price != null ? { '@type': 'Offer', priceCurrency: 'IRR', price: Number(product.price), availability: 'https://schema.org/InStock', url: currentUrl.value } : undefined,
+    provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: siteUrl.value || undefined },
+    offers: product.price != null ? { '@type': 'Offer', priceCurrency: 'IRR', price: Number(product.price), url: currentUrl.value } : undefined,
   }
 
   const rating = Number(product.ratings_avg_rating)
@@ -125,7 +125,7 @@ const breadcrumbSchema = computed(() => {
 
 const structuredData = computed(() => {
   const custom = props.schema ? (Array.isArray(props.schema) ? props.schema : [props.schema]) : []
-  return [...baseSchema.value, ...(pageSchema.value ? [pageSchema.value] : []), breadcrumbSchema.value, ...(cafeProductSchema.value ? [cafeProductSchema.value] : []), ...custom]
+  return [...baseSchema.value, ...(pageSchema.value ? [pageSchema.value] : []), breadcrumbSchema.value, ...(cafeServiceSchema.value ? [cafeServiceSchema.value] : []), ...custom]
 })
 
 useHead({
@@ -137,7 +137,7 @@ useHead({
     { name: 'robots', content: () => props.noIndex ? 'noindex, nofollow' : 'index, follow' },
     { property: 'og:title', content: () => seoTitle.value },
     { property: 'og:description', content: () => seoDescription.value },
-    { property: 'og:type', content: isCafeProduct.value ? 'product' : (props.type === 'article' ? 'article' : 'website') },
+    { property: 'og:type', content: props.type === 'article' ? 'article' : 'website' },
     { property: 'og:url', content: currentUrl },
     { property: 'og:site_name', content: 'فروشگاه مدیا' },
     { property: 'og:locale', content: 'fa_IR' },
