@@ -80,19 +80,8 @@ const cafeServiceSchema = computed(() => {
     url: currentUrl.value,
     image: imageUrl.value || undefined,
     provider: { '@type': 'Organization', name: 'فروشگاه مدیا', url: siteUrl.value || undefined },
-    offers: product.price != null ? { '@type': 'Offer', priceCurrency: 'IRR', price: Number(product.price), url: currentUrl.value } : undefined,
   }
 
-  const rating = Number(product.ratings_avg_rating)
-  if (Number.isFinite(rating) && rating > 0) {
-    schema.aggregateRating = {
-      '@type': 'AggregateRating',
-      ratingValue: rating,
-      bestRating: 5,
-      worstRating: 1,
-      ...(product.ratings_count ? { ratingCount: Number(product.ratings_count) } : {}),
-    }
-  }
 
   return schema
 })
