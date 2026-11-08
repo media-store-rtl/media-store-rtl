@@ -108,7 +108,7 @@ const submitQuickview = (result) =>{
 
 </script>
 <template>
-    <Seo :title="'درباره حسابداری | فروشگاه مدیا'" :description="'معرفی خدمات حسابداری و امکانات مرتبط با مدیریت مالی و کسب‌وکار در فروشگاه مدیا.'" :noIndex="false" />
+    <Seo :title="'خدمات حسابداری، حسابرسی و مشاوره مالیاتی | فروشگاه مدیا'" :description="'معرفی خدمات حسابداری مالی و مدیریتی، تهیه صورت‌های مالی، حسابرسی، مشاوره مالیاتی و تنظیم اظهارنامه برای شرکت‌ها و صاحبان مشاغل.'" :keywords="'خدمات حسابداری, حسابرسی, مشاوره مالیاتی, تهیه صورت‌های مالی, اظهارنامه مالیاتی, حسابداری شرکت‌ها'" type="service" :noIndex="false" />
 
     <Header :companies="props.companies"  :Quickview="Quickview" :menus="props.menus" :cart="props.cart" :menu="props.menu"
         @event-submit-quickview="submitQuickview" 
@@ -124,11 +124,12 @@ const submitQuickview = (result) =>{
                     <div class="col-xl-10 col-lg-12 m-auto">
                         <section class="row align-items-center mb-50">
                             <div class="col-lg-6">
-                                <img  v-if="props.companies" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" alt="" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4" />
+                                <img v-if="props.companies && props.companies.image && props.companies.image.url" :src="$page.props.ziggy.url+'/storage/'+props.companies.image.url" :alt="'معرفی خدمات حسابداری و حسابرسی ' + (props.companies.name_show || '')" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4" />
                             </div>
                             <div class="col-lg-6">
                                 <div class="pr-25">
-                                    <h2 class="mb-30" v-if="props.companies"> به {{ props.companies.name_show }} خوش آمدید </h2>
+                                    <h1 class="heading-1 mb-30">خدمات حسابداری، حسابرسی و مشاوره مالیاتی</h1>
+                                    <h2 class="mb-30" v-if="props.companies">به {{ props.companies.name_show }} خوش آمدید</h2>
                                     <p class="mb-25" v-if="props.companies">
                                     {{ props.companies.name_show }} یک مجموعه تخصصی در حوزه خدمات حسابداری و حسابرسی است که با هدف ارتقای شفافیت مالی، نظم‌بخشی به امور مالی و بهبود فرآیندهای مدیریتی راه‌اندازی شده است.
                                     </p>
@@ -138,7 +139,7 @@ const submitQuickview = (result) =>{
                                     از ثبت و تنظیم اسناد حسابداری و تهیه صورت‌های مالی گرفته تا حسابرسی، مشاوره مالیاتی و بهینه‌سازی ساختار مالی، 
                                     تمامی خدمات در {{ props.companies.name_show }} به‌صورت دقیق، شفاف و مطابق با استانداردهای مالی ارائه می‌شود.
                                     </p>
-                                    <h3 class="mb-25">خدمات ما شامل:</h3>
+                                    <h2 class="mb-25">خدمات حسابداری و مالی ما شامل:</h2>
                                     <div class="mb-25">
                                         <li> انجام کلیه امور حسابداری مالی و مدیریتی</li>
                                         <li> تهیه و تنظیم صورت‌های مالی مطابق با استانداردهای حسابداری</li>
@@ -147,7 +148,7 @@ const submitQuickview = (result) =>{
                                         <li> راه‌اندازی و بهینه‌سازی سیستم‌های مالی و نرم‌افزارهای حسابداری</li>
                                         <li> ارائه گزارش‌های تحلیلی مالی جهت تصمیم‌گیری مدیران</li>
                                     </div>
-                                    <h3 class="mb-25">چرا ما؟</h3>
+                                    <h2 class="mb-25">چرا خدمات حسابداری ما؟</h2>
                                     <p class="mb-25" v-if="props.companies">
                                     ما باور داریم دقت، شفافیت و تعهد حرفه‌ای سه اصل اساسی در ارائه خدمات مالی و حسابرسی هستند. 
                                     به همین دلیل در {{ props.companies.name_show }} تمامی خدمات با رعایت کامل استانداردهای حسابداری و قوانین مالیاتی انجام می‌شود. 
@@ -169,7 +170,7 @@ const submitQuickview = (result) =>{
                             </div>
                         </section>
                         <section class="text-center mb-50">
-                            <h2 class="title style-3 mb-40">چه خدماتی ارائه می‌کنیم؟</h2>
+                            <h2 class="title style-3 mb-40">مزایای دریافت خدمات حسابداری و مالی</h2>
                             <div class="row">
                                 <div class="col-lg-4 col-md-6 mb-24">
                                     <div class="featured-card">
@@ -223,11 +224,11 @@ const submitQuickview = (result) =>{
                         <section class="row align-items-center mb-50">
                             <div class="row mb-50 align-items-center">
                                 <div class="col-lg-7 pr-30">
-                                    <img src="assets/imgs/page/about-5.png" alt="" class="mb-md-3 mb-lg-0 mb-sm-4" />
+                                    <img src="assets/imgs/page/about-5.png" alt="خدمات حسابداری، حسابرسی و مشاوره مالیاتی" class="mb-md-3 mb-lg-0 mb-sm-4" />
                                 </div>
                                 <div class="col-lg-5">
                                     <h4 class="mb-20 text-muted">عملکرد و تجربه ما</h4>
-                                    <h1 class="heading-1 mb-40">همراه مطمئن شما در امور مالی و حسابرسی</h1>
+                                    <h2 class="heading-1 mb-40">همراه شما در امور مالی و حسابرسی</h2>
 
                                     <p class="mb-30" v-if="props.companies">
                                         {{ props.companies.name_show }} مجموعه‌ای تخصصی در زمینه خدمات حسابداری، حسابرسی و مشاوره مالیاتی است که با هدف ایجاد شفافیت مالی و ارتقای سلامت اقتصادی کسب‌وکارها فعالیت می‌کند.
@@ -242,7 +243,7 @@ const submitQuickview = (result) =>{
 
                             <div class="row">
                                 <div class="col-lg-4 pr-30 mb-md-5 mb-lg-0 mb-sm-5">
-                                    <h3 class="mb-30">ما که هستیم</h3>
+                                    <h3 class="mb-30">درباره مجموعه</h3>
                                     <p v-if="props.companies">
                                         {{ props.companies.name_show }} یک مجموعه تخصصی خدمات مالی است که با بهره‌گیری از کارشناسان مجرب، به کسب‌وکارها در مدیریت، ساماندهی و بهینه‌سازی امور مالی کمک می‌کند. 
                                         ما با تکیه بر دانش به‌روز و رعایت استانداردهای حرفه‌ای، خدماتی دقیق و قابل اتکا ارائه می‌دهیم.
@@ -250,7 +251,7 @@ const submitQuickview = (result) =>{
                                 </div>
 
                                 <div class="col-lg-4 pr-30 mb-md-5 mb-lg-0 mb-sm-5">
-                                    <h3 class="mb-30">تجربه ما</h3>
+                                    <h3 class="mb-30">تجربه و تخصص</h3>
                                     <p v-if="props.companies">
                                         {{ props.companies.name_show }} فعالیت خود را با هدف ارائه خدمات مالی شفاف و قانون‌مند آغاز کرده و در طول زمان با همکاری شرکت‌ها و کسب‌وکارهای مختلف، تجربه ارزشمندی در حوزه حسابداری، حسابرسی و مشاوره مالیاتی کسب کرده است.
                                     </p>
