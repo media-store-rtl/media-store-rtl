@@ -91,5 +91,6 @@
             <span>در حال بارگذاری فروشگاه مدیا…</span>
         </div>
         @inertia
+        <script async src="https://storage.googleapis.com/mychatbot-widget-assets/v1/assistant/assistant.js" data-key="wa_pk_FdUntuUrUXwb5HaH9h46h3"></script>
     </body>
 </html>
