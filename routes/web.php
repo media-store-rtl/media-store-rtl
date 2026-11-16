@@ -49,7 +49,6 @@ use App\Http\Controllers\GuestCartController;
 use App\Http\Controllers\LinkAdminController;
 use App\Http\Controllers\ReqTarahiController;
 use App\Http\Controllers\UserModirController;
-use App\Http\Controllers\AboutHesabdariController;
 use App\Http\Controllers\NamadAdminController;
 use App\Http\Controllers\OrderModirController;
 use App\Http\Controllers\SikllAdminController;
@@ -130,7 +129,6 @@ Route::get('/sitemap.xml', function (Product $product, Blog $blog, WebDesign $we
         ['loc' => url('/cafe-net')],
         ['loc' => url('/form')],
         ['loc' => url('/about')],
-        ['loc' => url('/about-hesabdari')],
         ['loc' => url('/faq')],
         ['loc' => url('/privacy')],
         ['loc' => url('/terms-conditions')],
@@ -282,7 +280,6 @@ Route::resource('/guest-support',GuestSupportController::class);
 Route::resource('/blog',BlogController::class);
 Route::resource('/form', FormController::class);
 Route::resource('/about', AboutController::class);
-Route::resource('/about-hesabdari', AboutHesabdariController::class);
 Route::get('/accounting-plan', [AccountingSubscriptionPlanController::class, 'index'])->name('accounting.plan');
 Route::get('/accounting-plan/{slug}', [AccountingSubscriptionPlanController::class, 'show'])->name('accounting.plan.show');
 // Route::get('/artisan/{id}', function($id){artisan::call($id);});
